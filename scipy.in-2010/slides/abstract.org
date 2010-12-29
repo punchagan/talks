@@ -1,0 +1,54 @@
+#+OPTIONS: toc:nil num:nil
+* Authors
+  - Puneeth Chaganti 
+
+    I am a member of the Python group, in the FOSSEE team.  I am a
+    FOSS enthusiast and I love Python.
+
+  - Chaitanya Chintaluri 
+
+    I write poetry, program functional autonomous robots, simulate
+    physical systems.  I like design and am currently enthralled by
+    AI.
+
+  - The World Wide Web
+
+    You definitely know me.
+
+* Title
+  Songs, Pictures and Python
+
+* Abstract
+  The aim of this talk is to get students, specially undergrads
+  excited about Python.  Most of what will be shown, is out there on
+  the Open web.  We just wish to draw attention of the students and
+  get them excited about Python and possibly image processing and may
+  be even cognition. We hope that this talk will help retain more
+  participants for the tutorials and sprint sessions.
+
+  The talk will have two parts.  The talk will not consist of any deep
+  research or amazing code.  It's a mash-up of some weekend hacks, if
+  they could be called so.  We reiterate that the idea is not to show
+  the algorithms or the code and ideas.  It is, to show the power that
+  Python gives.
+
+  The first part of the talk will deal with the colour Blue.  We'll
+  show some code to illustrate how our eyes suck at blue [1], if they
+  really do.  But, ironically, a statistical analysis that we did on
+  "Rolling Stones Magazine's Top 500 Songs of All time" [2], revealed
+  that the occurrences of blue are more than twice the number of
+  occurrences of red and green!  We'll show the code used to fetch the
+  lyrics and count the occurrences.
+
+  The second part of the talk will show some simple hacks with
+  images. First, a simple script that converts images into ASCII
+  art. We hacked up a very rudimentary algo to convert images to ASCII
+  and it works well for "machine generated images."  Next, a sample
+  program that uses OpenCV[3] that can detect faces.  We wish to show
+  OpenCV since it has some really powerful stuff for image processing.
+
+[1] http://nfggames.com/games/ntsc/visual.shtm
+[2] http://web.archive.org/web/20080622145429/www.rollingstone.com/news/coverstory/500songs
+[3] http://en.wikipedia.org/wiki/OpenCV
+
+

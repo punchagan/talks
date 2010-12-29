@@ -1,0 +1,239 @@
+#+LaTeX_CLASS: beamer
+#+LaTeX_CLASS_OPTIONS: [presentation]
+#+BEAMER_FRAME_LEVEL: 2
+
+#+BEAMER_HEADER_EXTRA: \usetheme{Copenhagen}\usecolortheme{lily}\useoutertheme{infolines}\setbeamercovered{transparent}
+#+COLUMNS: %45ITEM %10BEAMER_env(Env) %10BEAMER_envargs(Env Args) %4BEAMER_col(Col) %8BEAMER_extra(Extra)
+#+PROPERTY: BEAMER_col_ALL 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0 :ETC
+
+#+LaTeX_CLASS: beamer
+#+LaTeX_CLASS_OPTIONS: [presentation]
+
+#+LaTeX_HEADER: \usepackage[english]{babel} \usepackage{ae,aecompl}
+#+LaTeX_HEADER: \usepackage{mathpazo,courier,euler} \usepackage[scaled=.95]{helvet}
+
+#+LaTeX_HEADER: \usepackage{listings}
+
+#+LaTeX_HEADER:\lstset{language=Python, basicstyle=\ttfamily\bfseries,
+#+LaTeX_HEADER:  commentstyle=\color{red}\itshape, stringstyle=\color{darkgreen},
+#+LaTeX_HEADER:  showstringspaces=false, keywordstyle=\color{blue}\bfseries}
+
+#+TITLE: Intro to SciPy & Numpy \newline through Image Processing 
+#+AUTHOR: Shantanu & Puneeth
+#+EMAIL: shantanu@fossee.in
+#+DATE: February, 2010
+
+* Introduction
+*** Audience?
+***** Basic Knowledge of Python
+      - data types
+      - variables, data-structures
+      - looping constructs
+***** Anybody doing "Scientific" Computation
+      - Engineering Students, Researchers
+      - People using Fortran/C, Matlab/IDL
+*** A Quote
+    #+BEGIN_QUOTE
+    In 1998, ... I came across Python and its numerical extension
+    (Numeric) while I was looking for ways to analyze large data sets
+    ... using a high-level language. I quickly fell in love with Python
+    programming which is a remarkable statement to make about a
+    programming language. If I had not seen others with the same view,
+    I might have seriously doubted my sanity.
+
+    -Travis Oliphant, /Numpy Book/
+    #+END_QUOTE
+
+*** Checklist
+    - Installed? :: 
+      + python-numpy
+      + python-scipy
+      + python-matplotlib
+      + ipython
+      + python-imaging or pil
+    - Files :: 
+      + smoothing.gif
+      + unequalized.jpg
+      + lena.png
+      + image.png
+    
+
+* Getting Started
+*** Getting Started
+    #+BEGIN_EXAMPLE
+    $ ipython -pylab
+    #+END_EXAMPLE
+
+    -  Opening an image
+    -  Showing it
+
+    #+BEGIN_EXAMPLE
+      a = imread('image.png') imshow(a)
+    #+END_EXAMPLE
+*** Some attributes
+    -  ~shape~
+    -  ~min~, ~max~, ~sum~
+    -  ~dtype~
+
+    ~ipython~?
+
+    -  ~array.<Tab>~
+    -  ~plot?~
+
+*** Basic Operations
+
+    -  + - * / ** //
+    -  Element-wise operations
+
+*** Simple Arrays
+
+    -  Straight forward - single dim, multi dim.
+    -  ~ones~, ~zeros~ et. al
+    -  ~arange~, ~linspace~ with shape
+  
+
+*** Accessing (& Changing) Elements
+
+    -  Accessing (& Changing) individual elements
+    -  Accessing (& Changing) Rows
+    -  Accessing (& Changing) Columns
+    -  Accessing in Steps - Striding
+
+
+# * Numpy & Scipy - a peek
+# *** What is Scipy?
+#     - Open-Source Library/Module
+#     - Mathematics, Science, and Engineering
+#     - Depends on NumPy
+#       - N-dimensional arrays 
+#       - convenient and fast 
+#     - Linux, Windows, Mac, Solaris, FreeBSD, ...
+#     - New BSD License
+#     - Free of Charge
+# *** Who uses it?
+#     - Signal Processing
+#     - Image Processing
+#     - Computer Vision Research
+#     - Economics
+#     - Biology, Neuroscience
+#     - Statistics
+#     - Molecular Modeling
+#     - Geosciences
+#     - Statistics 
+#     - Machine Learning
+#     - Astronomy
+#     - http://scipy.org/Topical_Projects
+# *** Uses Existing Libraries/Code
+#     - /de-facto/ standards
+#       - LAPACK, BLAS, ATLAS, ODEPACK, MINPACK
+#     - C/C++ - SWIG, Boost, Weave, ...
+#     - FORTRAN - F2PY, pyfort
+#     - How can scipy be fast? Python!
+
+# *** What is Numpy - the foundation
+#     - Provides the all essential array object!
+#       - better than list of lists
+#       - vectorized operation
+#       - memory efficiency
+#     - Merges together Numeric and Numarray
+#     - comes with 
+#       - linalg & random(backward compatibility)
+#       - f2py
+#     - Supports only Python 2.x
+# *** A little history
+#     - In the beginning there was Numeric (1995)
+#       - Sourceforge numpy
+#       - CVS submit mess up. Numeric, Numerical
+#     - The birth of Scipy (2001)
+#     - The birth of numarray 
+#       - unable to extend Numeric
+#       - quite fast for large arrays
+#     - The split
+#       - numarray, too slow for small arrays
+#       - C API bad
+#       - Numeric vs. numarray
+#     - Numpy was born (2005-06)
+#     http://numeric.scipy.org/numpybooksample.pdf
+# *** A Quote
+#     In 1998, ... I came across Python and its numerical extension
+#     (Numeric) while I was looking for ways to analyze large data sets
+#     ... using a high-level language. I quickly fell in love with
+#     Python programming which is a remarkable statement to make about a
+#     programming language. If I had not seen others with the same view,
+#     I might have seriously doubted my sanity. 
+
+#                       -Travis Oliphant, /Numpy Book/    
+
+* Looking at Lena
+*** Chop and Cut Lena!
+    - ~a = scipy.lena()~
+    - Select regions
+      - Top Left Quarter
+      - Face Only
+    - Resize by dropping pixels
+      - Alternate pixels
+      - 2 in every 3
+    - RGB channels in colour images
+      - ~imread~
+      - ~imshow~
+*** Smoothing Lena
+***** A mean filter 
+******* Neighborhoods
+******* for loops
+******* Array slicing
+******* %run -t (timing it)
+***** A median filter 
+******* for loops - should be easy?
+******* Array slicing
+***** ndimage.median\_filter 
+*** Copies & Views
+    -  Slicing and Striding just reference the same memory
+    -  They produce views of the data, not copies
+* Histogram Equalization
+*** Obtain Image, Histogram
+    - ~imread~
+    - ~imshow~
+      - normalizes images by default
+    - ~ndimage.histogram~
+    - ~hist~
+    - ~cumsum~
+*** Useful Plot Commands
+    - ~plot~
+    - ~figure~
+    - ~xlim~, ~ylim~
+    - ~savefig~
+*** Obtain Normalized Image, Histogram
+    - Linear
+    - $A = (A-A.min())\frac{255}{A.max()-A.min()}$
+* Edge detection
+*** Distance
+    - A crude algorithm 
+      - A point is farther than K
+      - distance from lower and right neighbor
+*** Sobel, Prewitt
+    - First order algorithms
+    - a = [-1, 0, 1], b = [1, 2, 1]; Sobel
+    - a = [-1, 0, 1], b = [1, 1, 1]; Prewitt
+* Looking Ahead
+*** Getting involved
+    - Documentation
+      - ReStructured Text
+      - "docstrings"
+      - modify docstrings without access to source code
+    - Bug-fixes
+      http://www.scipy.org/BugReport
+    - Testing
+    - Code contributions
+      - Scikits http://scikits.appspot.com
+    - Web design
+    - Community Participation
+      - Active on Mailing list
+      - Code sprints/Documentation/Bug-fix Days
+*** References
+    - [[http://docs.python.org/tutorial/index.html][Python Tutorial]] 
+    - [[http://www.scipy.org/Tentative_NumPy_Tutorial][Tentative Numpy Tutorial]]
+    - [[http://docs.scipy.org/doc/numpy/reference/][Numpy Reference Guide]]
+    - [[http://docs.scipy.org/doc/scipy/reference/][Scipy Reference Guide]]
+    - Wikipedia
+
+ 

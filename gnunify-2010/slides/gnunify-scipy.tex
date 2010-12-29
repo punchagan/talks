@@ -1,0 +1,370 @@
+% Created 2010-12-29 Wed 11:35
+\documentclass[presentation]{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fixltx2e}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{soul}
+\usepackage{textcomp}
+\usepackage{marvosym}
+\usepackage{wasysym}
+\usepackage{latexsym}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\tolerance=1000
+\usepackage[english]{babel} \usepackage{ae,aecompl}
+\usepackage{mathpazo,courier,euler} \usepackage[scaled=.95]{helvet}
+\usepackage{listings}
+\lstset{language=Python, basicstyle=\ttfamily\bfseries,
+commentstyle=\color{red}\itshape, stringstyle=\color{darkgreen},
+showstringspaces=false, keywordstyle=\color{blue}\bfseries}
+\providecommand{\alert}[1]{\textbf{#1}}
+\usetheme{Copenhagen}\usecolortheme{lily}\useoutertheme{infolines}\setbeamercovered{transparent}
+\begin{document}
+
+
+
+\title{Intro to SciPy \& Numpy \newline through Image Processing}
+\author{Shantanu \& Puneeth}
+\date{29 December 2010}
+\maketitle
+
+\begin{frame}
+\frametitle{Outline}
+\setcounter{tocdepth}{3}
+\tableofcontents
+\end{frame}
+
+
+
+
+
+
+
+\section{Introduction}
+\label{sec-1}
+\begin{frame}
+\frametitle{Audience?}
+\label{sec-1_1}
+\begin{itemize}
+
+\item Basic Knowledge of Python
+\label{sec-1_1_1}%
+\begin{itemize}
+\item data types
+\item variables, data-structures
+\item looping constructs
+\end{itemize}
+
+\item Anybody doing "Scientific" Computation
+\label{sec-1_1_2}%
+\begin{itemize}
+\item Engineering Students, Researchers
+\item People using Fortran/C, Matlab/IDL
+\end{itemize}
+\end{itemize} % ends low level
+\end{frame}
+\begin{frame}
+\frametitle{A Quote}
+\label{sec-1_2}
+
+\begin{quote}
+In 1998, \ldots{} I came across Python and its numerical extension
+(Numeric) while I was looking for ways to analyze large data sets
+\ldots{} using a high-level language. I quickly fell in love with Python
+programming which is a remarkable statement to make about a
+programming language. If I had not seen others with the same view,
+I might have seriously doubted my sanity.
+
+-Travis Oliphant, \emph{Numpy Book}
+\end{quote}
+\end{frame}
+\begin{frame}
+\frametitle{Checklist}
+\label{sec-1_3}
+
+
+\begin{description}
+\item[Installed?]
+
+\begin{itemize}
+\item python-numpy
+\item python-scipy
+\item python-matplotlib
+\item ipython
+\item python-imaging or pil
+\end{itemize}
+
+\item[Files]
+
+\begin{itemize}
+\item smoothing.gif
+\item unequalized.jpg
+\item lena.png
+\item image.png
+\end{itemize}
+
+\end{description}
+\end{frame}
+\section{Getting Started}
+\label{sec-2}
+\begin{frame}[fragile]
+\frametitle{Getting Started}
+\label{sec-2_1}
+
+
+\begin{lstlisting}
+$ ipython -pylab
+\end{lstlisting}
+
+
+\begin{itemize}
+\item Opening an image
+\item Showing it
+\end{itemize}
+\begin{lstlisting}
+a = imread('image.png') imshow(a)
+\end{lstlisting}
+\end{frame}
+\begin{frame}
+\frametitle{Some attributes}
+\label{sec-2_2}
+
+\begin{itemize}
+\item \texttt{shape}
+\item \texttt{min}, \texttt{max}, \texttt{sum}
+\item \texttt{dtype}
+\end{itemize}
+
+    \texttt{ipython}?
+
+\begin{itemize}
+\item \texttt{array.<Tab>}
+\item \texttt{plot?}
+\end{itemize}
+\end{frame}
+\begin{frame}
+\frametitle{Basic Operations}
+\label{sec-2_3}
+
+
+\begin{itemize}
+\item + - * / ** //
+\item Element-wise operations
+\end{itemize}
+\end{frame}
+\begin{frame}
+\frametitle{Simple Arrays}
+\label{sec-2_4}
+
+
+
+\begin{itemize}
+\item Straight forward - single dim, multi dim.
+\item \texttt{ones}, \texttt{zeros} et. al
+\item \texttt{arange}, \texttt{linspace} with shape
+\end{itemize}
+\end{frame}
+\begin{frame}
+\frametitle{Accessing (\& Changing) Elements}
+\label{sec-2_5}
+
+
+
+\begin{itemize}
+\item Accessing (\& Changing) individual elements
+\item Accessing (\& Changing) Rows
+\item Accessing (\& Changing) Columns
+\item Accessing in Steps - Striding
+\end{itemize}
+\end{frame}
+\section{Looking at Lena}
+\label{sec-3}
+\begin{frame}
+\frametitle{Chop and Cut Lena!}
+\label{sec-3_1}
+
+\begin{itemize}
+\item \texttt{a = scipy.lena()}
+\item Select regions
+
+\begin{itemize}
+\item Top Left Quarter
+\item Face Only
+\end{itemize}
+
+\item Resize by dropping pixels
+
+\begin{itemize}
+\item Alternate pixels
+\item 2 in every 3
+\end{itemize}
+
+\item RGB channels in colour images
+
+\begin{itemize}
+\item \texttt{imread}
+\item \texttt{imshow}
+\end{itemize}
+
+\end{itemize}
+\end{frame}
+\begin{frame}
+\frametitle{Smoothing Lena}
+\label{sec-3_2}
+\begin{itemize}
+
+\item A mean filter
+\label{sec-3_2_1}%
+\begin{itemize}
+
+\item Neighborhoods\\
+\label{sec-3_2_1_1}%
+\item for loops\\
+\label{sec-3_2_1_2}%
+\item Array slicing\\
+\label{sec-3_2_1_3}%
+\item \%run -t (timing it)\\
+\label{sec-3_2_1_4}%
+\end{itemize} % ends low level
+
+\item A median filter
+\label{sec-3_2_2}%
+\begin{itemize}
+
+\item for loops - should be easy?\\
+\label{sec-3_2_2_1}%
+\item Array slicing\\
+\label{sec-3_2_2_2}%
+\end{itemize} % ends low level
+
+\item ndimage.median\_filter\\
+\label{sec-3_2_3}%
+\end{itemize} % ends low level
+\end{frame}
+\begin{frame}
+\frametitle{Copies \& Views}
+\label{sec-3_3}
+
+\begin{itemize}
+\item Slicing and Striding just reference the same memory
+\item They produce views of the data, not copies
+\end{itemize}
+\end{frame}
+\section{Histogram Equalization}
+\label{sec-4}
+\begin{frame}
+\frametitle{Obtain Image, Histogram}
+\label{sec-4_1}
+
+\begin{itemize}
+\item \texttt{imread}
+\item \texttt{imshow}
+
+\begin{itemize}
+\item normalizes images by default
+\end{itemize}
+
+\item \texttt{ndimage.histogram}
+\item \texttt{hist}
+\item \texttt{cumsum}
+\end{itemize}
+\end{frame}
+\begin{frame}
+\frametitle{Useful Plot Commands}
+\label{sec-4_2}
+
+\begin{itemize}
+\item \texttt{plot}
+\item \texttt{figure}
+\item \texttt{xlim}, \texttt{ylim}
+\item \texttt{savefig}
+\end{itemize}
+\end{frame}
+\begin{frame}
+\frametitle{Obtain Normalized Image, Histogram}
+\label{sec-4_3}
+
+\begin{itemize}
+\item Linear
+\item $A = (A-A.min())\frac{255}{A.max()-A.min()}$
+\end{itemize}
+\end{frame}
+\section{Edge detection}
+\label{sec-5}
+\begin{frame}
+\frametitle{Distance}
+\label{sec-5_1}
+
+\begin{itemize}
+\item A crude algorithm
+
+\begin{itemize}
+\item A point is farther than K
+\item distance from lower and right neighbor
+\end{itemize}
+
+\end{itemize}
+\end{frame}
+\begin{frame}
+\frametitle{Sobel, Prewitt}
+\label{sec-5_2}
+
+\begin{itemize}
+\item First order algorithms
+\item a = [-1, 0, 1], b = [1, 2, 1]; Sobel
+\item a = [-1, 0, 1], b = [1, 1, 1]; Prewitt
+\end{itemize}
+\end{frame}
+\section{Looking Ahead}
+\label{sec-6}
+\begin{frame}
+\frametitle{Getting involved}
+\label{sec-6_1}
+
+\begin{itemize}
+\item Documentation
+
+\begin{itemize}
+\item ReStructured Text
+\item ``docstrings''
+\item modify docstrings without access to source code
+\end{itemize}
+
+\item Bug-fixes
+      \href{http://www.scipy.org/BugReport}{http://www.scipy.org/BugReport}
+\item Testing
+\item Code contributions
+
+\begin{itemize}
+\item Scikits \href{http://scikits.appspot.com}{http://scikits.appspot.com}
+\end{itemize}
+
+\item Web design
+\item Community Participation
+
+\begin{itemize}
+\item Active on Mailing list
+\item Code sprints/Documentation/Bug-fix Days
+\end{itemize}
+
+\end{itemize}
+\end{frame}
+\begin{frame}
+\frametitle{References}
+\label{sec-6_2}
+
+
+\begin{itemize}
+\item \href{http://docs.python.org/tutorial/index.html}{Python Tutorial}
+\item \href{http://www.scipy.org/Tentative_NumPy_Tutorial}{Tentative Numpy Tutorial}
+\item \href{http://docs.scipy.org/doc/numpy/reference/}{Numpy Reference Guide}
+\item \href{http://docs.scipy.org/doc/scipy/reference/}{Scipy Reference Guide}
+\item Wikipedia
+\end{itemize}
+\end{frame}
+
+\end{document}

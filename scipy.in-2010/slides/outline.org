@@ -1,0 +1,301 @@
+#+STARTUP: beamer
+#+LaTeX_CLASS: beamer
+#+LaTeX_CLASS_OPTIONS: [presentation]
+#+BEAMER_FRAME_LEVEL: 2
+
+#+BEAMER_HEADER_EXTRA: \usetheme{Boadilla}\usecolortheme{seahorse}\useoutertheme{infolines}\setbeamercovered{transparent}
+#+COLUMNS: %45ITEM %10BEAMER_env(Env) %10BEAMER_envargs(Env Args) %4BEAMER_col(Col) %8BEAMER_extra(Extra)
+#+PROPERTY: BEAMER_col_ALL 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0 :ETC
+
+#+LaTeX_CLASS: beamer
+#+LaTeX_CLASS_OPTIONS: [presentation]
+
+#+LaTeX_HEADER: \usepackage[english]{babel} \usepackage{ae,aecompl}
+#+LaTeX_HEADER: \usepackage{mathpazo,courier,euler} \usepackage[scaled=.95]{helvet}
+
+#+LaTeX_HEADER: \usepackage{listings}
+
+#+LaTeX_HEADER:\lstset{language=Python, basicstyle=\ttfamily\bfseries,
+#+LaTeX_HEADER:  commentstyle=\color{red}\itshape, stringstyle=\color{darkgreen},
+#+LaTeX_HEADER:  showstringspaces=false, keywordstyle=\color{blue}\bfseries}
+
+#+TITLE:  Songs, Pictures and Python
+#+AUTHOR: Puneeth,  \newline  Chaitanya   \newline  \&  the WWW
+#+EMAIL:     
+#+DATE:  14 December, 2010
+
+#+DESCRIPTION: 
+#+KEYWORDS: 
+#+LANGUAGE:  en
+#+OPTIONS:   H:3 num:nil toc:nil \n:nil @:t ::t |:t ^:t -:t f:t *:t <:t
+#+OPTIONS:   TeX:t LaTeX:nil skip:nil d:nil todo:nil pri:nil tags:not-in-toc
+
+* Intro
+*** The Talk 
+***** Why?                                                          :B_block:
+      :PROPERTIES:
+      :BEAMER_env: block
+      :END:
+      - More participants for Tutorials (& Sprints)
+      - A feeling for the *power* that Python gives
+      - Get students enthused about Python 
+***** What?                                                         :B_block:
+      :PROPERTIES:
+      :BEAMER_env: block
+      :END:
+      - Weekend hacks[fn:hack], etc.
+      - Trivial & straight forward -- No "research"
+      - Mostly images
+      - Some web crawling and word counting
+[fn:hack] /hackers build things, crackers break them/ -- ESR
+* Blue!
+*** We /like/ to sing what we see!
+***** Motivation                                                    :B_block:
+      :PROPERTIES:
+      :BEAMER_env: block
+      :END:
+      - "We sing what we see" -- Chaitanya
+      - Check it out!
+      - Lyrics of top 500 songs
+        + 5 decades * 100 songs
+        + People connect to them
+***** How?                                           :B_block:
+      :PROPERTIES:
+      :BEAMER_env: block
+      :END:
+******* Get the lyrics
+******* Count the words
+*** How & What?
+***** Getting the lyrics                                            :B_block:
+      :PROPERTIES:
+      :BEAMER_env: block
+      :END:
+******* Search for a website
+******* Look at html -- very dirty!
+******* Simple hard-coded regex
+***** Word count                                                    :B_block:
+      :PROPERTIES:
+      :BEAMER_env: block
+      :END:
+******* Very common
+******* Already had some code from our tutorials!
+***** "Results"?                                               :B_alertblock:
+      :PROPERTIES:
+      :BEAMER_env: alertblock
+      :BEAMER_envargs: <2->
+      :END:
+       | blue   | 105 || red    |  54 || green  |  30 |
+       | black  |  63 || purple |  33 || yellow |  11 |
+       | brown  |  56 || white  |  32 || pink   |   7 |
+*** Our eyes suck at blue!
+    :PROPERTIES:
+    :END:
+***** Discussion                                                    :B_block:
+      :PROPERTIES:
+      :BEAMER_env: block
+      :END:
+      - A post on Hacker News.
+      - Known facts
+        + Luminance vs. Chrominance
+        + Sensitivity -- $G > R > B$
+          - Bayer filter (Sensor ratios)
+          - CIE 1931 $V(\lambda)$, CIE 1978 $V(\lambda)$ (Spectral sensitivity)
+          - They try to illustrate this!
+      - Initial plan was to replicate
+      - Flaws in their arguments
+*** Argument-1
+    #+begin_LaTeX
+      \begin{center}
+        \includegraphics[width=2in]{data/traci.png}
+        \includegraphics[width=2in]{data/tracislide.png}  
+      \end{center}
+    #+end_LaTeX
+*** Argument-1 ...
+***** Code                                                          :B_block:
+      :PROPERTIES:
+      :BEAMER_env: block
+      :END:
+       #+begin_src python
+         def show_channels(I):
+             for i in range(3):
+                 J = zeros_like(I)
+                 J[:, :, i] = I[:, :, i]
+                 figure(i)
+                 imshow(J)
+       #+end_src 
+***** Discussion                                                    :B_block:
+      :PROPERTIES:
+      :BEAMER_env: block
+      :END:
+******* Blue channel is rather dark
+********* intensity of Blue in the image could be less
+******* Bayer filter
+*** Argument-1 ...
+***** Code                                                          :B_block:
+      :PROPERTIES:
+      :BEAMER_env: block
+      :END:
+       #+begin_src python
+         def show_grey_channels(I):
+             K = average(I, axis=2)
+             for i in range(3):
+                 J = zeros_like(I)
+                 J[:, :, i] = K
+                 figure(i+10)
+                 imshow(J)
+       #+end_src 
+      
+***** Discussion                                                    :B_block:
+      :PROPERTIES:
+      :BEAMER_env: block
+      :END:
+******* Get a gray scale image
+******* Look at it using R, G, B filters.
+********* Blue and Red still don't look all that sharp
+********* intensities change, though
+*** Argument-2
+    #+begin_LaTeX
+      \begin{center}
+        \includegraphics[width=2.5in]{data/traci_matrix.png}
+      \end{center}
+    #+end_LaTeX
+*** Argument-2 ...
+***** Code                                                          :B_block:
+      :PROPERTIES:
+      :BEAMER_env: block
+      :END:
+       #+begin_src python
+         def subsample(I):
+             for i in range(3):
+                 J = I.copy()
+                 J[:, :, i] = zoom(I[::4, ::4, i], 4)
+                 figure(i)
+                 imshow(J)
+       #+end_src 
+       #+begin_src python
+         def zoom(x, factor=2):
+             rows, cols = x.shape
+             row_stride, col_stride = x.strides
+             view = np.lib.stride_tricks.as_strided(x,
+                             (rows, factor, cols, factor),
+                             (row_stride, 0, col_stride, 0))
+             return view.reshape((rows*factor, cols*factor))
+       #+end_src 
+*** Argument-2 ...
+***** Code                                                          :B_block:
+      :PROPERTIES:
+      :BEAMER_env: block
+      :END:
+       #+begin_src python
+         def swap_subsample(I, k=1):
+             for i in range(3):
+                 J = zeros_like(I)
+                 for j in range(3):
+                     J[:, :, j] = I[:, :, (j+k)%3]
+                 J[:, :, i] = zoom(I[::4, ::4, (i+k)%3], 4)
+                 figure(i+10)
+                 imshow(J)
+       #+end_src 
+      
+***** Discussion                                                    :B_block:
+      :PROPERTIES:
+      :BEAMER_env: block
+      :END:
+******* We are definitely good with Green!
+******* Blue?
+*** Further 
+***** Explore                                                       :B_block:
+      :PROPERTIES:
+      :BEAMER_env: block
+      :END:
+      - Reducing bit depth rather than pixel width
+      - Central vision vs. Peripheral vision
+      - Evolutionary aspects
+      - Tetrachromancy
+* More images
+*** ASCII art
+***** Very elementary algo                                          :B_block:
+      :PROPERTIES:
+      :BEAMER_env: block
+      :END:
+      - Convert image to gray-scale
+      - Assign intensity to pixel blocks
+        + $block\_len:block\_height::char\_len:char\_height$
+      - Map intensity to visual density of characters
+      - Replace block with corresponding character
+
+      Works well for /machine generated images/
+*** Further 
+***** Explore                                                       :B_block:
+      :PROPERTIES:
+      :BEAMER_env: block
+      :END:
+******* pre-process images?
+********* for non /machine generated images/
+******* shape matching?
+******* colourful html
+***** Others                                                        :B_block:
+      :PROPERTIES:
+      :BEAMER_env: block
+      :END:
+******* aalib and bb-demo 
+******* libcaca
+*** Face Detection
+***** Motivation                                                    :B_block:
+      :PROPERTIES:
+      :BEAMER_env: block
+      :END:
+******* Exploring Open CV
+******* Tutorials have an example on slicing face of Lena
+***** ~facedetect.py~                                               :B_block:
+      :PROPERTIES:
+      :BEAMER_env: block
+      :END:
+******* Uses a *Haar* Classifier.
+******* Apparently, available as a sample in OpenCV
+******* Demo with image, camera
+* Conclusion
+*** I love Python
+***** Why?                                                          :B_block:
+      :PROPERTIES:
+      :BEAMER_env: block
+      :END:
+******* Lets me focus on the Problem
+******* Interactive
+******* Readable
+***** Travis Oliphant -- Lead Dev of ~numpy~                        :B_block:
+      :PROPERTIES:
+      :BEAMER_env: block
+      :END:
+      #+begin_quote
+      In 1998, ... I came across Python and its numerical extension
+      (Numeric) while I was looking for ways to analyze large data
+      sets ... using a high-level language. I quickly fell in love
+      with Python programming which is a remarkable statement to make
+      about a programming language. If I had not seen others with the
+      same view, I might have seriously doubted my sanity.
+      #+end_quote
+*** References
+    - Human Vision - http://nfggames.com/games/ntsc/visual.shtm
+    - Hacker News - http://news.ycombinator.net/item?id=1891753
+    - Numpy mailing list - [[http://www.mail-archive.com/numpy-discussion@scipy.org/msg15594.html][Stefan van der Walt (striding trick)]]
+    - Active State - [[http://code.activestate.com/recipes/483756/][Convert text to image using PIL]]
+    - OpenCV Documentation
+    - Wikipedia
+
+ 
+    #+BEGIN_LATEX
+      \begin{center}
+        \Huge{Thank You!}
+      \end{center}
+      
+      \vspace{.5in}
+      
+      \begin{tiny}
+        \begin{flushright}
+          \color{blue}{Created using Emacs Org-mode}
+        \end{flushright}
+      \end{tiny}
+      
+    #+END_LATEX
+

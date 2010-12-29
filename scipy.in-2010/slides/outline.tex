@@ -1,0 +1,459 @@
+% Created 2010-12-29 Wed 11:37
+\documentclass[presentation]{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fixltx2e}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{soul}
+\usepackage{textcomp}
+\usepackage{marvosym}
+\usepackage{wasysym}
+\usepackage{latexsym}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\tolerance=1000
+\usepackage[english]{babel} \usepackage{ae,aecompl}
+\usepackage{mathpazo,courier,euler} \usepackage[scaled=.95]{helvet}
+\usepackage{listings}
+\lstset{language=Python, basicstyle=\ttfamily\bfseries,
+commentstyle=\color{red}\itshape, stringstyle=\color{darkgreen},
+showstringspaces=false, keywordstyle=\color{blue}\bfseries}
+\providecommand{\alert}[1]{\textbf{#1}}
+\usetheme{Boadilla}\usecolortheme{seahorse}\useoutertheme{infolines}\setbeamercovered{transparent}
+\begin{document}
+
+
+
+\title{Songs, Pictures and Python}
+\author{Puneeth,  \newline  Chaitanya   \newline  \&  the WWW}
+\date{14 December, 2010}
+\maketitle
+
+
+
+
+
+
+
+
+
+\section*{Intro}
+\label{sec-1}
+\begin{frame}
+\frametitle{The Talk}
+\label{sec-1_1}
+\begin{block}{Why?}
+\label{sec-1_1_1}
+
+\begin{itemize}
+\item More participants for Tutorials (\& Sprints)
+\item A feeling for the \textbf{power} that Python gives
+\item Get students enthused about Python
+\end{itemize}
+\end{block}
+\begin{block}{What?}
+\label{sec-1_1_2}
+
+\begin{itemize}
+\item Weekend hacks\footnote{\emph{hackers build things, crackers break them} -- ESR }, etc.
+\item Trivial \& straight forward -- No ``research''
+\item Mostly images
+\item Some web crawling and word counting
+\end{itemize}
+\end{block}
+\end{frame}
+\section*{Blue!}
+\label{sec-2}
+\begin{frame}
+\frametitle{We \emph{like} to sing what we see!}
+\label{sec-2_1}
+\begin{block}{Motivation}
+\label{sec-2_1_1}
+
+\begin{itemize}
+\item ``We sing what we see'' -- Chaitanya
+\item Check it out!
+\item Lyrics of top 500 songs
+
+\begin{itemize}
+\item 5 decades * 100 songs
+\item People connect to them
+\end{itemize}
+
+\end{itemize}
+\end{block}
+\begin{block}{How?}
+\label{sec-2_1_2}
+\begin{itemize}
+
+\item Get the lyrics\\
+\label{sec-2_1_2_1}%
+\item Count the words\\
+\label{sec-2_1_2_2}%
+\end{itemize} % ends low level
+\end{block}
+\end{frame}
+\begin{frame}
+\frametitle{How \& What?}
+\label{sec-2_2}
+\begin{block}{Getting the lyrics}
+\label{sec-2_2_1}
+\begin{itemize}
+
+\item Search for a website\\
+\label{sec-2_2_1_1}%
+\item Look at html -- very dirty!\\
+\label{sec-2_2_1_2}%
+\item Simple hard-coded regex\\
+\label{sec-2_2_1_3}%
+\end{itemize} % ends low level
+\end{block}
+\begin{block}{Word count}
+\label{sec-2_2_2}
+\begin{itemize}
+
+\item Very common\\
+\label{sec-2_2_2_1}%
+\item Already had some code from our tutorials!\\
+\label{sec-2_2_2_2}%
+\end{itemize} % ends low level
+\end{block}
+\begin{alertblock}<2->{"Results"?}
+\label{sec-2_2_3}
+
+
+\begin{center}
+\begin{tabular}{lrllrllr}
+ blue   &  105  &     &  red     &  54  &     &  green   &  30  \\
+ black  &   63  &     &  purple  &  33  &     &  yellow  &  11  \\
+ brown  &   56  &     &  white   &  32  &     &  pink    &   7  \\
+\end{tabular}
+\end{center}
+\end{alertblock}
+\end{frame}
+\begin{frame}
+\frametitle{Our eyes suck at blue!}
+\label{sec-2_3}
+\begin{block}{Discussion}
+\label{sec-2_3_1}
+
+\begin{itemize}
+\item A post on Hacker News.
+\item Known facts
+
+\begin{itemize}
+\item Luminance vs. Chrominance
+\item Sensitivity -- $G > R > B$
+
+\begin{itemize}
+\item Bayer filter (Sensor ratios)
+\item CIE 1931 $V(\lambda)$, CIE 1978 $V(\lambda)$ (Spectral sensitivity)
+\item They try to illustrate this!
+\end{itemize}
+
+\end{itemize}
+
+\item Initial plan was to replicate
+\item Flaws in their arguments
+\end{itemize}
+\end{block}
+\end{frame}
+\begin{frame}
+\frametitle{Argument-1}
+\label{sec-2_4}
+
+      \begin{center}
+        \includegraphics[width=2in]{data/traci.png}
+        \includegraphics[width=2in]{data/tracislide.png}  
+      \end{center}
+\end{frame}
+\begin{frame}[fragile]
+\frametitle{Argument-1 \ldots{}}
+\label{sec-2_5}
+\begin{block}{Code}
+\label{sec-2_5_1}
+
+\lstset{language=Python}
+\begin{lstlisting}
+def show_channels(I):
+    for i in range(3):
+        J = zeros_like(I)
+        J[:, :, i] = I[:, :, i]
+        figure(i)
+        imshow(J)
+\end{lstlisting}
+\end{block}
+\begin{block}{Discussion}
+\label{sec-2_5_2}
+\begin{itemize}
+
+\item Blue channel is rather dark
+\label{sec-2_5_2_1}%
+\begin{itemize}
+
+\item intensity of Blue in the image could be less\\
+\label{sec-2_5_2_1_1}%
+\end{itemize} % ends low level
+
+\item Bayer filter\\
+\label{sec-2_5_2_2}%
+\end{itemize} % ends low level
+\end{block}
+\end{frame}
+\begin{frame}[fragile]
+\frametitle{Argument-1 \ldots{}}
+\label{sec-2_6}
+\begin{block}{Code}
+\label{sec-2_6_1}
+
+\lstset{language=Python}
+\begin{lstlisting}
+def show_grey_channels(I):
+    K = average(I, axis=2)
+    for i in range(3):
+        J = zeros_like(I)
+        J[:, :, i] = K
+        figure(i+10)
+        imshow(J)
+\end{lstlisting}
+      
+\end{block}
+\begin{block}{Discussion}
+\label{sec-2_6_2}
+\begin{itemize}
+
+\item Get a gray scale image\\
+\label{sec-2_6_2_1}%
+\item Look at it using R, G, B filters.
+\label{sec-2_6_2_2}%
+\begin{itemize}
+
+\item Blue and Red still don't look all that sharp\\
+\label{sec-2_6_2_2_1}%
+\item intensities change, though\\
+\label{sec-2_6_2_2_2}%
+\end{itemize} % ends low level
+\end{itemize} % ends low level
+\end{block}
+\end{frame}
+\begin{frame}
+\frametitle{Argument-2}
+\label{sec-2_7}
+
+      \begin{center}
+        \includegraphics[width=2.5in]{data/traci_matrix.png}
+      \end{center}
+\end{frame}
+\begin{frame}[fragile]
+\frametitle{Argument-2 \ldots{}}
+\label{sec-2_8}
+\begin{block}{Code}
+\label{sec-2_8_1}
+
+\lstset{language=Python}
+\begin{lstlisting}
+def subsample(I):
+    for i in range(3):
+        J = I.copy()
+        J[:, :, i] = zoom(I[::4, ::4, i], 4)
+        figure(i)
+        imshow(J)
+\end{lstlisting}
+\lstset{language=Python}
+\begin{lstlisting}
+def zoom(x, factor=2):
+    rows, cols = x.shape
+    row_stride, col_stride = x.strides
+    view = np.lib.stride_tricks.as_strided(x,
+                    (rows, factor, cols, factor),
+                    (row_stride, 0, col_stride, 0))
+    return view.reshape((rows*factor, cols*factor))
+\end{lstlisting}
+\end{block}
+\end{frame}
+\begin{frame}[fragile]
+\frametitle{Argument-2 \ldots{}}
+\label{sec-2_9}
+\begin{block}{Code}
+\label{sec-2_9_1}
+
+\lstset{language=Python}
+\begin{lstlisting}
+def swap_subsample(I, k=1):
+    for i in range(3):
+        J = zeros_like(I)
+        for j in range(3):
+            J[:, :, j] = I[:, :, (j+k)%3]
+        J[:, :, i] = zoom(I[::4, ::4, (i+k)%3], 4)
+        figure(i+10)
+        imshow(J)
+\end{lstlisting}
+      
+\end{block}
+\begin{block}{Discussion}
+\label{sec-2_9_2}
+\begin{itemize}
+
+\item We are definitely good with Green!\\
+\label{sec-2_9_2_1}%
+\item Blue?\\
+\label{sec-2_9_2_2}%
+\end{itemize} % ends low level
+\end{block}
+\end{frame}
+\begin{frame}
+\frametitle{Further}
+\label{sec-2_10}
+\begin{block}{Explore}
+\label{sec-2_10_1}
+
+\begin{itemize}
+\item Reducing bit depth rather than pixel width
+\item Central vision vs. Peripheral vision
+\item Evolutionary aspects
+\item Tetrachromancy
+\end{itemize}
+\end{block}
+\end{frame}
+\section*{More images}
+\label{sec-3}
+\begin{frame}
+\frametitle{ASCII art}
+\label{sec-3_1}
+\begin{block}{Very elementary algo}
+\label{sec-3_1_1}
+
+\begin{itemize}
+\item Convert image to gray-scale
+\item Assign intensity to pixel blocks
+
+\begin{itemize}
+\item $block\_len:block\_height::char\_len:char\_height$
+\end{itemize}
+
+\item Map intensity to visual density of characters
+\item Replace block with corresponding character
+\end{itemize}
+
+      Works well for \emph{machine generated images}
+\end{block}
+\end{frame}
+\begin{frame}
+\frametitle{Further}
+\label{sec-3_2}
+\begin{block}{Explore}
+\label{sec-3_2_1}
+\begin{itemize}
+
+\item pre-process images?
+\label{sec-3_2_1_1}%
+\begin{itemize}
+
+\item for non \emph{machine generated images}\\
+\label{sec-3_2_1_1_1}%
+\end{itemize} % ends low level
+
+\item shape matching?\\
+\label{sec-3_2_1_2}%
+\item colourful html\\
+\label{sec-3_2_1_3}%
+\end{itemize} % ends low level
+\end{block}
+\begin{block}{Others}
+\label{sec-3_2_2}
+\begin{itemize}
+
+\item aalib and bb-demo\\
+\label{sec-3_2_2_1}%
+\item libcaca\\
+\label{sec-3_2_2_2}%
+\end{itemize} % ends low level
+\end{block}
+\end{frame}
+\begin{frame}
+\frametitle{Face Detection}
+\label{sec-3_3}
+\begin{block}{Motivation}
+\label{sec-3_3_1}
+\begin{itemize}
+
+\item Exploring Open CV\\
+\label{sec-3_3_1_1}%
+\item Tutorials have an example on slicing face of Lena\\
+\label{sec-3_3_1_2}%
+\end{itemize} % ends low level
+\end{block}
+\begin{block}{\texttt{facedetect.py}}
+\label{sec-3_3_2}
+\begin{itemize}
+
+\item Uses a \textbf{Haar} Classifier.\\
+\label{sec-3_3_2_1}%
+\item Apparently, available as a sample in OpenCV\\
+\label{sec-3_3_2_2}%
+\item Demo with image, camera\\
+\label{sec-3_3_2_3}%
+\end{itemize} % ends low level
+\end{block}
+\end{frame}
+\section*{Conclusion}
+\label{sec-4}
+\begin{frame}
+\frametitle{I love Python}
+\label{sec-4_1}
+\begin{block}{Why?}
+\label{sec-4_1_1}
+\begin{itemize}
+
+\item Lets me focus on the Problem\\
+\label{sec-4_1_1_1}%
+\item Interactive\\
+\label{sec-4_1_1_2}%
+\item Readable\\
+\label{sec-4_1_1_3}%
+\end{itemize} % ends low level
+\end{block}
+\begin{block}{Travis Oliphant -- Lead Dev of \texttt{numpy}}
+\label{sec-4_1_2}
+
+\begin{quote}
+In 1998, \ldots{} I came across Python and its numerical extension
+(Numeric) while I was looking for ways to analyze large data
+sets \ldots{} using a high-level language. I quickly fell in love
+with Python programming which is a remarkable statement to make
+about a programming language. If I had not seen others with the
+same view, I might have seriously doubted my sanity.
+\end{quote}
+\end{block}
+\end{frame}
+\begin{frame}
+\frametitle{References}
+\label{sec-4_2}
+
+
+\begin{itemize}
+\item Human Vision - \href{http://nfggames.com/games/ntsc/visual.shtm}{http://nfggames.com/games/ntsc/visual.shtm}
+\item Hacker News - \href{http://news.ycombinator.net/item?id=1891753}{http://news.ycombinator.net/item?id=1891753}
+\item Numpy mailing list - \href{http://www.mail-archive.com/numpy-discussion@scipy.org/msg15594.html}{Stefan van der Walt (striding trick)}
+\item Active State - \href{http://code.activestate.com/recipes/483756/}{Convert text to image using PIL}
+\item OpenCV Documentation
+\item Wikipedia
+\end{itemize}
+      \begin{center}
+        \Huge{Thank You!}
+      \end{center}
+      
+      \vspace{.5in}
+      
+      \begin{tiny}
+        \begin{flushright}
+          \color{blue}{Created using Emacs Org-mode}
+        \end{flushright}
+      \end{tiny}
+      
+\end{frame}
+
+\end{document}
