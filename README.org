@@ -1,4 +1,3 @@
 The slides and other material, that I used in my talks.  
 
-This work is licensed under a [[http://creativecommons.org/licenses/by-sa/2.5/in/][Creative Commons Attribution-ShareAlike
-2.5 India License]].
+This work is licensed under a [[http://creativecommons.org/licenses/by-sa/2.5/in/][Creative Commons Attribution-ShareAlike 2.5 India License]].
