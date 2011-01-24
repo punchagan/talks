@@ -1,0 +1,24 @@
+#+TITLE: Emacs Org Mode: Life in Plain Text
+
+[[http://orgmode.org][Org-mode]] is a tool for organizing nearly everything in your life.  It
+is a major mode in the Emacs editor. 
+
+Org-mode can be used for outlining, note-taking, keeping TODO lists,
+clocking work, documentation and publishing and literate programming.
+All this using, plain text files!  At it's heart it's an outliner and
+very simple, but it is extremely customizable and can be customized to
+do almost anything you want. 
+
+This talk will be a tour of some of the functionality of Org-mode,
+from the whole array of things that it can do.  I will be covering,
+the following topics. 
+
+- Outlining
+- Org tables
+- Publishing
+- TODO lists, Agenda, Scheduling, Clocking
+- Capturing tasks
+- Literate Programming
+
+    
+

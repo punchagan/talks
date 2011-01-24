@@ -1,0 +1,32 @@
+#+TITLE: LaTeX from Plain Text: Using Org-mode for authoring
+
+[[http://orgmode.org][Org-mode]] is a tool for organizing nearly everything in your life.  It
+is a major mode in the Emacs editor. 
+
+Org-mode can be used for outlining, note-taking, keeping TODO lists,
+clocking work, documentation and publishing and literate programming.
+All this using, plain text files!  At it's heart it's an outliner and
+very simple, but it is extremely customizable and can be customized to
+do almost anything you want. 
+
+In this I will show the use of Org-mode as an authoring tool.  The
+talk would focus mainly on getting LaTeX output and the ease with
+which it can be done.  
+
+One of the selling points of LaTeX, as a document preparation system,
+is that it lets the author focus on the content, while taking off the
+burden of typesetting from him.  But, still the syntax of LaTeX isn't
+all that beautiful to look at, and write.  I still find it
+distracting.  I use Org-mode to generate the basic outline of
+any LaTeX document that I am preparing, and once I am satisfied with
+the content, I then export it to LaTeX and get into the details of
+typesetting.  This work-flow works well for me, and I think would
+benefit a lot of others, too. 
+
+The talk will cover the following topics -
+
+- Sectioning
+- Tables
+- Figures
+- Math
+- Beamer presentations
