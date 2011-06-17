@@ -1,0 +1,73 @@
+* Introduction
+*** Org-mode
+    - 2003, Free Software
+    - Organizing everything in your life
+      + Major mode in emacs
+*** Emacs
+    - Existed for decades
+    - Editor for text files
+    - Keyboard commands heavy
+    - Self-documenting
+    - Highly customizable/extensible
+    - Major & Minor Modes
+*** Why Emacs?
+    - Many other useful systems
+    - Ultra portable
+*** Plain text
+    - Truly portable
+    - ~grep~ and other tools
+    - Version control
+* Notes
+*** Org-mode as an outliner
+    - Anything that has structure can be represented as an outline
+    - Capture, write, edit, restructure notes and information
+*** Outline keys
+    | Action         | Key   |
+    |----------------+-------|
+    | Cycle subtree  | TAB   |
+    | Cycle globally | S-TAB |
+
+*** Restructuring Text
+    - Up/Down
+    - Promote/Demote
+      
+    Alt (+ Shift) + Arrow keys 
+* Tables
+*** Spreadsheets
+***** Calculations
+***** Format specifier
+*** Structure editing
+    - M-<up>/<down>
+    - M-S-<up>/<down>
+    - M-<right>/<left>
+    - M-S-<right>/<left>
+    - C-c ^
+*** Radio Tables?
+* Planning
+*** TODOs
+    Task completion percentages 
+*** Sparse Trees & Agenda views
+*** Checkboxes
+*** Capture
+* Meta-Data
+  - TODO Keywords
+  - Priorities
+  - Tags
+    + completion
+  - Schedules/Deadlines
+    + Date/Time interface
+  - Property Drawer
+    + Column view
+* Exporting & Publishing
+  - HTML
+  - LaTeX
+    + Embedded LaTeX
+  - Beamer
+  - Export Web-site
+* Babel
+* Conclusion
+*** Orgmode Quotes
+*** Other applications
+    - MobileOrg
+    - org-info-js
+    - org2blog
