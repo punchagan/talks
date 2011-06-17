@@ -1,3 +1,4 @@
+#+OPTIONS: 
 * Introduction
 *** Org-mode
     - 2003, Free Software
@@ -50,21 +51,24 @@
 *** Checkboxes
 *** Capture
 * Meta-Data
-  - TODO Keywords
-  - Priorities
-  - Tags
-    + completion
-  - Schedules/Deadlines
-    + Date/Time interface
-  - Property Drawer
-    + Column view
+*** TODO Keywords
+*** Priorities
+*** Tags
+    - completion
+*** Schedules/Deadlines
+    - Date/Time interface
+*** Property Drawer
+***** Column view
 * Exporting & Publishing
-  - HTML
-  - LaTeX
-    + Embedded LaTeX
-  - Beamer
-  - Export Web-site
+*** HTML
+*** LaTeX
+    - Embedded LaTeX
+*** Beamer
+*** Export Web-site
 * Babel
+*** Including code blocks
+*** Exporting
+*** Supported Languages
 * Conclusion
 *** Orgmode Quotes
 *** Other applications
