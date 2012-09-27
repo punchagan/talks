@@ -1,0 +1,130 @@
+#+TITLE: Introduction to NumPy, SciPy, Matplotlib and Git
+#+AUTHOR: Puneeth Chaganti
+#+EMAIL: @punchagan
+#+DESCRIPTION:
+#+KEYWORDS:
+#+LANGUAGE:  en
+#+OPTIONS:   H:3 num:nil toc:t \n:nil @:t ::t |:t ^:t -:t f:t *:t <:t
+#+OPTIONS:   TeX:t LaTeX:nil skip:nil d:nil todo:nil pri:nil tags:not-in-toc
+
+* Introduction
+  + Refresher
+  + Hands on
+  + Experimental, Feedback of audience
+  + Data-file: http://bit.ly/rSEw6Q
+* IPython
+  + Tab-completion
+    - imports
+    - file-names
+    - variables
+  + Magic commands
+    - =%hist=, =%save=, =%run=
+  + Shell commands
+    - =cd=, =ls=, =pwd=
+  + Help (?) and Source (??)
+* Numpy
+  - Arrays
+  - Fundamental building block -- designed for convenience
+  - Homogeneous, (therefore) Fast
+* Arrays -- Basics
+  + 1D
+    - =loadtxt=
+      + arguments?
+    - =sum=, =min=, =max=
+  + 2D
+    - =shape=
+    - accessing elements, rows, columns
+      + score, matches, 50s, 100s
+      + 2003, 2003--2007
+* Plotting
+  + Plot yearly score
+  + Plot number of centuries
+    - =title=
+    - =xlabel=
+    - =ylabel=
+    - =legend=
+* Element-wise Operations
+  + Array operations are elementwise
+    - average of each year
+    - total average
+    - plot average
+* Fancy & Boolean indexing
+  + Find the years in which average was above 40
+  + Find the average in all world cup years
+* Creating Arrays
+  - =array=
+  - =linspace=
+  - =arange=
+  - =zeros=
+  - =ones=
+  - =rand=
+* Copies, View
+  #+begin_src python
+    a = np.arange(10)
+    b = a[4:8]
+    b[0] = 0
+    print b
+    print a
+  #+end_src
+* Broadcasting
+  + Combining arrays of different sizes
+  + Simple scalar operation
+  + How?
+    - Compare dimensions, starting from last
+    - Match when either dimension is one or None, or if dimensions are equal
+    #+begin_example
+    Scalar    2D        3D            No go
+
+    ( ,)      (3, 4)    (3, 5, 1)     (3, 5, 2)
+    (3,)      (3, 1)    (      8)     (      8)
+    ----      ------    ----------    ---------
+    (3,)      (3, 4)    (3, 5, 8)        XXX
+    #+end_example
+* SciPy
+  + http://docs.scipy.org/scipy
+  + =scipy?=
+  + =solve=
+    #+begin_src python
+      from scipy.linalg import solve
+      A = array([[3,2,-1],
+                 [2,-2,4],
+                 [-1, 0.5, -1]])
+      b = array([1, -2, 0])
+      x = solve(A, b)
+    #+end_src
+  + =integrate=
+    #+begin_src python
+      from scipy.integrate import quad
+      res, err = quad(np.sin, 0, np.pi/2)
+      np.allclose(res, 1)
+    #+end_src
+* Git (1)
+
+  Courtesy: [[https://github.com/diaspora/diaspora/wiki/Git-Workflow][Diaspora]]
+
+  - Create a GitHub account
+  - Fork on GitHub (click Fork button)
+  - Clone to computer
+  - Don't forget to cd into your repo
+  - Set up remote upstream
+* Git (2)
+  - Create a branch for new issue
+  - Develop on issue branch
+  - Commit changes to issue branch
+  - Fetch upstream
+* Git (3)
+  - Update local master
+  - Repeat steps in previous slide till dev is complete
+  - Rebase issue branch
+  - Push branch to GitHub
+  - Issue pull request (Click Pull Request button)
+
+
+
+* References
+  + https://github.com/scipy-lectures/scipy-lecture-notes
+  + https://github.com/FOSSEE/workshops
+  + http://mentat.za.net/numpy/numpy_advanced_slides/
+  + https://github.com/diaspora/diaspora/wiki/Git-Workflow
+  + http://howstat.com
+
