@@ -15,7 +15,7 @@ def detect(image):
     cv.EqualizeHist(grayscale, grayscale)
  
     # detect objects
-    cascade = cv.Load('haarcascade_frontalface_alt.xml')
+    cascade = cv.Load('../data/haarcascade_frontalface_alt.xml')
     faces = cv.HaarDetectObjects(grayscale, cascade, storage, 1.2, 2, cv.CV_HAAR_DO_CANNY_PRUNING, (50, 50))
  
     if faces:
