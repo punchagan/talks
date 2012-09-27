@@ -1,0 +1,69 @@
+* Script for video
+*** Introduction to the talk
+    Hi, I'm Puneeth and I'm Pankaj.  We are software developers at
+    Enthought.  Today, we'll be giving you a brief preview of our
+    tutorial on "Data Visualization with Python".
+
+    This tutorial will mainly focus on 2D plotting with Chaco, and
+    possibly end with a short demo of 3D visualization with Mayavi's
+    mlab.
+
+*** Brief introduction to Chaco
+    Chaco is an application plotting toolkit for Python, that lets you
+    create interactive plots, with a lot of the emphasis being on the
+    "interactivity".  Like other plotting toolkits, Chaco lets you do
+    static plots. But, interactive plots is where Chaco really shines
+    and it can be used produce interactive real-time displays for
+    small or large data-sets.
+
+    - Chaco has a layer of indirection between the actual data and the
+      plot, using something called a DataSource, which allows the data
+      to be changed, and allowing the plot to update live.
+
+    - This coupled with DataRanges, lets you have multiple plots
+      linked together showing different views of the same data, and
+      each of them responding to user interactions on the others.
+
+    - The architecture of Chaco is very extensible allowing you to
+      write custom tools for interaction and custom renderers for
+      plots.
+
+    - Chaco can use either wx or Qt as the back-end GUI toolkit and
+      the plots can be embedded into any GUI application.
+*** A bunch of examples showing the power of Chaco
+    I'm going to show you a few examples to highlight what we really
+    mean by interactivity.
+
+    The first example will show you how two plots can be linked
+    together. Zooming and panning on one plot, changes the other.
+
+    The previous example showed you panning and zooming, and this
+    functionality comes in through built-in chaco tools.  The next two
+    examples will show you custom tools that have been to add some
+    neat functionality to the plots.  The first example is a line
+    editor that lets you drag the points in a line plot.  The second
+    example adds an overlay rectangular xray selection, that shows the
+    actual data points in a line plot.
+
+    The last example is a scalar field function inspector.  This plot
+    shows a scalar function field and it's corresponding views along
+    the x and y axes.  Apart from showing linked plots, this example
+    demonstrates how traits can be hooked up with the plot to update
+    the plot, in accordance with the user interactions.  Clicking on
+    the edit model button here, opens up an editor to edit the
+    properties of the data model.  Changing the function or any of the
+    other attributes of the model, updates the plot live. Checking the
+    animated check-box animates the plot.
+
+*** What will the talk cover
+    We'll begin with a simple plot, and step-by-step code walk through
+    of it.  This will include a short detour into traits and
+    traitsUI.
+
+    Then we shall look at an overview of Chaco's architecture and the
+    most commonly used classes and models.
+
+    Finally, we'll look at more examples, to get an overview of the
+    various possibilities that Chaco opens up for us.
+*** Conclusion
+    Thanks for watching.  We look forward to see you at the tutorial.

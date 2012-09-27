@@ -1,0 +1,26 @@
+* Demo
+  Show a bunch of demos
+  - Line editor
+  - xray
+  - Function inspector
+* What is Chaco
+  - Plotting application toolkit
+  - Fast, live updates
+  - Linked plots
+  - Extensible
+  - GUI backend agnostic
+* First Plot
+*** Show and explain code
+*** Traits & TraitsUI introduction
+* Overall architecture of Chaco
+  Commonly used Modules and Classes
+*** Data objects
+***** Data sources
+***** Data range
+***** Mapper
+*** Containers
+*** Renderers
+*** Tools
+*** Overlays
+* More examples
+* Mayavi & mlab?
