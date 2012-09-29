@@ -1,0 +1,8 @@
+*.pyc
+*.py~
+
+# ignore cache directories
+__enamlcache__/
+
+.gitignore~
+*.orig
