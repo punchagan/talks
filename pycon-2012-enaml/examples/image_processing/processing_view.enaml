@@ -1,0 +1,165 @@
+#------------------------------------------------------------------------------
+#  Copyright (c) 2011, Enthought, Inc.
+#  All rights reserved.
+#------------------------------------------------------------------------------
+import os
+from enaml.stdlib.fields import IntField, FloatField
+
+
+enamldef Loader(Container):
+    constraints = [
+        vbox(hbox(lbl, fld, pb), slbl),
+        align('v_center', lbl, fld, pb),
+    ]
+    hug_height = 'strong'
+    Label:
+        id: lbl
+        text = 'Filename'
+    Field:
+        id: fld
+        read_only = True
+        value << model.filename
+    PushButton:
+        id: pb
+        text = 'Load'
+        constraints = [height == fld.height, width == 50]
+        clicked ::
+            dlg = FileDialog(
+                title='Load Image', filters=['Images (*.png *.jpg *.JPG)'],
+                directory=os.path.dirname(__file__),
+            )
+            dlg.show()
+            if dlg.result == 'accepted':
+                model.filename = dlg.path
+    Label:
+        id: slbl
+        text << 'Width = %d    Height = %d' % (model.width, model.height)
+    
+
+enamldef CannyParams(GroupBox):
+    attr form = _form
+    title = 'Canny Parameters'
+    flat = True      
+    share_layout = True
+    hug_width = 'strong'    
+    Form:
+        id: _form
+        share_layout = True
+        Label:
+            text = 'Sigma'
+        FloatField:
+            value := model.canny_sigma
+        Label:
+            text = 'Low Thresh'
+        FloatField:
+            value := model.canny_low_threshold
+        Label:
+            text = 'High Thresh'
+        FloatField:
+            value := model.canny_high_threshold
+
+
+enamldef HoughParams(GroupBox):
+    attr form = _form
+    title = 'Hough Parameters'
+    flat = True     
+    share_layout = True  
+    hug_width = 'strong'    
+    Form:
+        id: _form
+        share_layout = True
+        Label:
+            text = 'Threshold'
+        IntField:
+            value := model.hough_threshold
+        Label:
+            text = 'Min Line Length'
+        IntField:
+            value := model.hough_line_length
+        Label:
+            text = 'Max Line Gap'
+        IntField:
+            value := model.hough_line_gap
+
+
+enamldef SliderField(Container):
+    attr value
+    constraints = [
+        hbox(sldr, fld),
+        align('v_center', sldr, fld),
+    ]
+    padding = (0, 0, 5, 0)
+    hug_height = 'strong'
+    FloatSlider:
+        id: sldr
+        value := parent.value
+    Field:
+        id: fld
+        constraints = [width == 50]
+        read_only = True
+        value << '%.2f' % parent.value
+
+
+enamldef DisplayParams(GroupBox):
+    attr form = _form
+    title = 'Display Parameters'
+    flat = True  
+    share_layout = True
+    hug_width = 'strong'    
+    Form:
+        id: _form
+        share_layout = True
+        Label:
+            text = 'Original Alpha'
+        SliderField:
+            value := model.original_alpha
+        Label:
+            text = 'Canny Alpha'
+        SliderField:
+            value := model.canny_alpha
+        Label:
+            text = 'Hough Alpha'
+        SliderField:
+            value := model.hough_segments_alpha
+        Label:
+            text = 'Canny Color'
+        Field:
+            value := model.canny_color
+            bgcolor << value
+            fgcolor = '#dddddd'
+        Label:
+            text = 'Hough Color'
+        Field:
+            value := model.hough_segments_color
+            bgcolor << value
+            fgcolor = '#dddddd'
+        Label:
+            text = 'Background'
+        Field:
+            value := model.background_color
+            bgcolor << value
+            fgcolor = '#dddddd'
+
+
+enamldef Main(MainWindow):
+    attr model
+    title = 'Image Processing Demo'
+    Container:
+        constraints = [
+            hbox(vbox(load, canny, hough, display, spacer), canvas),
+            canny.form.midline == hough.form.midline,
+            canny.form.midline == display.form.midline,
+        ]
+        Loader:
+            id: load
+        CannyParams:
+            id: canny
+        HoughParams:
+            id: hough
+        DisplayParams:
+            id: display
+        EnableCanvas:
+            id: canvas
+            constraints = [width >= 600, height >= 400]
+            component << model.main_plot
+

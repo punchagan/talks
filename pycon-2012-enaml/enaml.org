@@ -1,0 +1,273 @@
+#+startup: beamer
+#+LaTeX_CLASS: beamer
+#+LaTeX_CLASS_OPTIONS: [bigger, presentation]
+#+BEAMER_FRAME_LEVEL: 2
+
+#+BEAMER_HEADER_EXTRA: \usetheme{Warsaw}\usecolortheme{default}\useoutertheme{infolines}\setbeamercovered{transparent}
+#+COLUMNS: %45ITEM %10BEAMER_env(Env) %10BEAMER_envargs(Env Args) %4BEAMER_col(Col) %8BEAMER_extra(Extra)
+#+PROPERTY: BEAMER_col_ALL 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0 :ETC
+
+#+LaTeX_CLASS: beamer
+#+LaTeX_CLASS_OPTIONS: [bigger, presentation]
+
+#+LaTeX_HEADER: \usepackage[english]{babel} \usepackage{ae,aecompl}
+#+LaTeX_HEADER: \usepackage{mathpazo,courier,euler} \usepackage[scaled=.95]{helvet}
+
+#+LaTeX_HEADER: \usepackage{listings}
+
+#+LaTeX_HEADER:\lstset{language=Python, basicstyle=\ttfamily\bfseries,
+#+LaTeX_HEADER:  commentstyle=\color{red}\itshape, stringstyle=\color{darkgreen},
+#+LaTeX_HEADER:  showstringspaces=false, keywordstyle=\color{blue}\bfseries}
+
+#+LaTeX_HEADER: \subtitle{A DSL for Declarative UIs}
+#+LaTeX_HEADER: \institute{Enthought}
+#+TITLE: Enaml
+#+AUTHOR: Puneeth Chaganti
+#+EMAIL: puneeth@enthought.com
+#+DATE: 29 Sep 2012
+
+#+DESCRIPTION:
+#+KEYWORDS: enaml, user-interfaces, dsl, python
+#+LANGUAGE:  en
+#+OPTIONS:   H:3 num:nil toc:nil \n:nil @:t ::t |:t ^:t -:t f:t *:t <:t
+#+OPTIONS:   TeX:t LaTeX:nil skip:nil d:nil todo:nil pri:nil tags:not-in-toc
+
+* What?
+*** What is Enaml?
+    - a library for building beautiful user interfaces with minimal effort
+    - a declarative language based on Python, heavily inspired by Qt's QML
+    - the Enaml language is a superset of Python
+    - uses a constraints based layout system to allowing users to
+      easily express complex UI layouts
+    - can run on multiple backends (Qt and Wx) and on multiple
+      operating systems
+*** Goals
+    The project was developed with the following goals in mind
+
+    - Integrate well with Traits and Chaco
+    - Help separate the presentation and content (i.e., MVC)
+    - Allow a single script to work across multiple widget toolkits
+      when using the default interfaces.
+    - Be extensible and allow adaptation and addition of the base
+      widgets with little effort.
+    - Well documented code base that is easy to understand
+*** Example applications
+    - Image Processing  -- ~200 LOC
+    - Preview App -- ~150 LOC
+
+* How to Enaml?
+*** Simple example
+***** #model.py                                                       :BMCOL:
+      :PROPERTIES:
+      :BEAMER_col: 0.45
+      :BEAMER_env: ignoreheading
+      :END:
+      \tiny
+      #+BEGIN_SRC python
+        from traits.api import HasTraits, Str
+        import enaml
+
+        class Person(HasTraits):
+            first_name = Str
+            last_name = Str
+      #+END_SRC
+      #+BEGIN_SRC python
+        if __name__ == '__main__':
+            john = Person(first_name='John',
+                          last_name='Doe')
+
+            with enaml.imports():
+                from view import View
+                view.show()
+      #+END_SRC
+***** #view.enaml                                                     :BMCOL:
+      :PROPERTIES:
+      :BEAMER_col: 0.45
+      :BEAMER_env: ignoreheading
+      :END:
+      \tiny
+      #+BEGIN_SRC python
+        enamldef View(MainWindow):
+            attr person
+            title = 'Person View'
+            Form:
+                Label:
+                    text = 'First Name'
+                Field:
+                    value := person.first_name
+            Form:
+                Label:
+                    text = 'Last Name'
+                Field:
+                    value := person.last_name
+      #+END_SRC
+*** Language Structure
+    - Enaml is a strict superset of Python
+    - Any valid Python (2.x) file is a valid Enaml file
+    - Enaml extends Python with the keyword ~enamldef~
+    - The ~enamldef~ keyword begins a block of Enaml code which
+      extends Python's standard grammar and scoping rules.
+*** Language Structure
+    - Enaml components are widget trees with dynamic bindable
+      attributes 
+    - The root of a component derives from another root or a built-in
+      Enaml component and defines a new usable component type
+      #+BEGIN_SRC python
+        enamldef CustomField(Field):
+            pass
+        
+        enamldef ReallyCustomField(Field):
+            pass
+      #+END_SRC
+*** Language Structure
+    - Tree branches are instances of tree roots or built-in components
+    - Tree leaves are identical to branches but have no children
+    #+BEGIN_SRC python
+      enamldef MyContainer(Container):
+          CustomField:
+              pass
+          ReallyCustomField:
+              pass
+          Container:
+              Field:
+                  pass
+              PushButton:
+                  pass
+      #+END_SRC
+
+*** Language Structure
+    - Roots and branches are customized by binding to their attributes
+      #+BEGIN_SRC python
+        enamldef Main(Window):
+            title = 'Window Title'
+            Field:
+                value = 'Field Value'
+      #+END_SRC
+    - Roots can be further customized by declaring new attributes and
+      events
+      #+BEGIN_SRC python
+        enamldef Main(Window):
+            attr model
+            event custom_event
+            title = 'Window Title'
+            Field:
+                value = model.value
+      #+END_SRC
+*** Language Structure
+    - The grammar of declaring and ~attr~ or an ~event~ supports four
+      different forms
+      - ~(event|attr) <name>~
+      - ~(event|attr) <name>: <type>~
+      - ~(event|attr) <name> <binding>~
+      - ~(event|attr) <name>: <type> <binding>~
+*** Attribute Binding
+    - Enaml provides five different operators which can be used to
+      bind Python expressions to component attributes
+    - The operators provide very powerful introspection and dependency
+      tracking
+    - Each binding operator has its own behavioral semantics as well
+      as restrictions on what form the Python expressions may take
+*** Attribute Binding - Default
+    - ~=~
+    - Left associative
+    - Single eval, no introspection
+    - RHS can be any expression
+    #+BEGIN_SRC python
+#+INCLUDE: "./examples/default_operator.enaml"    
+    #+END_SRC
+*** Attribute Binding - Subscription
+    - ~<<~
+    - Left associative
+    - Evals and assigns on change
+    - RHS can be any expression
+*** Attribute Binding - Subscription
+    #+BEGIN_SRC python
+#+INCLUDE: "./examples/subscription_operator.enaml"    
+    #+END_SRC
+*** Attribute Binding - Update
+    - ~>>~
+    - Right associative
+    - Pushes value on change
+    - RHS must be an assignable expression
+*** Attribute Binding - Update
+    \small
+    #+BEGIN_SRC python
+#+INCLUDE: "./examples/update_operator.enaml"    
+    #+END_SRC
+*** Attribute Binding - Delegation
+    - ~:=~
+    - Bi-directional
+    - Pushes and pulls values
+    - RHS must be an assignable expression
+    #+BEGIN_SRC python
+#+INCLUDE: "./examples/delegation_operator.enaml"  :lines "11-"
+    #+END_SRC
+*** Attribute Binding - Notification
+    - ~::~
+    - Right associative
+    - Executes code on change
+    - RHS can be any arbitrary Python code except for ~def~, ~class~,
+      ~return~, ~yield~
+    #+BEGIN_SRC python
+#+INCLUDE: "./examples/notification_operator.enaml" :lines "11-"
+    #+END_SRC
+*** Attribute Binding - Dependencies
+    - Enaml introspecting operators are extremely robust
+    - They can track almost any dependency in an expression
+    - It's all automatic!
+    \small
+    #+BEGIN_SRC python
+      Field:
+          id: boss_info
+          value << boss(school.room[class_id].teacher.id).info
+    #+END_SRC
+    \pause
+    #+BEGIN_SRC python
+      Field:
+          value << ', '.join([person.name for person in people])
+    #+END_SRC
+*** Layout System
+    - Layout systems in GUI toolkits typically fall into 2 categories
+      1. They don't exist and the developer is responsible for laying
+         out widgets
+      2. They use some form of nested box model
+    - #2 is preferable, but nested box models can be painful (Can we
+      do a button ring?)
+    - We can do better! 
+*** Layout System - Constraints
+    - Enaml uses a constraints based layout system
+    - Constraints are specified as symbolic linear expressions of components
+    - This allows the convenience and ease of nested box models, but
+      also the power and flexibility of manual layout
+*** Layout System - Constraints
+    - Internally, uses the Cassowary linear constraint solver to do
+      the heavy lifting in C++
+      + OSX 10.7 now uses the same library
+    - Enaml provides convenience factories for auto generating
+      constraints for most common cases.
+    - Layouts which are typically not possible are made possible
+* Under development
+*** async UIs 
+    #+BEGIN_LaTeX
+        \begin{block}{}
+          \begin{center}
+            DEMO
+          \end{center}
+        \end{block}
+    #+END_LaTeX
+* 
+*** 
+    #+BEGIN_LaTeX
+      \begin{block}{}
+        \begin{center}
+          \textcolor{blue}{\Large Thank You!}
+        \end{center}
+      \end{block}
+    #+END_LaTeX
+
+* COMMENT buffer local
+#+BEGIN_SRC emacs-lisp
+  (progn
+    (make-local-variable 'before-save-hook)
+    (remove-hook 'before-save-hook 'delete-trailing-whitespace))
+#+END_SRC

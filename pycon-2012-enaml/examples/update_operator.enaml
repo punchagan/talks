@@ -1,0 +1,16 @@
+from traits.api import HasTraits, Str, on_trait_change
+
+
+class Person(HasTraits):
+    name = Str
+
+    @on_trait_change('name')
+    def print_name(self):
+        print 'name changed', self.name
+
+enamldef Main(Window):
+    attr person = Person()
+
+    Container:
+        Field:
+            value >> person.name

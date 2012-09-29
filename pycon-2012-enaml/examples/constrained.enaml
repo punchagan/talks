@@ -1,0 +1,71 @@
+#------------------------------------------------------------------------------
+#  Copyright (c) 2011, Enthought, Inc.
+#  All rights reserved.
+#------------------------------------------------------------------------------
+""" Demo of how the constraint-based layout engine can be used to create fluid,
+adaptable layouts.
+
+At the top, we have an Html widget that expands to fill available space. Below 
+the Html are four PushButtons. On the left are the Add and Remove buttons, 
+which hug the left side of the window and stay close to each other. Hugging 
+the bottom right corner is the Share PushButton. Centered is the Change Mode 
+PushButton. However, as the window gets resized, the Change Mode button may 
+not be able to be centered, but it will always leave a gap between it and 
+its two neighbors.
+
+Pressing the Change Mode PushButton will increase the amount of text on that
+button, thus forcing changes to the layout due to the new size hint for that
+PushButton.
+
+Pressing the Share PushButton will add a new constraint that forces the width 
+of that PushButton to increase to 200.
+
+"""
+enamldef Main(MainWindow):
+    Container:
+        constraints = [
+            # Arrange the Html Frame above the horizontal row of butttons
+            vbox(
+                html_frame, 
+                hbox(
+                    add_button, remove_button, spacer, 
+                    change_mode_button, spacer, share_button,
+                ),
+            ),
+
+            # Weakly align the centers of the Html frame and the center button
+            align('h_center', html_frame, change_mode_button) | 'weak',
+
+            # Set a sensible minimum height for the frame
+            html_frame.height >= 150,
+        ]
+        Html:
+            id: html_frame
+            source = '<center><h1>Hello Enaml!</h1></center>'
+        PushButton:
+            id: add_button
+            text = 'Add'
+            # Uncomment the next four lines to see how to play around with 
+            # the hugging and resist_clip properties
+            # hug_width = 'weak'
+            # hug_height = 'strong'
+            # resist_clip_width = 'weak'
+            # resist_clip_height = 'strong'
+        PushButton:
+            id: remove_button
+            text = 'Remove'
+        PushButton:
+            id: change_mode_button
+            text = 'Change Mode'
+            # Click this button to update the button text and have
+            # it expand to fit its contents
+            clicked :: self.text = text * 2
+        PushButton:
+            id: share_button
+            text = 'Share...'
+            # Click this button to force it to have a width of 200
+            # we don't need to access constraints through 'parent' here
+            # since it is in our attribute scope. But we are just doing
+            # it to show that it is possible.
+            clicked :: parent.constraints.append(width == 200)
+

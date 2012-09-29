@@ -1,0 +1,5 @@
+enamldef Main(Window):
+    attr message = "Hello, world!"
+    Container:
+        Label:
+            text = message

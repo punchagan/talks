@@ -1,0 +1,15 @@
+import math
+
+enamldef Main(MainWindow):
+    title = 'Slider Example'
+    Form:
+        Label:
+            text = 'Log Value'
+        Field:
+            value << math.log(val_slider.value)
+            read_only = True
+        Slider:
+            id: val_slider
+            tick_interval = 50
+            maximum = 1000
+            minimum = 1

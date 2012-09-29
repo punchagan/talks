@@ -1,0 +1,54 @@
+#------------------------------------------------------------------------------
+#  Copyright (c) 2011, Enthought, Inc.
+#  All rights reserved.
+#------------------------------------------------------------------------------
+""" A layout example which is not possible with typical layout managers.
+
+The constraints shown here are generally silly in that the result layout
+is more-or-less useless. Nevertheless, it serves well to demonstrate the
+power and flexibility of constraints-based layout.
+
+Note that the 'gen_constraints' function is only called once, not on 
+every resize as may be expected when laying out widgets manually.
+
+"""
+import math
+
+
+def gen_constraints(comps, top, left, width, height):
+    res = []
+    nitems = len(comps)
+    pad_width = width - 40
+    pad_height = height - 20
+    for idx, comp in enumerate(comps):
+        coeff = 2 * math.pi * float(idx) / nitems
+        x_prop = math.cos(coeff)
+        y_prop = math.sin(coeff)
+        cnx = comp.left == (left + x_prop * pad_width / 2.0)
+        cny = comp.top == (top - y_prop * pad_height / 2.0)
+        res.append(cnx)
+        res.append(cny)
+    res.append(width >= 200)
+    res.append(height >= 200)
+    return res
+
+
+enamldef SimpleButton(PushButton):
+    clicked :: print '%s clicked' % text
+
+
+enamldef Main(MainWindow):
+    Container:
+        constraints = gen_constraints(
+            buttons.components, top, left, width, height,
+        ) + [(height / 2) == lbl.v_center, (width / 2) == lbl.h_center]
+        Include:
+            id: buttons
+            components << [
+                SimpleButton(text=str(i)) for i in range(50)
+            ]
+        Label:
+            id: lbl
+            text = 'Button Ring'
+            font = 'arial 12 bold'
+
