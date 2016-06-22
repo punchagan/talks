@@ -1,0 +1,92 @@
+#+STARTUP: indent
+#+Title: ??? Property based testing with Hypothesis
+#+Author: Puneeth Chaganti
+#+Email: punchagan@muse-amuse.in
+
+#+OPTIONS: reveal_center:t reveal_progress:t reveal_history:nil reveal_control:t
+#+OPTIONS: reveal_mathjax:t reveal_rolling_links:t reveal_keyboard:t reveal_overview:t num:nil
+#+OPTIONS: reveal_width:1200 reveal_height:800
+#+OPTIONS: toc:1
+#+REVEAL_MARGIN: 0.1
+#+REVEAL_MIN_SCALE: 0.5
+#+REVEAL_MAX_SCALE: 2.5
+#+REVEAL_TRANS: cube
+#+REVEAL_THEME: night
+#+REVEAL_HLEVEL: 2
+
+#+REVEAL_ROOT: http://cdn.jsdelivr.net/reveal.js/3.0.0/
+
+* Hypothesis?
+
+* First attempt
+
+#+BEGIN_SRC python
+  from django.contrib.auth.models import User
+  from hypothesis import given
+  from hypothesis.extra.django import TestCase
+  from hypothesis.extra.django.models import models
+  from hypothesis.extra.fakefactory import fake_factory
+
+  from home.models import Blog
+
+  user_strategy = models(User, username=fake_factory('user_name'))
+
+  def add_blog(user, feed_url):
+      blog, created = Blog.objects.get_or_create(
+          user=user,
+          feed_url=feed_url,
+          url=feed_url,
+      )
+      return blog, created
+
+
+  class BlogTests(TestCase):
+
+      @given(user_strategy, fake_factory('url'))
+      def test_blog_added(self, user, feed_url):
+          blog, created = add_blog(user, feed_url)
+          self.assertIsNotNone(blog)
+          self.assertIsNotNone(Blog.objects.get(feed_url=feed_url))
+
+      @given(user_strategy, fake_factory('url'))
+      def test_blog_added_unique(self, user, feed_url):
+          blog, created = add_blog(user, feed_url)
+          blog_, created_ = add_blog(user, feed_url)
+          self.assertEqual(blog, blog_)
+          self.assertFalse(created_)
+#+END_SRC
+
+- We are ourselves trying to add blogs and stuff.
+
+- A bug that goes uncaught here would be, different users adding the same
+  blog.  Even without concurrency.
+
+- Testing this bug for concurrency would be interesting!!!
+
+* Strategies
+
+* References
+  :LOGBOOK:
+  CLOCK: [2016-06-09 Thu 10:28]--[2016-06-09 Thu 10:28] =>  0:00
+  :END:
+
+- http://basho.com/posts/technical/quickchecking-poolboy-for-fun-and-profit/
+- http://www.fastcompany.com/28121/they-write-right-stuff
+- http://hypothesis.works/articles/anatomy-of-a-test/
+- http://fsharpforfunandprofit.com/pbt/
+- http://book.realworldhaskell.org/read/testing-and-quality-assurance.html
+- http://qala.io/blog/randomized-testing.html
+- http://www.cse.chalmers.se/edu/year/2012/course/DIT848/files/13-GL-QuickCheck.pdf
+- http://danluu.com/testing/
+- http://www.cs.tufts.edu/~nr/cs257/archive/john-hughes/quick.pdf
+- https://hypothesis.readthedocs.io/en/latest/details.html
+- http://www.sqlite.org/testing.html#fuzztesting
+- http://cs-syd.eu/posts/2016-02-28-testing-the-super-user-spark-with-hspec.html
+- http://www.slideshare.net/ScottWlaschin/an-introduction-to-property-based-testing
+- https://www.pluralsight.com/courses/fsharp-property-based-testing-introduction
+- [ ] http://research.microsoft.com/en-us/projects/pex/patterns.pdf
+- [X] http://fsharpforfunandprofit.com/posts/property-based-testing-2/
+- [X] http://hypothesis.works/articles/rule-based-stateful-testing/
+- [X] http://goo.gl/g0mGgU
+- [X] [[https://vimeo.com/68383317][John Hughes: Race Conditions, Distribution, Interactions--Testing the Hard Stuff and Staying Sane]]
+- [X] [[https://www.youtube.com/watch?v=shngiiBfD80][Jessica Kerr: Property-based Testing for Better Code]]

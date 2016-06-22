@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>??? Property based testing with Hypothesis</title>
+<meta name="author" content="(Puneeth Chaganti)"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="http://cdn.jsdelivr.net/reveal.js/3.0.0/css/reveal.css"/>
+<link rel="stylesheet" href="http://cdn.jsdelivr.net/reveal.js/3.0.0/css/theme/night.css" id="theme"/>
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'http://cdn.jsdelivr.net/reveal.js/3.0.0/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide">
+<h1>??? Property based testing with Hypothesis</h1>
+<h2>Puneeth Chaganti</h2>
+<h2><a href="mailto:punchagan@muse-amuse.in">punchagan@muse-amuse.in</a></h2>
+<h2></h2>
+</section>
+<section id="table-of-contents">
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#/slide-org34c5d2d">Hypothesis?</a></li>
+<li><a href="#/slide-org6353750">First attempt</a></li>
+<li><a href="#/slide-orgf79bf1a">Strategies</a></li>
+<li><a href="#/slide-org85fd96c">References</a></li>
+</ul>
+</div>
+</div>
+</section>
+
+<section>
+<section id="slide-org34c5d2d">
+<h2 id="org34c5d2d">Hypothesis?</h2>
+
+</section>
+</section>
+<section>
+<section id="slide-org6353750">
+<h2 id="org6353750">First attempt</h2>
+<div class="org-src-container">
+
+<pre  class="src src-python"><span style="color: #859900;">from</span> django.contrib.auth.models <span style="color: #859900;">import</span> User
+<span style="color: #859900;">from</span> hypothesis <span style="color: #859900;">import</span> given
+<span style="color: #859900;">from</span> hypothesis.extra.django <span style="color: #859900;">import</span> TestCase
+<span style="color: #859900;">from</span> hypothesis.extra.django.models <span style="color: #859900;">import</span> models
+<span style="color: #859900;">from</span> hypothesis.extra.fakefactory <span style="color: #859900;">import</span> fake_factory
+
+<span style="color: #859900;">from</span> home.models <span style="color: #859900;">import</span> Blog
+
+<span style="color: #268bd2;">user_strategy</span> = models<span style="color: #268bd2;">(</span>User, username=fake_factory<span style="color: #2aa198;">(</span><span style="color: #2aa198;">'user_name'</span><span style="color: #2aa198;">)</span><span style="color: #268bd2;">)</span>
+
+<span style="color: #859900;">def</span> <span style="color: #268bd2;">add_blog</span><span style="color: #268bd2;">(</span>user, feed_url<span style="color: #268bd2;">)</span>:
+    <span style="color: #268bd2;">blog</span>, <span style="color: #268bd2;">created</span> = Blog.objects.get_or_create<span style="color: #268bd2;">(</span>
+        user=user,
+        feed_url=feed_url,
+        url=feed_url,
+    <span style="color: #268bd2;">)</span>
+    <span style="color: #859900;">return</span> blog, created
+
+
+<span style="color: #859900;">class</span> <span style="color: #b58900;">BlogTests</span><span style="color: #268bd2;">(</span>TestCase<span style="color: #268bd2;">)</span>:
+
+    <span style="color: #b58900;">@given</span><span style="color: #268bd2;">(</span>user_strategy, fake_factory<span style="color: #2aa198;">(</span><span style="color: #2aa198;">'url'</span><span style="color: #2aa198;">)</span><span style="color: #268bd2;">)</span>
+    <span style="color: #859900;">def</span> <span style="color: #268bd2;">test_blog_added</span><span style="color: #268bd2;">(</span><span style="color: #859900;">self</span>, user, feed_url<span style="color: #268bd2;">)</span>:
+        <span style="color: #268bd2;">blog</span>, <span style="color: #268bd2;">created</span> = add_blog<span style="color: #268bd2;">(</span>user, feed_url<span style="color: #268bd2;">)</span>
+        <span style="color: #859900;">self</span>.assertIsNotNone<span style="color: #268bd2;">(</span>blog<span style="color: #268bd2;">)</span>
+        <span style="color: #859900;">self</span>.assertIsNotNone<span style="color: #268bd2;">(</span>Blog.objects.get<span style="color: #2aa198;">(</span>feed_url=feed_url<span style="color: #2aa198;">)</span><span style="color: #268bd2;">)</span>
+
+    <span style="color: #b58900;">@given</span><span style="color: #268bd2;">(</span>user_strategy, fake_factory<span style="color: #2aa198;">(</span><span style="color: #2aa198;">'url'</span><span style="color: #2aa198;">)</span><span style="color: #268bd2;">)</span>
+    <span style="color: #859900;">def</span> <span style="color: #268bd2;">test_blog_added_unique</span><span style="color: #268bd2;">(</span><span style="color: #859900;">self</span>, user, feed_url<span style="color: #268bd2;">)</span>:
+        <span style="color: #268bd2;">blog</span>, <span style="color: #268bd2;">created</span> = add_blog<span style="color: #268bd2;">(</span>user, feed_url<span style="color: #268bd2;">)</span>
+        <span style="color: #268bd2;">blog_</span>, <span style="color: #268bd2;">created_</span> = add_blog<span style="color: #268bd2;">(</span>user, feed_url<span style="color: #268bd2;">)</span>
+        <span style="color: #859900;">self</span>.assertEqual<span style="color: #268bd2;">(</span>blog, blog_<span style="color: #268bd2;">)</span>
+        <span style="color: #859900;">self</span>.assertFalse<span style="color: #268bd2;">(</span>created_<span style="color: #268bd2;">)</span>
+</pre>
+</div>
+
+<ul>
+<li>We are ourselves trying to add blogs and stuff.</li>
+
+<li>A bug that goes uncaught here would be, different users adding the same
+blog.  Even without concurrency.</li>
+
+<li>Testing this bug for concurrency would be interesting!!!</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-orgf79bf1a">
+<h2 id="orgf79bf1a">Strategies</h2>
+
+</section>
+</section>
+<section>
+<section id="slide-org85fd96c">
+<h2 id="org85fd96c">References</h2>
+<ul>
+<li><a href="http://basho.com/posts/technical/quickchecking-poolboy-for-fun-and-profit/">http://basho.com/posts/technical/quickchecking-poolboy-for-fun-and-profit/</a></li>
+<li><a href="http://www.fastcompany.com/28121/they-write-right-stuff">http://www.fastcompany.com/28121/they-write-right-stuff</a></li>
+<li><a href="http://hypothesis.works/articles/anatomy-of-a-test/">http://hypothesis.works/articles/anatomy-of-a-test/</a></li>
+<li><a href="http://fsharpforfunandprofit.com/pbt/">http://fsharpforfunandprofit.com/pbt/</a></li>
+<li><a href="http://book.realworldhaskell.org/read/testing-and-quality-assurance.html">http://book.realworldhaskell.org/read/testing-and-quality-assurance.html</a></li>
+<li><a href="http://qala.io/blog/randomized-testing.html">http://qala.io/blog/randomized-testing.html</a></li>
+<li><a href="http://www.cse.chalmers.se/edu/year/2012/course/DIT848/files/13-GL-QuickCheck.pdf">http://www.cse.chalmers.se/edu/year/2012/course/DIT848/files/13-GL-QuickCheck.pdf</a></li>
+<li><a href="http://danluu.com/testing/">http://danluu.com/testing/</a></li>
+<li><a href="http://www.cs.tufts.edu/~nr/cs257/archive/john-hughes/quick.pdf">http://www.cs.tufts.edu/~nr/cs257/archive/john-hughes/quick.pdf</a></li>
+<li><a href="https://hypothesis.readthedocs.io/en/latest/details.html">https://hypothesis.readthedocs.io/en/latest/details.html</a></li>
+<li><a href="http://www.sqlite.org/testing.html#fuzztesting">http://www.sqlite.org/testing.html#fuzztesting</a></li>
+<li><a href="http://cs-syd.eu/posts/2016-02-28-testing-the-super-user-spark-with-hspec.html">http://cs-syd.eu/posts/2016-02-28-testing-the-super-user-spark-with-hspec.html</a></li>
+<li><a href="http://www.slideshare.net/ScottWlaschin/an-introduction-to-property-based-testing">http://www.slideshare.net/ScottWlaschin/an-introduction-to-property-based-testing</a></li>
+<li><a href="https://www.pluralsight.com/courses/fsharp-property-based-testing-introduction">https://www.pluralsight.com/courses/fsharp-property-based-testing-introduction</a></li>
+<li class="off"><code>[&#xa0;]</code> <a href="http://research.microsoft.com/en-us/projects/pex/patterns.pdf">http://research.microsoft.com/en-us/projects/pex/patterns.pdf</a></li>
+<li class="on"><code>[X]</code> <a href="http://fsharpforfunandprofit.com/posts/property-based-testing-2/">http://fsharpforfunandprofit.com/posts/property-based-testing-2/</a></li>
+<li class="on"><code>[X]</code> <a href="http://hypothesis.works/articles/rule-based-stateful-testing/">http://hypothesis.works/articles/rule-based-stateful-testing/</a></li>
+<li class="on"><code>[X]</code> <a href="http://goo.gl/g0mGgU">http://goo.gl/g0mGgU</a></li>
+<li class="on"><code>[X]</code> <a href="https://vimeo.com/68383317">John Hughes: Race Conditions, Distribution, Interactions&#x2013;Testing the Hard Stuff and Staying Sane</a></li>
+<li class="on"><code>[X]</code> <a href="https://www.youtube.com/watch?v=shngiiBfD80">Jessica Kerr: Property-based Testing for Better Code</a></li>
+
+</ul>
+</section>
+</section>
+</div>
+</div>
+<script src="http://cdn.jsdelivr.net/reveal.js/3.0.0/lib/js/head.min.js"></script>
+<script src="http://cdn.jsdelivr.net/reveal.js/3.0.0/js/reveal.js"></script>
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c',
+rollingLinks: true,
+keyboard: true,
+overview: true,
+width: 1200,
+height: 800,
+margin: 0.10,
+minScale: 0.50,
+maxScale: 2.50,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'cube', // default/cube/page/concave/zoom/linear/fade/none
+transitionSpeed: 'default',
+multiplex: {
+    secret: '', // null if client
+    id: '', // id, obtained from socket.io server
+    url: '' // Location of socket.io server
+},
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+ { src: 'http://cdn.jsdelivr.net/reveal.js/3.0.0/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+ { src: 'http://cdn.jsdelivr.net/reveal.js/3.0.0/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'http://cdn.jsdelivr.net/reveal.js/3.0.0/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'http://cdn.jsdelivr.net/reveal.js/3.0.0/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+ { src: 'http://cdn.jsdelivr.net/reveal.js/3.0.0/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }]
+});
+</script>
+</body>
+</html>
