@@ -28,19 +28,30 @@ def plugin_name_generator():
 class SimplifiedPluginModel(object):
 
     def __init__(self, plugins=None):
-        self.installed = set() if plugins is None else set(plugins)
+        self._pre_installed = set() if plugins is None else set(plugins)
+        self._installed = set()
         self.disabled = set()
 
-    def install(self, value):
-        self.installed.add(value)
+    @property
+    def installed(self):
+        return (self._installed | self._pre_installed) - self.disabled
 
-    def remove(self, value):
-        self._safe_remove(self.installed, value)
-        self._safe_remove(self.disabled, value)
+    def install(self, name):
+        self._installed.add(name)
 
-    def _safe_remove(self, set_, value):
-        if value in set_:
-            set_.remove(value)
+    def remove(self, name):
+        self._safe_remove(self._pre_installed, name)
+        self._safe_remove(self._installed, name)
+
+    def disable(self, name):
+        self.disabled.add(name)
+
+    def enable(self, name):
+        self._safe_remove(self.disabled, name)
+
+    def _safe_remove(self, set_, name):
+        if name in set_:
+            set_.remove(name)
 
 
 class PluginStateMachine(RuleBasedStateMachine):
