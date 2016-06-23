@@ -85,6 +85,8 @@
 - http://www.slideshare.net/ScottWlaschin/an-introduction-to-property-based-testing
 - https://www.pluralsight.com/courses/fsharp-property-based-testing-introduction
 - [ ] http://research.microsoft.com/en-us/projects/pex/patterns.pdf
+- [ ] [[https://www.youtube.com/watch?v=hNhHmbiw4Rw][Property Based Testing: Shrinking Risk In Your Code]]
+- [ ] [[https://www.youtube.com/watch?v=mg5BeeYGjY0][Property based testing with Hypothesis (PyCon ZA)]]
 - [X] http://fsharpforfunandprofit.com/posts/property-based-testing-2/
 - [X] http://hypothesis.works/articles/rule-based-stateful-testing/
 - [X] http://goo.gl/g0mGgU
