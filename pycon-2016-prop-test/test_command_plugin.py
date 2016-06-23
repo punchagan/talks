@@ -58,9 +58,10 @@ class PluginStateMachine(RuleBasedStateMachine):
     def __init__(self):
         super(PluginStateMachine, self).__init__()
         self._create_demo_site()
+        self._update_disabled_plugins([])
         self._init_site_object()
-        pre_installed = self._get_installed()
-        self.model = SimplifiedPluginModel(pre_installed)
+        self._update_installed_disabled()
+        self.model = SimplifiedPluginModel(self._installed)
 
     def teardown(self):
         os.chdir('..')
@@ -97,25 +98,78 @@ class PluginStateMachine(RuleBasedStateMachine):
             out.seek(0)
             return out.read()
 
-    def _get_installed(self):
+    def _update_installed_disabled(self):
         output = self._run_command(['--list-installed'])
         self._installed = set(re.findall('(.*)\s+at\s+.*', output))
+        d_ = re.findall("disabled these plugins: \[(.+)\]", output)
+        self._disabled = set(re.sub("[',]", "", d_[0]).split()) if d_ else set()
+        self._installed.difference_update(self._disabled)
         return self._installed
 
     def _install(self, name):
         self._run_command(['-i', name])
         self.model.install(name)
-        self._get_installed()
+        self._update_installed_disabled()
 
     def _remove(self, name):
         self._run_command(['-r', name])
         self.model.remove(name)
-        self._get_installed()
+        self._update_installed_disabled()
+
+    def _get_disabled(self):
+        import conf
+        utils._reload(conf)
+        return set(getattr(conf, 'DISABLED_PLUGINS', []))
+
+    def _is_disabled(self, name):
+        return name in self._get_disabled()
+
+    DISABLED_RE = re.compile('\nDISABLED_PLUGINS = .*')
+
+    def _update_disabled_plugins(self, disabled_plugins):
+        disabled_plugins = '\nDISABLED_PLUGINS = {}'.format(repr(disabled_plugins))
+
+        with open('conf.py') as f:
+            text = f.read()
+            match = self.DISABLED_RE.search(text)
+            if match is not None:
+                text_ = self.DISABLED_RE.sub(disabled_plugins, text)
+
+            else:
+                text_ = text + disabled_plugins
+
+        with open('conf.py', 'w') as f:
+            f.write(text_)
+            f.flush()
+
+    def _disable(self, name):
+        disabled_plugins = list(self._get_disabled()|set([name]))
+        self._update_disabled_plugins(disabled_plugins)
+        self._update_installed_disabled()
+        self.model.disable(name)
+
+    def _enable(self, name):
+        if self._is_disabled(name):
+            disabled_plugins = list(self._get_disabled() - set([name]))
+            self._update_disabled_plugins(disabled_plugins)
+            self.model.enable(name)
+        self._update_installed_disabled()
+
+    def assert_model_state_matches(self):
+        # NOTE: Can't check equality, since some plugins install other plugins.
+        # There is no way to find out the dependency before hand.
+        assert self._installed.issuperset(self.model.installed)
+        assert self._disabled == self.model.disabled
 
     @rule(name=plugin_name_generator())
     def install(self, name):
         self._install(name)
-        assert name in self._installed
+        if name in self.model.installed:
+            assert name in self._installed
+
+        else:
+            assert name in self.model.disabled
+            assert name not in self._installed
         self.assert_model_state_matches()
 
     @rule(name=plugin_name_generator())
@@ -127,18 +181,19 @@ class PluginStateMachine(RuleBasedStateMachine):
         assert name not in self._installed
         self.assert_model_state_matches()
 
-    def assert_model_state_matches(self):
-        # NOTE: Can't check equality, since some plugins install other plugins.
-        # There is no way to find out the dependency before hand.
-        assert self._installed.issuperset(self.model.installed)
+    @rule(name=plugin_name_generator())
+    def disable(self, name):
+        self._disable(name)
+        assert name not in self.model.installed
+        assert name not in self._installed
+        self.assert_model_state_matches()
 
-    # @rule(name=st.text())
-    # def disable(self, name):
-    #     pass
+    @rule(name=plugin_name_generator())
+    def enable(self, name):
+        self._enable(name)
+        assert ((name in self._installed) == (name in self.model.installed))
+        self.assert_model_state_matches()
 
-    # @rule(name=st.text())
-    # def enable(self, name):
-    #     pass
 
 class PluginTestCase(PluginStateMachine.TestCase):
 
