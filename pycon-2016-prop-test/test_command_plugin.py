@@ -10,7 +10,7 @@ import sys
 import tempfile
 
 from hypothesis import assume, settings, strategies as st
-from hypothesis.stateful import rule, RuleBasedStateMachine
+from hypothesis.stateful import precondition, rule, RuleBasedStateMachine
 import requests
 
 # from unittest.mock import patch
@@ -108,7 +108,8 @@ class PluginStateMachine(RuleBasedStateMachine):
         self.assert_model_state_matches()
 
     @rule(name=plugin_name_generator())
-    # FIXME: Use a precondition here instead of assume?
+    # FIXME: Not good enough precondition, can we do better?
+    @precondition(lambda self: len(self.model._installed) > 0)
     def remove(self, name):
         assume(name in self.model.installed)
         self._remove(name)
