@@ -1,0 +1,42 @@
+#+STARTUP: indent
+#+OPTIONS: toc:nil
+#+TITLE: Don't write tests, generate them!
+* Description
+Property-based testing (or Generative testing) is an interesting way of testing
+your code by defining properties of your code, and testing that they hold with
+random input.
+
+[[http://www.cs.tufts.edu/~nr/cs257/archive/john-hughes/quick.pdf][QuickCheck]] in Haskell, where this idea originated, has been ported to several
+languages and the [[http://hypothesis.works/][Hypothesis]] library provides an implementation of this for
+Python.
+
+This talk aims to give an introduction to Property based testing in general,
+and to Hypothesis in particular. The talk will:
+
+- Present a case for using Hypothesis with examples
+- Explain properties
+- Briefly outline data generation and shrinking
+- Give common patterns of coming up with properties
+
+* Target audience
+Intermediate
+* Proposal type
+Talks
+* Proposal section
+Testing
+* Prerequisites
+The audience should be comfortable reading Object oriented Python code, that
+uses decorators.  Experience in writing unit tests would go a long way to help
+appreciate the talk.
+* Content urls
+- A rough outline of the talk is [[https://github.com/punchagan/talks/tree/master/pycon-2016-prop-test/outline.org][here]]
+- (WIP) Slides and code for this talk are [[https://github.com/punchagan/talks/tree/master/pycon-2016-prop-test][here]]
+
+* Speaker info
+
+Puneeth likes to build tools that make lives of people (read as, mostly
+himself) easier. He has been programming in & teaching Python for the past 7
+years and helping build tools for Engineers and Scientists.
+
+Puneeth has given a couple of talks([[https://in.pycon.org/2012/funnel/pyconindia2012/71-new-kids-on-the-scipy-block/][1]], [[https://in.pycon.org/2012/funnel/pyconindia2012/72-enaml-pythonic-toolkit-independent-declarative-uis/][2]]) at previous PyCons, and has helped
+conduct numerous tutorials and workshops as a part of his work at [[http://python.fossee.in/about/][FOSSEE]].
