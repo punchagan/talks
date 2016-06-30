@@ -1,0 +1,29 @@
+- Examples (5-10 min)
+  - Sample example based tests
+  - Motivate property based test
+- Hypothesis basics (10 min)
+  - Simple test
+  - More on data generation
+  - Settings
+  - Minimization
+  - Shrinking?
+- Strategies for writing properties (10 min)
+  - Idempotence
+    f(f(x)) = f(x)
+  - Round trip
+    f^{-1}(f(x)) = x
+  - Invariance
+    g(f(x)) = g(x)
+  - Transformation
+    f(g(x)) = g'(f(x))
+  - Induction
+    f(x) = g(f(1), f(x-1))
+  - Verification
+    P(f(x)) == true
+  - Test Oracle
+    f(x) = g(x)
+- Conclusion (5 min)
+  - Summary of property based tests
+  - Mention some interesting case studies to look up
+  - No silver bullet
+  - Other references
