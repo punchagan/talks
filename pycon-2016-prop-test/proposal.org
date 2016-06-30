@@ -46,4 +46,4 @@ likes to enjoy the confidence given by a significant test coverage.
 Puneeth has given a couple of talks([[https://in.pycon.org/2012/funnel/pyconindia2012/71-new-kids-on-the-scipy-block/][1]], [[https://in.pycon.org/2012/funnel/pyconindia2012/72-enaml-pythonic-toolkit-independent-declarative-uis/][2]]) at previous PyCons, and has helped
 conduct numerous tutorials and workshops as a part of his work at [[http://python.fossee.in/about/][FOSSEE]].
 
-He blogs [[https://punchagan.muse-amuse.in][here]], and his open-source contributions are here.
+He blogs [[https://punchagan.muse-amuse.in][here]], and his open-source contributions are [[https://github.com/punchagan][here]].
