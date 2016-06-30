@@ -1,5 +1,5 @@
 #+STARTUP: indent
-#+Title: ??? Property based testing with Hypothesis
+#+Title: Don't write tests, Generate them!
 #+Author: Puneeth Chaganti
 #+Email: punchagan@muse-amuse.in
 
@@ -16,53 +16,37 @@
 
 #+REVEAL_ROOT: http://cdn.jsdelivr.net/reveal.js/3.0.0/
 
-* Hypothesis?
-* First attempt
+* Examples
+** Sample example based tests
+** Motivate property based test
+* Hypothesis basics
+** Simple test
+** More on data generation
+** Settings
+** Minimization
+** Shrinking?
+* Strategies for writing properties
+** Idempotence
+f(f(x)) = f(x)
+** Round trip
+f^{-1}(f(x)) = x
+** Invariance
+g(f(x)) = g(x)
+** Transformation
+f(g(x)) = g'(f(x))
+** Induction
+f(x) = g(f(1), f(x-1))
+** Verification
+P(f(x)) == true
+** Test Oracle
+f(x) = g(x)
+* Conclusion
+** Summary of property based tests
+** Mention some interesting case studies to look up
+** No silver bullet
+** Talk title stolen from John Huges
+** Other references
 
-#+BEGIN_SRC python
-  from django.contrib.auth.models import User
-  from hypothesis import given
-  from hypothesis.extra.django import TestCase
-  from hypothesis.extra.django.models import models
-  from hypothesis.extra.fakefactory import fake_factory
-
-  from home.models import Blog
-
-  user_strategy = models(User, username=fake_factory('user_name'))
-
-  def add_blog(user, feed_url):
-      blog, created = Blog.objects.get_or_create(
-          user=user,
-          feed_url=feed_url,
-          url=feed_url,
-      )
-      return blog, created
-
-
-  class BlogTests(TestCase):
-
-      @given(user_strategy, fake_factory('url'))
-      def test_blog_added(self, user, feed_url):
-          blog, created = add_blog(user, feed_url)
-          self.assertIsNotNone(blog)
-          self.assertIsNotNone(Blog.objects.get(feed_url=feed_url))
-
-      @given(user_strategy, fake_factory('url'))
-      def test_blog_added_unique(self, user, feed_url):
-          blog, created = add_blog(user, feed_url)
-          blog_, created_ = add_blog(user, feed_url)
-          self.assertEqual(blog, blog_)
-          self.assertFalse(created_)
-#+END_SRC
-
-- We are ourselves trying to add blogs and stuff.
-
-- A bug that goes uncaught here would be, different users adding the same
-  blog.  Even without concurrency.
-
-- Testing this bug for concurrency would be interesting!!!
-
-* Strategies
 * References
   :LOGBOOK:
   CLOCK: [2016-06-09 Thu 10:28]--[2016-06-09 Thu 10:28] =>  0:00
