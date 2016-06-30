@@ -17,7 +17,6 @@
 #+REVEAL_ROOT: http://cdn.jsdelivr.net/reveal.js/3.0.0/
 
 * Hypothesis?
-
 * First attempt
 
 #+BEGIN_SRC python
@@ -64,7 +63,6 @@
 - Testing this bug for concurrency would be interesting!!!
 
 * Strategies
-
 * References
   :LOGBOOK:
   CLOCK: [2016-06-09 Thu 10:28]--[2016-06-09 Thu 10:28] =>  0:00
@@ -85,8 +83,9 @@
 - http://www.slideshare.net/ScottWlaschin/an-introduction-to-property-based-testing
 - https://www.pluralsight.com/courses/fsharp-property-based-testing-introduction
 - [ ] http://research.microsoft.com/en-us/projects/pex/patterns.pdf
-- [ ] [[https://www.youtube.com/watch?v=hNhHmbiw4Rw][Property Based Testing: Shrinking Risk In Your Code]]
-- [ ] [[https://www.youtube.com/watch?v=mg5BeeYGjY0][Property based testing with Hypothesis (PyCon ZA)]]
+- [ ] http://developers.redhat.com/blog/2016/06/24/the-hypothesis-testing-library-for-python-an-introduction/
+- [X] [[https://www.youtube.com/watch?v=hNhHmbiw4Rw][Property Based Testing: Shrinking Risk In Your Code]]
+- [X] [[https://www.youtube.com/watch?v=mg5BeeYGjY0][Property based testing with Hypothesis (PyCon ZA)]]
 - [X] http://fsharpforfunandprofit.com/posts/property-based-testing-2/
 - [X] http://hypothesis.works/articles/rule-based-stateful-testing/
 - [X] http://goo.gl/g0mGgU
