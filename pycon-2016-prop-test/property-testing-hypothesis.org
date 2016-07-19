@@ -14,7 +14,7 @@
 #+REVEAL_THEME: night
 #+REVEAL_HLEVEL: 2
 
-#+REVEAL_ROOT: http://cdn.jsdelivr.net/reveal.js/3.0.0/
+#+REVEAL_ROOT: https://cdn.jsdelivr.net/reveal.js/3.0.0/
 
 * Examples
 ** Sample example based tests
