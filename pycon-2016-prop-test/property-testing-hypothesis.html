@@ -2,13 +2,15 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
-<title>??? Property based testing with Hypothesis</title>
+<title>Don't write tests, Generate them!</title>
 <meta name="author" content="(Puneeth Chaganti)"/>
 <style type="text/css">
 .underline { text-decoration: underline; }
 </style>
 <link rel="stylesheet" href="http://cdn.jsdelivr.net/reveal.js/3.0.0/css/reveal.css"/>
+
 <link rel="stylesheet" href="http://cdn.jsdelivr.net/reveal.js/3.0.0/css/theme/night.css" id="theme"/>
+
 
 <!-- If the query includes 'print-pdf', include the PDF print sheet -->
 <script>
@@ -24,94 +26,167 @@
 <body>
 <div class="reveal">
 <div class="slides">
-<section id="sec-title-slide">
-<h1>??? Property based testing with Hypothesis</h1>
-<h2>Puneeth Chaganti</h2>
-<h2><a href="mailto:punchagan@muse-amuse.in">punchagan@muse-amuse.in</a></h2>
-<h2></h2>
+<section id="sec-title-slide"><h1 class="title">Don't write tests, Generate them!</h1><h2 class="author">Puneeth Chaganti</h2><p class="date">Created: 2016-07-19 Tue 21:05</p>
 </section>
 <section id="table-of-contents">
 <div id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#/slide-org34c5d2d">Hypothesis?</a></li>
-<li><a href="#/slide-org6353750">First attempt</a></li>
-<li><a href="#/slide-orgf79bf1a">Strategies</a></li>
-<li><a href="#/slide-org85fd96c">References</a></li>
+<li><a href="#/slide-orga9b3e4b">Examples</a></li>
+<li><a href="#/slide-org1a9828c">Hypothesis basics</a></li>
+<li><a href="#/slide-org49c85e2">Strategies for writing properties</a></li>
+<li><a href="#/slide-org7efe9fd">Conclusion</a></li>
+<li><a href="#/slide-orgec09f25">References</a></li>
 </ul>
 </div>
 </div>
 </section>
 
 <section>
-<section id="slide-org34c5d2d">
-<h2 id="org34c5d2d">Hypothesis?</h2>
+<section id="slide-orga9b3e4b">
+<h2 id="orga9b3e4b">Examples</h2>
+<div class="outline-text-2" id="text-orga9b3e4b">
+</div></section>
+</section>
+<section>
+<section id="slide-orgd08c610">
+<h3 id="orgd08c610">Sample example based tests</h3>
+</section>
+</section>
+<section>
+<section id="slide-org835cd53">
+<h3 id="org835cd53">Motivate property based test</h3>
+</section>
+</section>
+<section>
+<section id="slide-org1a9828c">
+<h2 id="org1a9828c">Hypothesis basics</h2>
+<div class="outline-text-2" id="text-org1a9828c">
+</div></section>
+</section>
+<section>
+<section id="slide-org8badbe8">
+<h3 id="org8badbe8">Simple test</h3>
+</section>
+</section>
+<section>
+<section id="slide-org71bb48c">
+<h3 id="org71bb48c">More on data generation</h3>
+</section>
+</section>
+<section>
+<section id="slide-orgf0c7a92">
+<h3 id="orgf0c7a92">Settings</h3>
+</section>
+</section>
+<section>
+<section id="slide-org6a16d0c">
+<h3 id="org6a16d0c">Minimization</h3>
+</section>
+</section>
+<section>
+<section id="slide-org014565b">
+<h3 id="org014565b">Shrinking?</h3>
+</section>
+</section>
+<section>
+<section id="slide-org49c85e2">
+<h2 id="org49c85e2">Strategies for writing properties</h2>
+<div class="outline-text-2" id="text-org49c85e2">
+</div></section>
+</section>
+<section>
+<section id="slide-orgb491d3f">
+<h3 id="orgb491d3f">Idempotence</h3>
+<p>
+f(f(x)) = f(x)
+</p>
+</section>
+</section>
+<section>
+<section id="slide-orga27bdc6">
+<h3 id="orga27bdc6">Round trip</h3>
+<p>
+f<sup>-1</sup>(f(x)) = x
+</p>
+</section>
+</section>
+<section>
+<section id="slide-orgdbbb3e1">
+<h3 id="orgdbbb3e1">Invariance</h3>
+<p>
+g(f(x)) = g(x)
+</p>
+</section>
+</section>
+<section>
+<section id="slide-org374dd9f">
+<h3 id="org374dd9f">Transformation</h3>
+<p>
+f(g(x)) = g'(f(x))
+</p>
+</section>
+</section>
+<section>
+<section id="slide-org42674cc">
+<h3 id="org42674cc">Induction</h3>
+<p>
+f(x) = g(f(1), f(x-1))
+</p>
+</section>
+</section>
+<section>
+<section id="slide-org922c4f0">
+<h3 id="org922c4f0">Verification</h3>
+<p>
+P(f(x)) == true
+</p>
+</section>
+</section>
+<section>
+<section id="slide-org1244e1f">
+<h3 id="org1244e1f">Test Oracle</h3>
+<p>
+f(x) = g(x)
+</p>
+</section>
+</section>
+<section>
+<section id="slide-org7efe9fd">
+<h2 id="org7efe9fd">Conclusion</h2>
+<div class="outline-text-2" id="text-org7efe9fd">
+</div></section>
+</section>
+<section>
+<section id="slide-org857e149">
+<h3 id="org857e149">Summary of property based tests</h3>
+</section>
+</section>
+<section>
+<section id="slide-orgff2eab7">
+<h3 id="orgff2eab7">Mention some interesting case studies to look up</h3>
+</section>
+</section>
+<section>
+<section id="slide-org696aca5">
+<h3 id="org696aca5">No silver bullet</h3>
+</section>
+</section>
+<section>
+<section id="slide-orga72e9a4">
+<h3 id="orga72e9a4">Talk title stolen from John Huges</h3>
+</section>
+</section>
+<section>
+<section id="slide-org49db12d">
+<h3 id="org49db12d">Other references</h3>
 
 </section>
 </section>
 <section>
-<section id="slide-org6353750">
-<h2 id="org6353750">First attempt</h2>
-<div class="org-src-container">
-
-<pre  class="src src-python"><span style="color: #859900;">from</span> django.contrib.auth.models <span style="color: #859900;">import</span> User
-<span style="color: #859900;">from</span> hypothesis <span style="color: #859900;">import</span> given
-<span style="color: #859900;">from</span> hypothesis.extra.django <span style="color: #859900;">import</span> TestCase
-<span style="color: #859900;">from</span> hypothesis.extra.django.models <span style="color: #859900;">import</span> models
-<span style="color: #859900;">from</span> hypothesis.extra.fakefactory <span style="color: #859900;">import</span> fake_factory
-
-<span style="color: #859900;">from</span> home.models <span style="color: #859900;">import</span> Blog
-
-<span style="color: #268bd2;">user_strategy</span> = models<span style="color: #268bd2;">(</span>User, username=fake_factory<span style="color: #2aa198;">(</span><span style="color: #2aa198;">'user_name'</span><span style="color: #2aa198;">)</span><span style="color: #268bd2;">)</span>
-
-<span style="color: #859900;">def</span> <span style="color: #268bd2;">add_blog</span><span style="color: #268bd2;">(</span>user, feed_url<span style="color: #268bd2;">)</span>:
-    <span style="color: #268bd2;">blog</span>, <span style="color: #268bd2;">created</span> = Blog.objects.get_or_create<span style="color: #268bd2;">(</span>
-        user=user,
-        feed_url=feed_url,
-        url=feed_url,
-    <span style="color: #268bd2;">)</span>
-    <span style="color: #859900;">return</span> blog, created
-
-
-<span style="color: #859900;">class</span> <span style="color: #b58900;">BlogTests</span><span style="color: #268bd2;">(</span>TestCase<span style="color: #268bd2;">)</span>:
-
-    <span style="color: #b58900;">@given</span><span style="color: #268bd2;">(</span>user_strategy, fake_factory<span style="color: #2aa198;">(</span><span style="color: #2aa198;">'url'</span><span style="color: #2aa198;">)</span><span style="color: #268bd2;">)</span>
-    <span style="color: #859900;">def</span> <span style="color: #268bd2;">test_blog_added</span><span style="color: #268bd2;">(</span><span style="color: #859900;">self</span>, user, feed_url<span style="color: #268bd2;">)</span>:
-        <span style="color: #268bd2;">blog</span>, <span style="color: #268bd2;">created</span> = add_blog<span style="color: #268bd2;">(</span>user, feed_url<span style="color: #268bd2;">)</span>
-        <span style="color: #859900;">self</span>.assertIsNotNone<span style="color: #268bd2;">(</span>blog<span style="color: #268bd2;">)</span>
-        <span style="color: #859900;">self</span>.assertIsNotNone<span style="color: #268bd2;">(</span>Blog.objects.get<span style="color: #2aa198;">(</span>feed_url=feed_url<span style="color: #2aa198;">)</span><span style="color: #268bd2;">)</span>
-
-    <span style="color: #b58900;">@given</span><span style="color: #268bd2;">(</span>user_strategy, fake_factory<span style="color: #2aa198;">(</span><span style="color: #2aa198;">'url'</span><span style="color: #2aa198;">)</span><span style="color: #268bd2;">)</span>
-    <span style="color: #859900;">def</span> <span style="color: #268bd2;">test_blog_added_unique</span><span style="color: #268bd2;">(</span><span style="color: #859900;">self</span>, user, feed_url<span style="color: #268bd2;">)</span>:
-        <span style="color: #268bd2;">blog</span>, <span style="color: #268bd2;">created</span> = add_blog<span style="color: #268bd2;">(</span>user, feed_url<span style="color: #268bd2;">)</span>
-        <span style="color: #268bd2;">blog_</span>, <span style="color: #268bd2;">created_</span> = add_blog<span style="color: #268bd2;">(</span>user, feed_url<span style="color: #268bd2;">)</span>
-        <span style="color: #859900;">self</span>.assertEqual<span style="color: #268bd2;">(</span>blog, blog_<span style="color: #268bd2;">)</span>
-        <span style="color: #859900;">self</span>.assertFalse<span style="color: #268bd2;">(</span>created_<span style="color: #268bd2;">)</span>
-</pre>
-</div>
-
-<ul>
-<li>We are ourselves trying to add blogs and stuff.</li>
-
-<li>A bug that goes uncaught here would be, different users adding the same
-blog.  Even without concurrency.</li>
-
-<li>Testing this bug for concurrency would be interesting!!!</li>
-
-</ul>
-
-</section>
-</section>
-<section>
-<section id="slide-orgf79bf1a">
-<h2 id="orgf79bf1a">Strategies</h2>
-
-</section>
-</section>
-<section>
-<section id="slide-org85fd96c">
-<h2 id="org85fd96c">References</h2>
+<section id="slide-orgec09f25">
+<h2 id="orgec09f25">References</h2>
 <ul>
 <li><a href="http://basho.com/posts/technical/quickchecking-poolboy-for-fun-and-profit/">http://basho.com/posts/technical/quickchecking-poolboy-for-fun-and-profit/</a></li>
 <li><a href="http://www.fastcompany.com/28121/they-write-right-stuff">http://www.fastcompany.com/28121/they-write-right-stuff</a></li>
@@ -128,6 +203,9 @@ blog.  Even without concurrency.</li>
 <li><a href="http://www.slideshare.net/ScottWlaschin/an-introduction-to-property-based-testing">http://www.slideshare.net/ScottWlaschin/an-introduction-to-property-based-testing</a></li>
 <li><a href="https://www.pluralsight.com/courses/fsharp-property-based-testing-introduction">https://www.pluralsight.com/courses/fsharp-property-based-testing-introduction</a></li>
 <li class="off"><code>[&#xa0;]</code> <a href="http://research.microsoft.com/en-us/projects/pex/patterns.pdf">http://research.microsoft.com/en-us/projects/pex/patterns.pdf</a></li>
+<li class="off"><code>[&#xa0;]</code> <a href="http://developers.redhat.com/blog/2016/06/24/the-hypothesis-testing-library-for-python-an-introduction/">http://developers.redhat.com/blog/2016/06/24/the-hypothesis-testing-library-for-python-an-introduction/</a></li>
+<li class="on"><code>[X]</code> <a href="https://www.youtube.com/watch?v=hNhHmbiw4Rw">Property Based Testing: Shrinking Risk In Your Code</a></li>
+<li class="on"><code>[X]</code> <a href="https://www.youtube.com/watch?v=mg5BeeYGjY0">Property based testing with Hypothesis (PyCon ZA)</a></li>
 <li class="on"><code>[X]</code> <a href="http://fsharpforfunandprofit.com/posts/property-based-testing-2/">http://fsharpforfunandprofit.com/posts/property-based-testing-2/</a></li>
 <li class="on"><code>[X]</code> <a href="http://hypothesis.works/articles/rule-based-stateful-testing/">http://hypothesis.works/articles/rule-based-stateful-testing/</a></li>
 <li class="on"><code>[X]</code> <a href="http://goo.gl/g0mGgU">http://goo.gl/g0mGgU</a></li>
