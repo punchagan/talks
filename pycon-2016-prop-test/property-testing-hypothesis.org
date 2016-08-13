@@ -16,41 +16,406 @@
 
 #+REVEAL_ROOT: https://cdn.jsdelivr.net/reveal.js/3.0.0/
 
-* Examples
-** Sample example based tests
+* Introduction
+** Example based tests
+- Given :: Setup some *example* data
+- When :: Perform actions
+- Then :: Assert something
+
+#+BEGIN_NOTES
+- Catch regressions
+- Catch most kinds of bugs, give confidence
+- A loose specification of the code
+
+- BDD Keywords, but unittests do the same thing
+#+END_NOTES
+
+** Examples
+#+BEGIN_SRC python
+  def divide(x, y):
+      """Return the value of x divided by y."""
+      return x/y
+
+  def test_division():
+      assert divide(15, 5) == 3
+#+END_SRC
+
+*** TODO Add more examples
+
+** Issues with example based tests
+- Too rigid/specific?
+- Lots of repetition
+- Surprisingly manual
+- How much is too much?
+- Missed edge cases in development also missed in testing?
 ** Motivate property based test
+- Given :: *Random* data matching some specification
+- When :: Perform actions
+- Then :: Assert some *properties*
 * Hypothesis basics
+** What is Hypothesis
+- a modern implementation of property based testing
+- Plans for Java/C/C++ version
+- ~pip install hypothesis~
+#+BEGIN_NOTES
+Mostly just a bunch of strategies to generate different kinds of data!
+#+END_NOTES
 ** Simple test
-** More on data generation
+#+BEGIN_SRC python
+  from hypothesis import strategies as st, given
+
+  @given(st.integers(), st.integers())
+  def test_integers_are_commutative(x, y):
+      assert x + y == y + x
+
+  @given(st.floats(), st.floats())
+  def test_floats_are_commutative(x, y):
+      assert x + y == y + x
+#+END_SRC
+#+BEGIN_NOTES
+- Parametrized tests similar to py.test
+- Random inputs for parameters
+#+END_NOTES
+** Data generation
+*** Generators for builtins
+
+#+BEGIN_SRC python
+  from hypothesis import strategies as st
+
+  def sample(strategy, n=3):
+      return [strategy.example() for _ in range(n)]
+
+  print(sample(st.integers()))
+  print(sample(st.floats()))
+  print(sample(st.complex_numbers()))
+  print(sample(st.text(max_size=3)))
+  print(sample(st.lists(st.integers())))
+#+END_SRC
+
+#+BEGIN_EXAMPLE
+  [-7435755662106, -49, -1295624]
+  [-9.266256382731017e+17, -0.19780830243100944, -2.4010523231296193e+61]
+  [(-0.99999-0.99999j), (-2.220446049250313e-16+nanj), (0.003554608069336136-1.923176004582495e-275j)]
+  ['', '\U000ded7f9', '']
+  [[52647858669059, -31758544979, 71365626], [0], []]
+#+END_EXAMPLE
+
+*** TODO Powerful ways of combining them
+
+#+BEGIN_SRC python
+  from hypothesis import strategies as st
+
+  st.recursive?
+  st.streaming?
+  st.builds?
+  st.composite?
+  st.shared?
+#+END_SRC
+
 ** Settings
-** Minimization
-** Shrinking?
+- Can configure
+  - max_examples
+  - max_iterations
+  - max_shrinks
+  - verbosity
+- Can be configured globally or per-test
+- settings profiles -- use different settings for CI/development
+
+*** Per-test config example
+
+#+BEGIN_SRC python
+  from hypothesis import given, settings, strategies as st, Verbosity
+
+  @given(st.integers())
+  @settings(max_examples=500, verbosity=Verbosity.verbose)
+  def test_this_thoroughly(x):
+      pass
+#+END_SRC
+
+** TODO Shrinking?
 * Strategies for writing properties
+** TODO Code doesn't explode
+
 ** Idempotence
-f(f(x)) = f(x)
+
+Already been done!
+
+- Sorting a list
+- Rounding a number
+- PUT and DELETE should be idempotent
+- captialize/upper/lower/strip a string
+
+#+BEGIN_SRC python
+  from hypothesis import strategies as st, given
+
+  @given(st.lists(st.integers()))
+  def test_sort_idempotence(xs):
+      assert sorted(xs) == sorted(sorted(xs))
+
+  @given(st.text())
+  def test_text_idempotence(s):
+      assert s.upper() == s.upper().upper()
+      assert s.lower() == s.lower().lower()
+      assert s.capitalize() == s.capitalize().capitalize()
+#+END_SRC
+
+#+BEGIN_NOTES
+- Standard requires PUT, DELETE and safe request methods to be idempotent
+- Anything functional is idempotent, yeah?
+#+END_NOTES
+
 ** Round trip
-f^{-1}(f(x)) = x
+There and back again
+
+- Encode-decode invariance
+- Reversing a reversed list
+
+#+BEGIN_SRC python
+  from hypothesis import given, strategies as st
+
+  def reverse(ls):
+      return ls[::-1]
+
+  @given(st.lists(st.integers()))
+  def test_reversing_reversed_list(ls):
+      assert ls == reverse(reverse(ls))
+#+END_SRC
+
+#+REVEAL: split
+
+[[https://www.youtube.com/watch?v=jvwfDdgg93E][Matt Bacchman]] talks about a dateutil bug in his talk
+
+#+BEGIN_SRC python
+  import datetime
+  import dateutil
+
+  datetime(99, 1, 1, 0, 0).isoformat()   # '0099-01-01T00:00:00'
+  dateutil.parse('0099-01-01T00:00:00')  # datetime.datetime(1999, 1, 1, 0, 0)
+#+END_SRC
+
+#+BEGIN_NOTES
+- Couple of bug in Mercurial
+- http://hypothesis.works/articles/encode-decode-invariant/
+#+END_NOTES
 ** Invariance
-g(f(x)) = g(x)
+
+Some things never change.
+
+- Sorting or reversing shouldn't change
+  - length of list
+  - elements of the list
+
+#+BEGIN_SRC python
+  from hypothesis import given, strategies as st
+  from collections import Counter
+
+  def reverse(ls):
+      return ls[::-1]
+
+  @given(st.lists(st.integers()))
+  def test_sorting_invariance(ls):
+      assert Counter(ls) == Counter(sorted(ls))
+
+  @given(st.lists(st.integers()))
+  def test_reversing_invariance(ls):
+      assert Counter(ls) == Counter(reverse(ls))
+
+#+END_SRC
+
+#+BEGIN_NOTES
+- What are the invariants?
+#+END_NOTES
+
 ** Transformation
-f(g(x)) = g'(f(x))
+
+Different paths, same destination
+
+*** List reversing
+
+#+BEGIN_SRC python
+  from hypothesis import given, strategies as st
+  def reverse(ls):
+      return ls[::-1]
+
+  @given(st.lists(st.integers()), st.integers())
+  def test_list_reverse_transformation(xs, x):
+      assert reverse(xs + [x]) == [x] + reverse(xs)
+#+END_SRC
+
+*** Change text to uppercase
+#+BEGIN_SRC python
+  from string import ascii_uppercase
+  from hypothesis import given, strategies as st
+
+
+  @given(st.text(), st.text(alphabet=ascii_uppercase))
+  def test_uppercase_transformation(text, upper_suffix):
+      assert text.upper() + upper_suffix == (text + upper_suffix).upper()
+#+END_SRC
+
 ** Induction
-f(x) = g(f(1), f(x-1))
+
+Solve a smaller problem first
+
+#+BEGIN_SRC python
+  from hypothesis import given, strategies as st
+
+  def is_sorted(ls):
+      return True if len(ls) <= 1 else ls[0] <= ls[1] and is_sorted(ls[1:])
+
+  @given(st.lists(st.integers()))
+  def test_list_sorting(xs):
+      assert is_sorted(sorted(xs))
+#+END_SRC
+
 ** Verification
-P(f(x)) == true
+
+Assert that a property holds true
+
+- Sorting actually returns a sorted list
+- Stripping white space leaves no leading/trailing white space
+- Check whether a string split is working
+- Computing the mean of a list of numbers
+
+#+BEGIN_NOTES
+- Proving result is right is hard without duplicating Code Under Test
+- But, checking result is not wrong is easy
+#+END_NOTES
+
+*** Computing the mean
+#+BEGIN_SRC python
+  from hypothesis import given, strategies as st
+
+  @given(st.lists(st.floats(allow_nan=False, allow_infinity=False)), min_size=1)
+  def test_mean_is_within_reasonable_bounds(ls):
+      assert min(ls) <= mean(ls) <= max(ls)
+#+END_SRC
+
+#+BEGIN_NOTES
+Looks like a very dumb test, but isn't really...
+#+END_NOTES
+
+#+REVEAL: split
+
+Going by definition ...
+#+BEGIN_SRC python
+  def mean(xs):
+      return sum(xs) / len(xs)
+#+END_SRC
+
+#+BEGIN_EXAMPLE
+  ls = [8.988465674311579e+307, 8.98846567431158e+307]
+
+      @given(st.lists(st.floats(allow_nan=False, allow_infinity=False), min_size=1))
+      def test_mean_is_within_reasonable_bounds(ls):
+  >       assert min(ls) <= mean(ls) <= max(ls)
+  E       assert inf <= 8.98846567431158e+307
+  E        +  where inf = mean([8.988465674311579e+307, 8.98846567431158e+307])
+  E        +  and   8.98846567431158e+307 = max([8.988465674311579e+307, 8.98846567431158e+307])
+
+#+END_EXAMPLE
+
+#+BEGIN_NOTES
+Overflow!
+#+END_NOTES
+
+#+REVEAL: split
+
+Avoiding overflow
+#+BEGIN_SRC python
+  def mean(xs):
+      n = len(xs)
+      return sum(x / n  for x in xs)
+#+END_SRC
+
+#+BEGIN_EXAMPLE
+  ls = [1.390671161567e-309, 1.390671161567e-309, 1.390671161567e-309]
+
+      @given(st.lists(st.floats(allow_nan=False, allow_infinity=False), min_size=1))
+      def test_mean_is_within_reasonable_bounds(ls):
+  >       assert min(ls) <= mean(ls) <= max(ls)
+  E       assert 1.390671161567e-309 <= 1.390671161566996e-309
+  E        +  where 1.390671161567e-309 = min([1.390671161567e-309, 1.390671161567e-309, 1.390671161567e-309])
+  E        +  and   1.390671161566996e-309 = mean([1.390671161567e-309, 1.390671161567e-309, 1.390671161567e-309])
+#+END_EXAMPLE
+
+#+BEGIN_NOTES
+Inaccurate!
+#+END_NOTES
+
+#+REVEAL: split
+
+For instance, ~numpy~
+#+BEGIN_SRC python
+  import numpy as np
+  def mean(xs):
+      return np.array(xs).mean()
+#+END_SRC
+
+#+BEGIN_EXAMPLE
+  ls = [8.988465674311579e+307, 8.98846567431158e+307]
+
+      @given(st.lists(st.floats(allow_nan=False, allow_infinity=False), min_size=1))
+      def test_mean_is_within_reasonable_bounds(ls):
+  >       assert min(ls) <= mean(ls) <= max(ls)
+  E       assert inf <= 8.98846567431158e+307
+  E        +  where inf = mean([8.988465674311579e+307, 8.98846567431158e+307])
+  E        +  and   8.98846567431158e+307 = max([8.988465674311579e+307, 8.98846567431158e+307])
+#+END_EXAMPLE
+
+Read this [[https://hal.archives-ouvertes.fr/file/index/docid/576641/filename/computing-midpoint.pdf][30 page paper]], to see how to do it right!
+
+#+BEGIN_NOTES
+- Floating points are hard!
+- Even a lax constraint catches bugs
+- Layer more tests on this
+- Courtesy: Hypothesis [[http://hypothesis.works/articles/calculating-the-mean/][blog post]]
+#+END_NOTES
+
 ** Test Oracle
-f(x) = g(x)
+
+Use existing code to test new code
+
+- Optimizing
+- Refactoring
+
+#+BEGIN_SRC python
+  from hypothesis import strategies as st, given
+  from my_lib import my_sort
+
+  @given(st.lists(st.integers()))
+  def test_my_sort(xs):
+      assert sorted(xs) == my_sort(xs)
+#+END_SRC
+
+#+BEGIN_NOTES
+- Too slow
+- Hard to parallelize
+- Whatever other reason for refactoring
+#+END_NOTES
+
+** Stateful testing??
+- Testing against a model
 * Conclusion
 ** Summary of property based tests
-** Mention some interesting case studies to look up
+- Hypothesis -- Python library for Property-based testing
+- Provides the following
+  - Generate data, given a requirement
+  - Check that a *property* holds true
+  - Shrink failed cases to simplest case
 ** No silver bullet
-** Talk title stolen from John Huges
-** Other references
+- Property-based tests are more general
+- More concise than a bunch of examples
+- Reveal issues overlooked by developer -- like having others test your code
+- Harder to write, and force you to think
+- Useful design for better tests
+- Talk title stolen from John Huges -- author of quickcheck
+** Some interesting case studies
+- Bug in using [[https://www.youtube.com/watch?v=JMhNINPo__g][transients in Clojure-1.5]]
+- Bugs in [[https://vimeo.com/68383317][Riak]] DB
+- [[http://basho.com/posts/technical/quickchecking-poolboy-for-fun-and-profit/][Bugs in poolboy]] -- Erlang worker pool lib used by Riak
 
-* References
-  :LOGBOOK:
-  CLOCK: [2016-06-09 Thu 10:28]--[2016-06-09 Thu 10:28] =>  0:00
-  :END:
+* COMMENT References
 
 - http://basho.com/posts/technical/quickchecking-poolboy-for-fun-and-profit/
 - http://www.fastcompany.com/28121/they-write-right-stuff

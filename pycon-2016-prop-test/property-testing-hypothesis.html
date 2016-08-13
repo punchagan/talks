@@ -26,191 +26,680 @@
 <body>
 <div class="reveal">
 <div class="slides">
-<section id="sec-title-slide"><h1 class="title">Don't write tests, Generate them!</h1><h2 class="author">Puneeth Chaganti</h2><p class="date">Created: 2016-07-19 Tue 21:15</p>
+<section id="sec-title-slide"><h1 class="title">Don't write tests, Generate them!</h1><h2 class="author">Puneeth Chaganti</h2><p class="date">Created: 2016-08-13 Sat 16:00</p>
 </section>
 <section id="table-of-contents">
 <div id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#/slide-org865c60b">Examples</a></li>
-<li><a href="#/slide-orgbf177a5">Hypothesis basics</a></li>
-<li><a href="#/slide-org77f53c9">Strategies for writing properties</a></li>
-<li><a href="#/slide-org2f10eb3">Conclusion</a></li>
-<li><a href="#/slide-org2c865f9">References</a></li>
+<li><a href="#/slide-orgb2afa5a">Introduction</a></li>
+<li><a href="#/slide-org8bf87d7">Hypothesis basics</a></li>
+<li><a href="#/slide-org4630302">Strategies for writing properties</a></li>
+<li><a href="#/slide-orgaadbafb">Conclusion</a></li>
 </ul>
 </div>
 </div>
 </section>
 
 <section>
-<section id="slide-org865c60b">
-<h2 id="org865c60b">Examples</h2>
-<div class="outline-text-2" id="text-org865c60b">
+<section id="slide-orgb2afa5a">
+<h2 id="orgb2afa5a">Introduction</h2>
+<div class="outline-text-2" id="text-orgb2afa5a">
 </div></section>
 </section>
 <section>
-<section id="slide-org3c97463">
-<h3 id="org3c97463">Sample example based tests</h3>
-</section>
-</section>
-<section>
-<section id="slide-orgc6a0e6a">
-<h3 id="orgc6a0e6a">Motivate property based test</h3>
-</section>
-</section>
-<section>
-<section id="slide-orgbf177a5">
-<h2 id="orgbf177a5">Hypothesis basics</h2>
-<div class="outline-text-2" id="text-orgbf177a5">
-</div></section>
-</section>
-<section>
-<section id="slide-org1b13943">
-<h3 id="org1b13943">Simple test</h3>
-</section>
-</section>
-<section>
-<section id="slide-orgf5675f7">
-<h3 id="orgf5675f7">More on data generation</h3>
-</section>
-</section>
-<section>
-<section id="slide-org2e727be">
-<h3 id="org2e727be">Settings</h3>
-</section>
-</section>
-<section>
-<section id="slide-org3cda06c">
-<h3 id="org3cda06c">Minimization</h3>
-</section>
-</section>
-<section>
-<section id="slide-org7acbdc3">
-<h3 id="org7acbdc3">Shrinking?</h3>
-</section>
-</section>
-<section>
-<section id="slide-org77f53c9">
-<h2 id="org77f53c9">Strategies for writing properties</h2>
-<div class="outline-text-2" id="text-org77f53c9">
-</div></section>
-</section>
-<section>
-<section id="slide-orgef7047c">
-<h3 id="orgef7047c">Idempotence</h3>
-<p>
-f(f(x)) = f(x)
-</p>
-</section>
-</section>
-<section>
-<section id="slide-org1cf306e">
-<h3 id="org1cf306e">Round trip</h3>
-<p>
-f<sup>-1</sup>(f(x)) = x
-</p>
-</section>
-</section>
-<section>
-<section id="slide-org1af139d">
-<h3 id="org1af139d">Invariance</h3>
-<p>
-g(f(x)) = g(x)
-</p>
-</section>
-</section>
-<section>
-<section id="slide-org8b19864">
-<h3 id="org8b19864">Transformation</h3>
-<p>
-f(g(x)) = g'(f(x))
-</p>
-</section>
-</section>
-<section>
-<section id="slide-org1c84a0d">
-<h3 id="org1c84a0d">Induction</h3>
-<p>
-f(x) = g(f(1), f(x-1))
-</p>
-</section>
-</section>
-<section>
-<section id="slide-orgc25da04">
-<h3 id="orgc25da04">Verification</h3>
-<p>
-P(f(x)) == true
-</p>
-</section>
-</section>
-<section>
-<section id="slide-org65d1250">
-<h3 id="org65d1250">Test Oracle</h3>
-<p>
-f(x) = g(x)
-</p>
-</section>
-</section>
-<section>
-<section id="slide-org2f10eb3">
-<h2 id="org2f10eb3">Conclusion</h2>
-<div class="outline-text-2" id="text-org2f10eb3">
-</div></section>
-</section>
-<section>
-<section id="slide-org893954b">
-<h3 id="org893954b">Summary of property based tests</h3>
-</section>
-</section>
-<section>
-<section id="slide-org1c5b453">
-<h3 id="org1c5b453">Mention some interesting case studies to look up</h3>
-</section>
-</section>
-<section>
-<section id="slide-org1b49d85">
-<h3 id="org1b49d85">No silver bullet</h3>
-</section>
-</section>
-<section>
-<section id="slide-org00205fd">
-<h3 id="org00205fd">Talk title stolen from John Huges</h3>
-</section>
-</section>
-<section>
-<section id="slide-orgdbe9d9a">
-<h3 id="orgdbe9d9a">Other references</h3>
+<section id="slide-org6573205">
+<h3 id="org6573205">Example based tests</h3>
+<dl>
+<dt>Given</dt><dd>Setup some <b>example</b> data</dd>
+<dt>When</dt><dd>Perform actions</dd>
+<dt>Then</dt><dd>Assert something</dd>
+
+</dl>
+
+<aside class="notes">
+<ul>
+<li>Catch regressions</li>
+<li>Catch most kinds of bugs, give confidence</li>
+<li>A loose specification of the code</li>
+
+<li>BDD Keywords, but unittests do the same thing</li>
+
+</ul>
+
+</aside>
 
 </section>
 </section>
 <section>
-<section id="slide-org2c865f9">
-<h2 id="org2c865f9">References</h2>
+<section id="slide-orgb706f7e">
+<h3 id="orgb706f7e">Examples</h3>
+<div class="org-src-container">
+
+<pre  class="src src-python"><span style="color: #859900;">def</span> <span style="color: #268bd2;">divide</span><span style="color: #268bd2;">(</span>x, y<span style="color: #268bd2;">)</span>:
+    <span style="color: #586e75; font-style: italic;">"""Return the value of x divided by y."""</span>
+    <span style="color: #859900;">return</span> x/y
+
+<span style="color: #859900;">def</span> <span style="color: #268bd2;">test_division</span><span style="color: #268bd2;">()</span>:
+    <span style="color: #859900;">assert</span> divide<span style="color: #268bd2;">(</span>15, 5<span style="color: #268bd2;">)</span> == 3
+</pre>
+</div>
+
+</section>
+<section id="slide-org79677a7">
+<h4 id="org79677a7"><span class="todo TODO">TODO</span> Add more examples</h4>
+
+</section>
+</section>
+<section>
+<section id="slide-org829e17a">
+<h3 id="org829e17a">Issues with example based tests</h3>
 <ul>
-<li><a href="http://basho.com/posts/technical/quickchecking-poolboy-for-fun-and-profit/">http://basho.com/posts/technical/quickchecking-poolboy-for-fun-and-profit/</a></li>
-<li><a href="http://www.fastcompany.com/28121/they-write-right-stuff">http://www.fastcompany.com/28121/they-write-right-stuff</a></li>
-<li><a href="http://hypothesis.works/articles/anatomy-of-a-test/">http://hypothesis.works/articles/anatomy-of-a-test/</a></li>
-<li><a href="http://fsharpforfunandprofit.com/pbt/">http://fsharpforfunandprofit.com/pbt/</a></li>
-<li><a href="http://book.realworldhaskell.org/read/testing-and-quality-assurance.html">http://book.realworldhaskell.org/read/testing-and-quality-assurance.html</a></li>
-<li><a href="http://qala.io/blog/randomized-testing.html">http://qala.io/blog/randomized-testing.html</a></li>
-<li><a href="http://www.cse.chalmers.se/edu/year/2012/course/DIT848/files/13-GL-QuickCheck.pdf">http://www.cse.chalmers.se/edu/year/2012/course/DIT848/files/13-GL-QuickCheck.pdf</a></li>
-<li><a href="http://danluu.com/testing/">http://danluu.com/testing/</a></li>
-<li><a href="http://www.cs.tufts.edu/~nr/cs257/archive/john-hughes/quick.pdf">http://www.cs.tufts.edu/~nr/cs257/archive/john-hughes/quick.pdf</a></li>
-<li><a href="https://hypothesis.readthedocs.io/en/latest/details.html">https://hypothesis.readthedocs.io/en/latest/details.html</a></li>
-<li><a href="http://www.sqlite.org/testing.html#fuzztesting">http://www.sqlite.org/testing.html#fuzztesting</a></li>
-<li><a href="http://cs-syd.eu/posts/2016-02-28-testing-the-super-user-spark-with-hspec.html">http://cs-syd.eu/posts/2016-02-28-testing-the-super-user-spark-with-hspec.html</a></li>
-<li><a href="http://www.slideshare.net/ScottWlaschin/an-introduction-to-property-based-testing">http://www.slideshare.net/ScottWlaschin/an-introduction-to-property-based-testing</a></li>
-<li><a href="https://www.pluralsight.com/courses/fsharp-property-based-testing-introduction">https://www.pluralsight.com/courses/fsharp-property-based-testing-introduction</a></li>
-<li class="off"><code>[&#xa0;]</code> <a href="http://research.microsoft.com/en-us/projects/pex/patterns.pdf">http://research.microsoft.com/en-us/projects/pex/patterns.pdf</a></li>
-<li class="off"><code>[&#xa0;]</code> <a href="http://developers.redhat.com/blog/2016/06/24/the-hypothesis-testing-library-for-python-an-introduction/">http://developers.redhat.com/blog/2016/06/24/the-hypothesis-testing-library-for-python-an-introduction/</a></li>
-<li class="on"><code>[X]</code> <a href="https://www.youtube.com/watch?v=hNhHmbiw4Rw">Property Based Testing: Shrinking Risk In Your Code</a></li>
-<li class="on"><code>[X]</code> <a href="https://www.youtube.com/watch?v=mg5BeeYGjY0">Property based testing with Hypothesis (PyCon ZA)</a></li>
-<li class="on"><code>[X]</code> <a href="http://fsharpforfunandprofit.com/posts/property-based-testing-2/">http://fsharpforfunandprofit.com/posts/property-based-testing-2/</a></li>
-<li class="on"><code>[X]</code> <a href="http://hypothesis.works/articles/rule-based-stateful-testing/">http://hypothesis.works/articles/rule-based-stateful-testing/</a></li>
-<li class="on"><code>[X]</code> <a href="http://goo.gl/g0mGgU">http://goo.gl/g0mGgU</a></li>
-<li class="on"><code>[X]</code> <a href="https://vimeo.com/68383317">John Hughes: Race Conditions, Distribution, Interactions&#x2013;Testing the Hard Stuff and Staying Sane</a></li>
-<li class="on"><code>[X]</code> <a href="https://www.youtube.com/watch?v=shngiiBfD80">Jessica Kerr: Property-based Testing for Better Code</a></li>
+<li>Too rigid/specific?</li>
+<li>Lots of repetition</li>
+<li>Surprisingly manual</li>
+<li>How much is too much?</li>
+<li>Missed edge cases in development also missed in testing?</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-orgc28ecb5">
+<h3 id="orgc28ecb5">Motivate property based test</h3>
+<dl>
+<dt>Given</dt><dd><b>Random</b> data matching some specification</dd>
+<dt>When</dt><dd>Perform actions</dd>
+<dt>Then</dt><dd>Assert some <b>properties</b></dd>
+
+</dl>
+</section>
+</section>
+<section>
+<section id="slide-org8bf87d7">
+<h2 id="org8bf87d7">Hypothesis basics</h2>
+<div class="outline-text-2" id="text-org8bf87d7">
+</div></section>
+</section>
+<section>
+<section id="slide-orgfe62a05">
+<h3 id="orgfe62a05">What is Hypothesis</h3>
+<ul>
+<li>a modern implementation of property based testing</li>
+<li>Plans for Java/C/C++ version</li>
+<li><code>pip install hypothesis</code></li>
+
+</ul>
+<aside class="notes">
+<p>
+Mostly just a bunch of strategies to generate different kinds of data!
+</p>
+
+</aside>
+</section>
+</section>
+<section>
+<section id="slide-org98cf9c7">
+<h3 id="org98cf9c7">Simple test</h3>
+<div class="org-src-container">
+
+<pre  class="src src-python"><span style="color: #859900;">from</span> hypothesis <span style="color: #859900;">import</span> strategies <span style="color: #859900;">as</span> st, given
+
+<span style="color: #b58900;">@given</span><span style="color: #268bd2;">(</span>st.integers<span style="color: #2aa198;">()</span>, st.integers<span style="color: #2aa198;">()</span><span style="color: #268bd2;">)</span>
+<span style="color: #859900;">def</span> <span style="color: #268bd2;">test_integers_are_commutative</span><span style="color: #268bd2;">(</span>x, y<span style="color: #268bd2;">)</span>:
+    <span style="color: #859900;">assert</span> x + y == y + x
+
+<span style="color: #b58900;">@given</span><span style="color: #268bd2;">(</span>st.floats<span style="color: #2aa198;">()</span>, st.floats<span style="color: #2aa198;">()</span><span style="color: #268bd2;">)</span>
+<span style="color: #859900;">def</span> <span style="color: #268bd2;">test_floats_are_commutative</span><span style="color: #268bd2;">(</span>x, y<span style="color: #268bd2;">)</span>:
+    <span style="color: #859900;">assert</span> x + y == y + x
+</pre>
+</div>
+<aside class="notes">
+<ul>
+<li>Parametrized tests similar to py.test</li>
+<li>Random inputs for parameters</li>
+
+</ul>
+
+</aside>
+</section>
+</section>
+<section>
+<section id="slide-org53eb3cb">
+<h3 id="org53eb3cb">Data generation</h3>
+<div class="outline-text-3" id="text-org53eb3cb">
+</div></section>
+<section id="slide-org904aec5">
+<h4 id="org904aec5">Generators for builtins</h4>
+<div class="org-src-container">
+
+<pre  class="src src-python"><span style="color: #859900;">from</span> hypothesis <span style="color: #859900;">import</span> strategies <span style="color: #859900;">as</span> st
+
+<span style="color: #859900;">def</span> <span style="color: #268bd2;">sample</span><span style="color: #268bd2;">(</span>strategy, n=3<span style="color: #268bd2;">)</span>:
+    <span style="color: #859900;">return</span> <span style="color: #268bd2;">[</span>strategy.example<span style="color: #2aa198;">()</span> <span style="color: #859900;">for</span> _ <span style="color: #859900;">in</span> <span style="color: #859900;">range</span><span style="color: #2aa198;">(</span>n<span style="color: #2aa198;">)</span><span style="color: #268bd2;">]</span>
+
+<span style="color: #859900;">print</span><span style="color: #268bd2;">(</span>sample<span style="color: #2aa198;">(</span>st.integers<span style="color: #b58900;">()</span><span style="color: #2aa198;">)</span><span style="color: #268bd2;">)</span>
+<span style="color: #859900;">print</span><span style="color: #268bd2;">(</span>sample<span style="color: #2aa198;">(</span>st.floats<span style="color: #b58900;">()</span><span style="color: #2aa198;">)</span><span style="color: #268bd2;">)</span>
+<span style="color: #859900;">print</span><span style="color: #268bd2;">(</span>sample<span style="color: #2aa198;">(</span>st.complex_numbers<span style="color: #b58900;">()</span><span style="color: #2aa198;">)</span><span style="color: #268bd2;">)</span>
+<span style="color: #859900;">print</span><span style="color: #268bd2;">(</span>sample<span style="color: #2aa198;">(</span>st.text<span style="color: #b58900;">(</span>max_size=3<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span><span style="color: #268bd2;">)</span>
+<span style="color: #859900;">print</span><span style="color: #268bd2;">(</span>sample<span style="color: #2aa198;">(</span>st.lists<span style="color: #b58900;">(</span>st.integers<span style="color: #dc322f;">()</span><span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span><span style="color: #268bd2;">)</span>
+</pre>
+</div>
+
+<pre class="example">
+[-7435755662106, -49, -1295624]
+[-9.266256382731017e+17, -0.19780830243100944, -2.4010523231296193e+61]
+[(-0.99999-0.99999j), (-2.220446049250313e-16+nanj), (0.003554608069336136-1.923176004582495e-275j)]
+['', '\U000ded7f9', '']
+[[52647858669059, -31758544979, 71365626], [0], []]
+</pre>
+
+</section>
+<section id="slide-orgae732c5">
+<h4 id="orgae732c5"><span class="todo TODO">TODO</span> Powerful ways of combining them</h4>
+<div class="org-src-container">
+
+<pre  class="src src-python"><span style="color: #859900;">from</span> hypothesis <span style="color: #859900;">import</span> strategies <span style="color: #859900;">as</span> st
+
+st.recursive?
+st.streaming?
+st.builds?
+st.composite?
+st.shared?
+</pre>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-orga960ebb">
+<h3 id="orga960ebb">Settings</h3>
+<ul>
+<li>Can configure
+<ul>
+<li>max_examples</li>
+<li>max_iterations</li>
+<li>max_shrinks</li>
+<li>verbosity</li>
+
+</ul></li>
+<li>Can be configured globally or per-test</li>
+<li>settings profiles &#x2013; use different settings for CI/development</li>
+
+</ul>
+
+</section>
+<section id="slide-org6c8931d">
+<h4 id="org6c8931d">Per-test config example</h4>
+<div class="org-src-container">
+
+<pre  class="src src-python"><span style="color: #859900;">from</span> hypothesis <span style="color: #859900;">import</span> given, settings, strategies <span style="color: #859900;">as</span> st, Verbosity
+
+<span style="color: #b58900;">@given</span><span style="color: #268bd2;">(</span>st.integers<span style="color: #2aa198;">()</span><span style="color: #268bd2;">)</span>
+<span style="color: #b58900;">@settings</span><span style="color: #268bd2;">(</span>max_examples=500, verbosity=Verbosity.verbose<span style="color: #268bd2;">)</span>
+<span style="color: #859900;">def</span> <span style="color: #268bd2;">test_this_thoroughly</span><span style="color: #268bd2;">(</span>x<span style="color: #268bd2;">)</span>:
+    <span style="color: #859900;">pass</span>
+</pre>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-org0350595">
+<h3 id="org0350595"><span class="todo TODO">TODO</span> Shrinking?</h3>
+</section>
+</section>
+<section>
+<section id="slide-org4630302">
+<h2 id="org4630302">Strategies for writing properties</h2>
+<div class="outline-text-2" id="text-org4630302">
+</div></section>
+</section>
+<section>
+<section id="slide-orge9d4b10">
+<h3 id="orge9d4b10"><span class="todo TODO">TODO</span> Code doesn't explode</h3>
+
+</section>
+</section>
+<section>
+<section id="slide-org43e4b6b">
+<h3 id="org43e4b6b">Idempotence</h3>
+<p>
+Already been done!
+</p>
+
+<ul>
+<li>Sorting a list</li>
+<li>Rounding a number</li>
+<li>PUT and DELETE should be idempotent</li>
+<li>captialize/upper/lower/strip a string</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre  class="src src-python"><span style="color: #859900;">from</span> hypothesis <span style="color: #859900;">import</span> strategies <span style="color: #859900;">as</span> st, given
+
+<span style="color: #b58900;">@given</span><span style="color: #268bd2;">(</span>st.lists<span style="color: #2aa198;">(</span>st.integers<span style="color: #b58900;">()</span><span style="color: #2aa198;">)</span><span style="color: #268bd2;">)</span>
+<span style="color: #859900;">def</span> <span style="color: #268bd2;">test_sort_idempotence</span><span style="color: #268bd2;">(</span>xs<span style="color: #268bd2;">)</span>:
+    <span style="color: #859900;">assert</span> <span style="color: #859900;">sorted</span><span style="color: #268bd2;">(</span>xs<span style="color: #268bd2;">)</span> == <span style="color: #859900;">sorted</span><span style="color: #268bd2;">(</span><span style="color: #859900;">sorted</span><span style="color: #2aa198;">(</span>xs<span style="color: #2aa198;">)</span><span style="color: #268bd2;">)</span>
+
+<span style="color: #b58900;">@given</span><span style="color: #268bd2;">(</span>st.text<span style="color: #2aa198;">()</span><span style="color: #268bd2;">)</span>
+<span style="color: #859900;">def</span> <span style="color: #268bd2;">test_text_idempotence</span><span style="color: #268bd2;">(</span>s<span style="color: #268bd2;">)</span>:
+    <span style="color: #859900;">assert</span> s.upper<span style="color: #268bd2;">()</span> == s.upper<span style="color: #268bd2;">()</span>.upper<span style="color: #268bd2;">()</span>
+    <span style="color: #859900;">assert</span> s.lower<span style="color: #268bd2;">()</span> == s.lower<span style="color: #268bd2;">()</span>.lower<span style="color: #268bd2;">()</span>
+    <span style="color: #859900;">assert</span> s.capitalize<span style="color: #268bd2;">()</span> == s.capitalize<span style="color: #268bd2;">()</span>.capitalize<span style="color: #268bd2;">()</span>
+</pre>
+</div>
+
+<aside class="notes">
+<ul>
+<li>Standard requires PUT, DELETE and safe request methods to be idempotent</li>
+<li>Anything functional is idempotent, yeah?</li>
+
+</ul>
+
+</aside>
+
+</section>
+</section>
+<section>
+<section id="slide-orgf0df2cc">
+<h3 id="orgf0df2cc">Round trip</h3>
+<p>
+There and back again
+</p>
+
+<ul>
+<li>Encode-decode invariance</li>
+<li>Reversing a reversed list</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre  class="src src-python"><span style="color: #859900;">from</span> hypothesis <span style="color: #859900;">import</span> given, strategies <span style="color: #859900;">as</span> st
+
+<span style="color: #859900;">def</span> <span style="color: #268bd2;">reverse</span><span style="color: #268bd2;">(</span>ls<span style="color: #268bd2;">)</span>:
+    <span style="color: #859900;">return</span> ls<span style="color: #268bd2;">[</span>::-1<span style="color: #268bd2;">]</span>
+
+<span style="color: #b58900;">@given</span><span style="color: #268bd2;">(</span>st.lists<span style="color: #2aa198;">(</span>st.integers<span style="color: #b58900;">()</span><span style="color: #2aa198;">)</span><span style="color: #268bd2;">)</span>
+<span style="color: #859900;">def</span> <span style="color: #268bd2;">test_reversing_reversed_list</span><span style="color: #268bd2;">(</span>ls<span style="color: #268bd2;">)</span>:
+    <span style="color: #859900;">assert</span> ls == reverse<span style="color: #268bd2;">(</span>reverse<span style="color: #2aa198;">(</span>ls<span style="color: #2aa198;">)</span><span style="color: #268bd2;">)</span>
+</pre>
+</div>
+
+</section>
+<section>
+
+<p>
+<a href="https://www.youtube.com/watch?v=jvwfDdgg93E">Matt Bacchman</a> talks about a dateutil bug in his talk
+</p>
+
+<div class="org-src-container">
+
+<pre  class="src src-python"><span style="color: #859900;">import</span> datetime
+<span style="color: #859900;">import</span> dateutil
+
+datetime<span style="color: #268bd2;">(</span>99, 1, 1, 0, 0<span style="color: #268bd2;">)</span>.isoformat<span style="color: #268bd2;">()</span>   <span style="color: #586e75; font-style: italic;"># </span><span style="color: #586e75; font-style: italic;">'0099-01-01T00:00:00'</span>
+dateutil.parse<span style="color: #268bd2;">(</span><span style="color: #2aa198;">'0099-01-01T00:00:00'</span><span style="color: #268bd2;">)</span>  <span style="color: #586e75; font-style: italic;"># </span><span style="color: #586e75; font-style: italic;">datetime.datetime(1999, 1, 1, 0, 0)</span>
+</pre>
+</div>
+
+<aside class="notes">
+<ul>
+<li>Couple of bug in Mercurial</li>
+<li><a href="http://hypothesis.works/articles/encode-decode-invariant/">http://hypothesis.works/articles/encode-decode-invariant/</a></li>
+
+</ul>
+
+</aside>
+</section>
+</section>
+<section>
+<section id="slide-org97899bd">
+<h3 id="org97899bd">Invariance</h3>
+<p>
+Some things never change.
+</p>
+
+<ul>
+<li>Sorting or reversing shouldn't change
+<ul>
+<li>length of list</li>
+<li>elements of the list</li>
+
+</ul></li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre  class="src src-python"><span style="color: #859900;">from</span> hypothesis <span style="color: #859900;">import</span> given, strategies <span style="color: #859900;">as</span> st
+<span style="color: #859900;">from</span> collections <span style="color: #859900;">import</span> Counter
+
+<span style="color: #859900;">def</span> <span style="color: #268bd2;">reverse</span><span style="color: #268bd2;">(</span>ls<span style="color: #268bd2;">)</span>:
+    <span style="color: #859900;">return</span> ls<span style="color: #268bd2;">[</span>::-1<span style="color: #268bd2;">]</span>
+
+<span style="color: #b58900;">@given</span><span style="color: #268bd2;">(</span>st.lists<span style="color: #2aa198;">(</span>st.integers<span style="color: #b58900;">()</span><span style="color: #2aa198;">)</span><span style="color: #268bd2;">)</span>
+<span style="color: #859900;">def</span> <span style="color: #268bd2;">test_sorting_invariance</span><span style="color: #268bd2;">(</span>ls<span style="color: #268bd2;">)</span>:
+    <span style="color: #859900;">assert</span> Counter<span style="color: #268bd2;">(</span>ls<span style="color: #268bd2;">)</span> == Counter<span style="color: #268bd2;">(</span><span style="color: #859900;">sorted</span><span style="color: #2aa198;">(</span>ls<span style="color: #2aa198;">)</span><span style="color: #268bd2;">)</span>
+
+<span style="color: #b58900;">@given</span><span style="color: #268bd2;">(</span>st.lists<span style="color: #2aa198;">(</span>st.integers<span style="color: #b58900;">()</span><span style="color: #2aa198;">)</span><span style="color: #268bd2;">)</span>
+<span style="color: #859900;">def</span> <span style="color: #268bd2;">test_reversing_invariance</span><span style="color: #268bd2;">(</span>ls<span style="color: #268bd2;">)</span>:
+    <span style="color: #859900;">assert</span> Counter<span style="color: #268bd2;">(</span>ls<span style="color: #268bd2;">)</span> == Counter<span style="color: #268bd2;">(</span>reverse<span style="color: #2aa198;">(</span>ls<span style="color: #2aa198;">)</span><span style="color: #268bd2;">)</span>
+</pre>
+</div>
+
+<aside class="notes">
+<ul>
+<li>What are the invariants?</li>
+
+</ul>
+
+</aside>
+
+</section>
+</section>
+<section>
+<section id="slide-orgdbc6f0d">
+<h3 id="orgdbc6f0d">Transformation</h3>
+<p>
+Different paths, same destination
+</p>
+
+</section>
+<section id="slide-org9b4425c">
+<h4 id="org9b4425c">List reversing</h4>
+<div class="org-src-container">
+
+<pre  class="src src-python"><span style="color: #859900;">from</span> hypothesis <span style="color: #859900;">import</span> given, strategies <span style="color: #859900;">as</span> st
+<span style="color: #859900;">def</span> <span style="color: #268bd2;">reverse</span><span style="color: #268bd2;">(</span>ls<span style="color: #268bd2;">)</span>:
+    <span style="color: #859900;">return</span> ls<span style="color: #268bd2;">[</span>::-1<span style="color: #268bd2;">]</span>
+
+<span style="color: #b58900;">@given</span><span style="color: #268bd2;">(</span>st.lists<span style="color: #2aa198;">(</span>st.integers<span style="color: #b58900;">()</span><span style="color: #2aa198;">)</span>, st.integers<span style="color: #2aa198;">()</span><span style="color: #268bd2;">)</span>
+<span style="color: #859900;">def</span> <span style="color: #268bd2;">test_list_reverse_transformation</span><span style="color: #268bd2;">(</span>xs, x<span style="color: #268bd2;">)</span>:
+    <span style="color: #859900;">assert</span> reverse<span style="color: #268bd2;">(</span>xs + <span style="color: #2aa198;">[</span>x<span style="color: #2aa198;">]</span><span style="color: #268bd2;">)</span> == <span style="color: #268bd2;">[</span>x<span style="color: #268bd2;">]</span> + reverse<span style="color: #268bd2;">(</span>xs<span style="color: #268bd2;">)</span>
+</pre>
+</div>
+
+</section>
+<section id="slide-orga89248d">
+<h4 id="orga89248d">Change text to uppercase</h4>
+<div class="org-src-container">
+
+<pre  class="src src-python"><span style="color: #859900;">from</span> string <span style="color: #859900;">import</span> ascii_uppercase
+<span style="color: #859900;">from</span> hypothesis <span style="color: #859900;">import</span> given, strategies <span style="color: #859900;">as</span> st
+
+
+<span style="color: #b58900;">@given</span><span style="color: #268bd2;">(</span>st.text<span style="color: #2aa198;">()</span>, st.text<span style="color: #2aa198;">(</span>alphabet=ascii_uppercase<span style="color: #2aa198;">)</span><span style="color: #268bd2;">)</span>
+<span style="color: #859900;">def</span> <span style="color: #268bd2;">test_uppercase_transformation</span><span style="color: #268bd2;">(</span>text, upper_suffix<span style="color: #268bd2;">)</span>:
+    <span style="color: #859900;">assert</span> text.upper<span style="color: #268bd2;">()</span> + upper_suffix == <span style="color: #268bd2;">(</span>text + upper_suffix<span style="color: #268bd2;">)</span>.upper<span style="color: #268bd2;">()</span>
+</pre>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-org4c50dd5">
+<h3 id="org4c50dd5">Induction</h3>
+<p>
+Solve a smaller problem first
+</p>
+
+<div class="org-src-container">
+
+<pre  class="src src-python"><span style="color: #859900;">from</span> hypothesis <span style="color: #859900;">import</span> given, strategies <span style="color: #859900;">as</span> st
+
+<span style="color: #859900;">def</span> <span style="color: #268bd2;">is_sorted</span><span style="color: #268bd2;">(</span>ls<span style="color: #268bd2;">)</span>:
+    <span style="color: #859900;">return</span> <span style="color: #2aa198;">True</span> <span style="color: #859900;">if</span> <span style="color: #859900;">len</span><span style="color: #268bd2;">(</span>ls<span style="color: #268bd2;">)</span> &lt;= 1 <span style="color: #859900;">else</span> ls<span style="color: #268bd2;">[</span>0<span style="color: #268bd2;">]</span> &lt;= ls<span style="color: #268bd2;">[</span>1<span style="color: #268bd2;">]</span> <span style="color: #859900;">and</span> is_sorted<span style="color: #268bd2;">(</span>ls<span style="color: #2aa198;">[</span>1:<span style="color: #2aa198;">]</span><span style="color: #268bd2;">)</span>
+
+<span style="color: #b58900;">@given</span><span style="color: #268bd2;">(</span>st.lists<span style="color: #2aa198;">(</span>st.integers<span style="color: #b58900;">()</span><span style="color: #2aa198;">)</span><span style="color: #268bd2;">)</span>
+<span style="color: #859900;">def</span> <span style="color: #268bd2;">test_list_sorting</span><span style="color: #268bd2;">(</span>xs<span style="color: #268bd2;">)</span>:
+    <span style="color: #859900;">assert</span> is_sorted<span style="color: #268bd2;">(</span><span style="color: #859900;">sorted</span><span style="color: #2aa198;">(</span>xs<span style="color: #2aa198;">)</span><span style="color: #268bd2;">)</span>
+</pre>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-org585643c">
+<h3 id="org585643c">Verification</h3>
+<p>
+Assert that a property holds true
+</p>
+
+<ul>
+<li>Sorting actually returns a sorted list</li>
+<li>Stripping white space leaves no leading/trailing white space</li>
+<li>Check whether a string split is working</li>
+<li>Computing the mean of a list of numbers</li>
+
+</ul>
+
+<aside class="notes">
+<ul>
+<li>Proving result is right is hard without duplicating Code Under Test</li>
+<li>But, checking result is not wrong is easy</li>
+
+</ul>
+
+</aside>
+
+</section>
+<section id="slide-org5777b17">
+<h4 id="org5777b17">Computing the mean</h4>
+<div class="org-src-container">
+
+<pre  class="src src-python"><span style="color: #859900;">from</span> hypothesis <span style="color: #859900;">import</span> given, strategies <span style="color: #859900;">as</span> st
+
+<span style="color: #b58900;">@given</span><span style="color: #268bd2;">(</span>st.lists<span style="color: #2aa198;">(</span>st.floats<span style="color: #b58900;">(</span>allow_nan=<span style="color: #2aa198;">False</span>, allow_infinity=<span style="color: #2aa198;">False</span><span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>, min_size=1<span style="color: #268bd2;">)</span>
+<span style="color: #859900;">def</span> <span style="color: #268bd2;">test_mean_is_within_reasonable_bounds</span><span style="color: #268bd2;">(</span>ls<span style="color: #268bd2;">)</span>:
+    <span style="color: #859900;">assert</span> <span style="color: #859900;">min</span><span style="color: #268bd2;">(</span>ls<span style="color: #268bd2;">)</span> &lt;= mean<span style="color: #268bd2;">(</span>ls<span style="color: #268bd2;">)</span> &lt;= <span style="color: #859900;">max</span><span style="color: #268bd2;">(</span>ls<span style="color: #268bd2;">)</span>
+</pre>
+</div>
+
+<aside class="notes">
+<p>
+Looks like a very dumb test, but isn't really&#x2026;
+</p>
+
+</aside>
+
+</section>
+<section>
+
+<p>
+Going by definition &#x2026;
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-python"><span style="color: #859900;">def</span> <span style="color: #268bd2;">mean</span><span style="color: #268bd2;">(</span>xs<span style="color: #268bd2;">)</span>:
+    <span style="color: #859900;">return</span> <span style="color: #859900;">sum</span><span style="color: #268bd2;">(</span>xs<span style="color: #268bd2;">)</span> / <span style="color: #859900;">len</span><span style="color: #268bd2;">(</span>xs<span style="color: #268bd2;">)</span>
+</pre>
+</div>
+
+<pre class="example">
+ls = [8.988465674311579e+307, 8.98846567431158e+307]
+
+    @given(st.lists(st.floats(allow_nan=False, allow_infinity=False), min_size=1))
+    def test_mean_is_within_reasonable_bounds(ls):
+&gt;       assert min(ls) &lt;= mean(ls) &lt;= max(ls)
+E       assert inf &lt;= 8.98846567431158e+307
+E        +  where inf = mean([8.988465674311579e+307, 8.98846567431158e+307])
+E        +  and   8.98846567431158e+307 = max([8.988465674311579e+307, 8.98846567431158e+307])
+</pre>
+
+<aside class="notes">
+<p>
+Overflow!
+</p>
+
+</aside>
+
+</section>
+<section>
+
+<p>
+Avoiding overflow
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-python"><span style="color: #859900;">def</span> <span style="color: #268bd2;">mean</span><span style="color: #268bd2;">(</span>xs<span style="color: #268bd2;">)</span>:
+    <span style="color: #268bd2;">n</span> = <span style="color: #859900;">len</span><span style="color: #268bd2;">(</span>xs<span style="color: #268bd2;">)</span>
+    <span style="color: #859900;">return</span> <span style="color: #859900;">sum</span><span style="color: #268bd2;">(</span>x / n  <span style="color: #859900;">for</span> x <span style="color: #859900;">in</span> xs<span style="color: #268bd2;">)</span>
+</pre>
+</div>
+
+<pre class="example">
+ls = [1.390671161567e-309, 1.390671161567e-309, 1.390671161567e-309]
+
+    @given(st.lists(st.floats(allow_nan=False, allow_infinity=False), min_size=1))
+    def test_mean_is_within_reasonable_bounds(ls):
+&gt;       assert min(ls) &lt;= mean(ls) &lt;= max(ls)
+E       assert 1.390671161567e-309 &lt;= 1.390671161566996e-309
+E        +  where 1.390671161567e-309 = min([1.390671161567e-309, 1.390671161567e-309, 1.390671161567e-309])
+E        +  and   1.390671161566996e-309 = mean([1.390671161567e-309, 1.390671161567e-309, 1.390671161567e-309])
+</pre>
+
+<aside class="notes">
+<p>
+Inaccurate!
+</p>
+
+</aside>
+
+</section>
+<section>
+
+<p>
+For instance, <code>numpy</code>
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-python"><span style="color: #859900;">import</span> numpy <span style="color: #859900;">as</span> np
+<span style="color: #859900;">def</span> <span style="color: #268bd2;">mean</span><span style="color: #268bd2;">(</span>xs<span style="color: #268bd2;">)</span>:
+    <span style="color: #859900;">return</span> np.array<span style="color: #268bd2;">(</span>xs<span style="color: #268bd2;">)</span>.mean<span style="color: #268bd2;">()</span>
+</pre>
+</div>
+
+<pre class="example">
+ls = [8.988465674311579e+307, 8.98846567431158e+307]
+
+    @given(st.lists(st.floats(allow_nan=False, allow_infinity=False), min_size=1))
+    def test_mean_is_within_reasonable_bounds(ls):
+&gt;       assert min(ls) &lt;= mean(ls) &lt;= max(ls)
+E       assert inf &lt;= 8.98846567431158e+307
+E        +  where inf = mean([8.988465674311579e+307, 8.98846567431158e+307])
+E        +  and   8.98846567431158e+307 = max([8.988465674311579e+307, 8.98846567431158e+307])
+</pre>
+
+<p>
+Read this <a href="https://hal.archives-ouvertes.fr/file/index/docid/576641/filename/computing-midpoint.pdf">30 page paper</a>, to see how to do it right!
+</p>
+
+<aside class="notes">
+<ul>
+<li>Floating points are hard!</li>
+<li>Even a lax constraint catches bugs</li>
+<li>Layer more tests on this</li>
+<li>Courtesy: Hypothesis <a href="http://hypothesis.works/articles/calculating-the-mean/">blog post</a></li>
+
+</ul>
+
+</aside>
+
+</section>
+</section>
+<section>
+<section id="slide-orgadc0c4e">
+<h3 id="orgadc0c4e">Test Oracle</h3>
+<p>
+Use existing code to test new code
+</p>
+
+<ul>
+<li>Optimizing</li>
+<li>Refactoring</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre  class="src src-python"><span style="color: #859900;">from</span> hypothesis <span style="color: #859900;">import</span> strategies <span style="color: #859900;">as</span> st, given
+<span style="color: #859900;">from</span> my_lib <span style="color: #859900;">import</span> my_sort
+
+<span style="color: #b58900;">@given</span><span style="color: #268bd2;">(</span>st.lists<span style="color: #2aa198;">(</span>st.integers<span style="color: #b58900;">()</span><span style="color: #2aa198;">)</span><span style="color: #268bd2;">)</span>
+<span style="color: #859900;">def</span> <span style="color: #268bd2;">test_my_sort</span><span style="color: #268bd2;">(</span>xs<span style="color: #268bd2;">)</span>:
+    <span style="color: #859900;">assert</span> <span style="color: #859900;">sorted</span><span style="color: #268bd2;">(</span>xs<span style="color: #268bd2;">)</span> == my_sort<span style="color: #268bd2;">(</span>xs<span style="color: #268bd2;">)</span>
+</pre>
+</div>
+
+<aside class="notes">
+<ul>
+<li>Too slow</li>
+<li>Hard to parallelize</li>
+<li>Whatever other reason for refactoring</li>
+
+</ul>
+
+</aside>
+
+</section>
+</section>
+<section>
+<section id="slide-orgfad17e1">
+<h3 id="orgfad17e1">Stateful testing??</h3>
+<ul>
+<li>Testing against a model</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-orgaadbafb">
+<h2 id="orgaadbafb">Conclusion</h2>
+<div class="outline-text-2" id="text-orgaadbafb">
+</div></section>
+</section>
+<section>
+<section id="slide-org523f263">
+<h3 id="org523f263">Summary of property based tests</h3>
+<ul>
+<li>Hypothesis &#x2013; Python library for Property-based testing</li>
+<li>Provides the following
+<ul>
+<li>Generate data, given a requirement</li>
+<li>Check that a <b>property</b> holds true</li>
+<li>Shrink failed cases to simplest case</li>
+
+</ul></li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-org4ac09e8">
+<h3 id="org4ac09e8">No silver bullet</h3>
+<ul>
+<li>Property-based tests are more general</li>
+<li>More concise than a bunch of examples</li>
+<li>Reveal issues overlooked by developer &#x2013; like having others test your code</li>
+<li>Harder to write, and force you to think</li>
+<li>Useful design for better tests</li>
+<li>Talk title stolen from John Huges &#x2013; author of quickcheck</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-org09dff09">
+<h3 id="org09dff09">Some interesting case studies</h3>
+<ul>
+<li>Bug in using <a href="https://www.youtube.com/watch?v=JMhNINPo__g">transients in Clojure-1.5</a></li>
+<li>Bugs in <a href="https://vimeo.com/68383317">Riak</a> DB</li>
+<li><a href="http://basho.com/posts/technical/quickchecking-poolboy-for-fun-and-profit/">Bugs in poolboy</a> &#x2013; Erlang worker pool lib used by Riak</li>
 
 </ul>
 </section>
