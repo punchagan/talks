@@ -7,18 +7,18 @@
 <style type="text/css">
 .underline { text-decoration: underline; }
 </style>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/reveal.js/3.0.0/css/reveal.css"/>
+<link rel="stylesheet" href="reveal.js/css/reveal.css"/>
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/reveal.js/3.0.0/css/theme/night.css" id="theme"/>
+<link rel="stylesheet" href="reveal.js/css/theme/solarized.css" id="theme"/>
 
-
+<link rel="stylesheet" href="reveal.js/lib/css/zenburn.css"/>
 <!-- If the query includes 'print-pdf', include the PDF print sheet -->
 <script>
     if( window.location.search.match( /print-pdf/gi ) ) {
         var link = document.createElement( 'link' );
         link.rel = 'stylesheet';
         link.type = 'text/css';
-        link.href = 'https://cdn.jsdelivr.net/reveal.js/3.0.0/css/print/pdf.css';
+        link.href = 'reveal.js/css/print/pdf.css';
         document.getElementsByTagName( 'head' )[0].appendChild( link );
     }
 </script>
@@ -26,45 +26,122 @@
 <body>
 <div class="reveal">
 <div class="slides">
-<section id="sec-title-slide"><h1 class="title">Don't write tests, Generate them!</h1><h2 class="author">Puneeth Chaganti</h2><p class="date">Created: 2016-08-13 Sat 16:00</p>
+<section id="sec-title-slide"><h1 class="title">Don't write tests, Generate them!</h1><h2 class="author">Puneeth Chaganti</h2><p class="date">Created: 2016-09-23 Fri 03:07</p>
 </section>
 <section id="table-of-contents">
 <div id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#/slide-orgb2afa5a">Introduction</a></li>
-<li><a href="#/slide-org8bf87d7">Hypothesis basics</a></li>
-<li><a href="#/slide-org4630302">Strategies for writing properties</a></li>
-<li><a href="#/slide-orgaadbafb">Conclusion</a></li>
+<li><a href="#/slide-orgfa4177d">Introduction</a></li>
+<li><a href="#/slide-orge48a917">Hypothesis - Property based testing for Python</a></li>
+<li><a href="#/slide-org5e9041f">How-to write properties?</a></li>
+<li><a href="#/slide-org250da45"><span class="todo TODO">TODO</span> Stateful testing??</a></li>
+<li><a href="#/slide-orgc021a84"><span class="todo TODO">TODO</span> Common pitfalls</a></li>
+<li><a href="#/slide-org63b1d8f">Conclusion</a></li>
 </ul>
 </div>
 </div>
 </section>
 
 <section>
-<section id="slide-orgb2afa5a">
-<h2 id="orgb2afa5a">Introduction</h2>
-<div class="outline-text-2" id="text-orgb2afa5a">
+<section id="slide-orgfa4177d">
+<h2 id="orgfa4177d">Introduction</h2>
+<div class="outline-text-2" id="text-orgfa4177d">
 </div></section>
 </section>
 <section>
-<section id="slide-org6573205">
-<h3 id="org6573205">Example based tests</h3>
+<section id="slide-org8bcde54">
+<h3 id="org8bcde54"><span class="todo TODO">TODO</span> Have things working with no internet</h3>
+<ul>
+<li class="off"><code>[&#xa0;]</code> Have a backup local copy of slides</li>
+<li class="on"><code>[X]</code> Slides should work with local copy of reveal.js
+<ul>
+<li class="on"><code>[X]</code> Figure out install, running, etc.</li>
+<li class="on"><code>[X]</code> Fix broken fonts!</li>
+
+</ul></li>
+<li class="on"><code>[X]</code> Speaker notes should work</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-org5895074">
+<h3 id="org5895074">Testing, anyone?</h3>
+<aside class="notes">
+<ul>
+<li>Do you TDD?</li>
+<li>Do you have a large test-suite?</li>
+<li>Testing excites you?</li>
+<li>Testing is tedious and painful?</li>
+<li>Testing is a waste!</li>
+
+</ul>
+
+</aside>
+</section>
+</section>
+<section>
+<section id="slide-org243050f">
+<h3 id="org243050f">Property-based testing, anyone?</h3>
+<aside class="notes">
+<ul>
+<li>QuickCheck?</li>
+<li>Property based testing?</li>
+<li>Hypothesis?</li>
+<li>This talk will:
+<ul>
+<li>give an overview of PBT</li>
+<li>Hypothesis overview</li>
+<li>Use extremely simple examples</li>
+<li>hopefully excite you to learn more and try it out!</li>
+
+</ul></li>
+
+</ul>
+
+</aside>
+</section>
+</section>
+<section>
+<section id="slide-org4f01f43">
+<h3 id="org4f01f43">Example based tests</h3>
 <dl>
 <dt>Given</dt><dd>Setup some <b>example</b> data</dd>
 <dt>When</dt><dd>Perform actions</dd>
-<dt>Then</dt><dd>Assert something</dd>
+<dt>Then</dt><dd><code>assert output == expected</code></dd>
 
 </dl>
 
 <aside class="notes">
 <ul>
-<li>Catch regressions</li>
-<li>Catch most kinds of bugs, give confidence</li>
-<li>A loose specification of the code</li>
+<li>How?
+<ul>
+<li>Start off with example inputs
+<ul>
+<li>clever examples, edge cases</li>
 
-<li>BDD Keywords, but unittests do the same thing</li>
+</ul></li>
+<li>Think about example outputs</li>
+<li>Write and run tests</li>
+<li>Easy to think in terms of examples</li>
+
+</ul></li>
+
+<li>Good to
+<ul>
+<li>Catch regressions</li>
+<li>no test -&gt; tests, give confidence</li>
+<li>A loose specification of the code
+<ul>
+<li>we can interpolate</li>
+
+</ul></li>
+
+</ul></li>
+
+<li>BDD Keywords, but unit-tests do the same thing</li>
 
 </ul>
 
@@ -73,58 +150,218 @@
 </section>
 </section>
 <section>
-<section id="slide-orgb706f7e">
-<h3 id="orgb706f7e">Examples</h3>
+<section id="slide-org1176212">
+<h3 id="org1176212">Problems?</h3>
 <div class="org-src-container">
 
-<pre  class="src src-python"><span style="color: #859900;">def</span> <span style="color: #268bd2;">divide</span><span style="color: #268bd2;">(</span>x, y<span style="color: #268bd2;">)</span>:
-    <span style="color: #586e75; font-style: italic;">"""Return the value of x divided by y."""</span>
-    <span style="color: #859900;">return</span> x/y
+<pre><code class="python" >my_strip = lambda x, y: x.strip(y)
 
-<span style="color: #859900;">def</span> <span style="color: #268bd2;">test_division</span><span style="color: #268bd2;">()</span>:
-    <span style="color: #859900;">assert</span> divide<span style="color: #268bd2;">(</span>15, 5<span style="color: #268bd2;">)</span> == 3
-</pre>
+def test_whitespace_strip():
+    s = ' foo  '
+    assert my_strip(s, ' ') == 'foo'
+
+
+def test_strip_empty():
+    s = ''
+    assert my_strip(s, ' ') == ''
+
+
+def test_strip():
+    s = 'foo'
+    assert my_strip(s, 'fo') == ''
+</code></pre>
 </div>
-
-</section>
-<section id="slide-org79677a7">
-<h4 id="org79677a7"><span class="todo TODO">TODO</span> Add more examples</h4>
-
-</section>
-</section>
-<section>
-<section id="slide-org829e17a">
-<h3 id="org829e17a">Issues with example based tests</h3>
+<aside class="notes">
 <ul>
-<li>Too rigid/specific?</li>
-<li>Lots of repetition</li>
-<li>Surprisingly manual</li>
-<li>How much is too much?</li>
-<li>Missed edge cases in development also missed in testing?</li>
+<li>Combinatorial explosion!
+<ul>
+<li>Humans aren't good at enumerating everything</li>
+
+</ul></li>
+<li>Developer biases
+<ul>
+<li>How often have you missed bugs because test code = dev code?</li>
+<li>Why do we have other people writing tests?</li>
+
+</ul></li>
+<li>Tedious
+<ul>
+<li>How often have you removed/not updated tests?</li>
+<li>Hard to write and <b>maintain</b>!!
+<ul>
+<li>one change you've to go and fix all the tests</li>
+<li>say you decide to remove one arg</li>
+
+</ul></li>
+
+</ul></li>
 
 </ul>
+
+</aside>
+
 </section>
 </section>
 <section>
-<section id="slide-orgc28ecb5">
-<h3 id="orgc28ecb5">Motivate property based test</h3>
+<section id="slide-org744afbc">
+<h3 id="org744afbc">How to fix them?</h3>
+<p>
+Property-based testing
+</p>
+
+<p>
+(Generative testing)
+</p>
+
+<aside class="notes">
+<ul>
+<li>Randomly generated inputs
+<ul>
+<li>Less tedious</li>
+<li>Address combinatorial explosion</li>
+<li>Biases</li>
+
+</ul></li>
+<li>Automate everything, even generation of tests!</li>
+
+</ul>
+
+</aside>
+
+</section>
+<section id="slide-orgb6237b4">
+<h4 id="orgb6237b4">Make it a property based test!</h4>
+<div class="org-src-container">
+
+<pre><code class="python" >import string, random
+
+def random_string():
+    n = random.randint(0, 10)
+    return ''.join(random.choice(string.printable) for _ in range(n))
+
+def test_strip_hyp():
+    for _ in range(200):
+        s = random_string()
+        strip_chars = random_string()
+
+        S = my_strip(s)
+
+        assert len(S) <= len(s)
+        if len(S) > 0:
+            assert S[0] not in set(strip_chars)
+            assert S[-1] not in set(strip_chars)
+</code></pre>
+</div>
+
+<aside class="notes">
+<ul>
+<li>You don't really need a library</li>
+<li>But, a library can make life easy!
+<ul>
+<li>Randomness can be hard
+<ul>
+<li>minimal example</li>
+<li>repeatability of tests</li>
+
+</ul></li>
+<li>You are writing your generator</li>
+
+</ul></li>
+
+</ul>
+
+</aside>
+
+</section>
+<section id="slide-orgd2e915c">
+<h4 id="orgd2e915c">Property based tests</h4>
 <dl>
-<dt>Given</dt><dd><b>Random</b> data matching some specification</dd>
+<dt>Given</dt><dd>For <b>random</b> data matching a spec</dd>
 <dt>When</dt><dd>Perform actions</dd>
-<dt>Then</dt><dd>Assert some <b>properties</b></dd>
+<dt>Then</dt><dd><code>assert property(output)</code></dd>
 
 </dl>
+
+<aside class="notes">
+<ul>
+<li>Why properties?
+<ul>
+<li>Don't know the exact output, so can't check actual vs. expected</li>
+<li>Loose assertions, but better spec</li>
+<li>Force us to think harder</li>
+
+</ul></li>
+
+</ul>
+
+</aside>
+
 </section>
 </section>
 <section>
-<section id="slide-org8bf87d7">
-<h2 id="org8bf87d7">Hypothesis basics</h2>
-<div class="outline-text-2" id="text-org8bf87d7">
+<section id="slide-orge48a917">
+<h2 id="orge48a917">Hypothesis - Property based testing for Python</h2>
+<div class="outline-text-2" id="text-orge48a917">
 </div></section>
 </section>
 <section>
-<section id="slide-orgfe62a05">
-<h3 id="orgfe62a05">What is Hypothesis</h3>
+<section id="slide-org7f25868">
+<h3 id="org7f25868">Hypothesized test</h3>
+<div class="org-src-container">
+
+<pre><code class="python" >from hypothesis import given, strategies as st
+
+@given(st.text(), st.text())
+def test_strip_hypothesis(s, strip_chars):
+    S = my_strip(s, strip_chars)
+    assert len(S) <= len(s)
+    if len(S) > 0:
+        assert S[0] not in set(strip_chars)
+        assert S[-1] not in set(strip_chars)
+
+# Ran 1 test in 0.159s
+</code></pre>
+</div>
+
+<aside class="notes">
+<ul>
+<li>Parametrized tests similar to py.test</li>
+<li>Random inputs for parameters</li>
+<li>Overflow</li>
+
+</ul>
+
+</aside>
+</section>
+<section id="slide-org7118854">
+<h4 id="org7118854">Failing output</h4>
+<div class="org-src-container">
+
+<pre><code class="text" >s = '01', strip_chars = '1'
+
+    @given(st.text(), st.text())
+    def test_strip_hyp(s, strip_chars):
+        my_strip = lambda x, y: x.lstrip(y)
+        # print('s: {}, strip_chars: {}'.format(repr(s), repr(strip_chars)))
+        S = my_strip(s, strip_chars)
+        assert len(S) <= len(s)
+        if len(S) > 0:
+            assert S[0] not in set(strip_chars)
+>           assert S[-1] not in set(strip_chars)
+E           assert '1' not in {'1'}
+E            +  where {'1'} = set('1')
+
+test_code.py:118: AssertionError
+----------------------------------------------------- Hypothesis ------------------------------------------------------
+Falsifying example: test_strip_hyp(s='01', strip_chars='1')
+</code></pre>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-orgf34c31d">
+<h3 id="orgf34c31d">What is Hypothesis?</h3>
 <ul>
 <li>a modern implementation of property based testing</li>
 <li>Plans for Java/C/C++ version</li>
@@ -132,59 +369,57 @@
 
 </ul>
 <aside class="notes">
-<p>
-Mostly just a bunch of strategies to generate different kinds of data!
-</p>
-
-</aside>
-</section>
-</section>
-<section>
-<section id="slide-org98cf9c7">
-<h3 id="org98cf9c7">Simple test</h3>
-<div class="org-src-container">
-
-<pre  class="src src-python"><span style="color: #859900;">from</span> hypothesis <span style="color: #859900;">import</span> strategies <span style="color: #859900;">as</span> st, given
-
-<span style="color: #b58900;">@given</span><span style="color: #268bd2;">(</span>st.integers<span style="color: #2aa198;">()</span>, st.integers<span style="color: #2aa198;">()</span><span style="color: #268bd2;">)</span>
-<span style="color: #859900;">def</span> <span style="color: #268bd2;">test_integers_are_commutative</span><span style="color: #268bd2;">(</span>x, y<span style="color: #268bd2;">)</span>:
-    <span style="color: #859900;">assert</span> x + y == y + x
-
-<span style="color: #b58900;">@given</span><span style="color: #268bd2;">(</span>st.floats<span style="color: #2aa198;">()</span>, st.floats<span style="color: #2aa198;">()</span><span style="color: #268bd2;">)</span>
-<span style="color: #859900;">def</span> <span style="color: #268bd2;">test_floats_are_commutative</span><span style="color: #268bd2;">(</span>x, y<span style="color: #268bd2;">)</span>:
-    <span style="color: #859900;">assert</span> x + y == y + x
-</pre>
-</div>
-<aside class="notes">
 <ul>
-<li>Parametrized tests similar to py.test</li>
-<li>Random inputs for parameters</li>
+<li>David MacIver</li>
+<li>Training</li>
+<li>Funding</li>
 
 </ul>
 
 </aside>
 </section>
+<section id="slide-org2b829e4">
+<h4 id="org2b829e4">What does it provide?</h4>
+<ul>
+<li>Data generation</li>
+<li>Test properties &amp; record failures</li>
+<li>Shrinking</li>
+<li>Configurable</li>
+
+</ul>
+<aside class="notes">
+<ul>
+<li>a bunch of strategies to generate different kinds of data!</li>
+<li>Hook up to testing frameworks for asserting properties</li>
+<li>recording inputs for failed tests</li>
+<li>shrinking them</li>
+
+</ul>
+
+</aside>
+
+</section>
 </section>
 <section>
-<section id="slide-org53eb3cb">
-<h3 id="org53eb3cb">Data generation</h3>
-<div class="outline-text-3" id="text-org53eb3cb">
+<section id="slide-org520f664">
+<h3 id="org520f664">Data generation</h3>
+<div class="outline-text-3" id="text-org520f664">
 </div></section>
-<section id="slide-org904aec5">
-<h4 id="org904aec5">Generators for builtins</h4>
+<section id="slide-org39932c8">
+<h4 id="org39932c8">Generators for builtins</h4>
 <div class="org-src-container">
 
-<pre  class="src src-python"><span style="color: #859900;">from</span> hypothesis <span style="color: #859900;">import</span> strategies <span style="color: #859900;">as</span> st
+<pre><code class="python" >from hypothesis import strategies as st
 
-<span style="color: #859900;">def</span> <span style="color: #268bd2;">sample</span><span style="color: #268bd2;">(</span>strategy, n=3<span style="color: #268bd2;">)</span>:
-    <span style="color: #859900;">return</span> <span style="color: #268bd2;">[</span>strategy.example<span style="color: #2aa198;">()</span> <span style="color: #859900;">for</span> _ <span style="color: #859900;">in</span> <span style="color: #859900;">range</span><span style="color: #2aa198;">(</span>n<span style="color: #2aa198;">)</span><span style="color: #268bd2;">]</span>
+def sample(strategy, n=3):
+    return [strategy.example() for _ in range(n)]
 
-<span style="color: #859900;">print</span><span style="color: #268bd2;">(</span>sample<span style="color: #2aa198;">(</span>st.integers<span style="color: #b58900;">()</span><span style="color: #2aa198;">)</span><span style="color: #268bd2;">)</span>
-<span style="color: #859900;">print</span><span style="color: #268bd2;">(</span>sample<span style="color: #2aa198;">(</span>st.floats<span style="color: #b58900;">()</span><span style="color: #2aa198;">)</span><span style="color: #268bd2;">)</span>
-<span style="color: #859900;">print</span><span style="color: #268bd2;">(</span>sample<span style="color: #2aa198;">(</span>st.complex_numbers<span style="color: #b58900;">()</span><span style="color: #2aa198;">)</span><span style="color: #268bd2;">)</span>
-<span style="color: #859900;">print</span><span style="color: #268bd2;">(</span>sample<span style="color: #2aa198;">(</span>st.text<span style="color: #b58900;">(</span>max_size=3<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span><span style="color: #268bd2;">)</span>
-<span style="color: #859900;">print</span><span style="color: #268bd2;">(</span>sample<span style="color: #2aa198;">(</span>st.lists<span style="color: #b58900;">(</span>st.integers<span style="color: #dc322f;">()</span><span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span><span style="color: #268bd2;">)</span>
-</pre>
+print(sample(st.integers()))
+print(sample(st.floats()))
+print(sample(st.complex_numbers()))
+print(sample(st.text(max_size=3)))
+print(sample(st.lists(st.integers())))
+</code></pre>
 </div>
 
 <pre class="example">
@@ -194,27 +429,164 @@ Mostly just a bunch of strategies to generate different kinds of data!
 ['', '\U000ded7f9', '']
 [[52647858669059, -31758544979, 71365626], [0], []]
 </pre>
-
 </section>
-<section id="slide-orgae732c5">
-<h4 id="orgae732c5"><span class="todo TODO">TODO</span> Powerful ways of combining them</h4>
+<section id="slide-orgbcf6c0f">
+<h4 id="orgbcf6c0f">Extra generators</h4>
+<ul>
+<li>Django models</li>
+<li>Numpy arrays</li>
+<li>Dates &amp; times</li>
+<li>Faker generators</li>
+
+</ul>
+<aside class="notes">
+<ul>
+<li>fake factory previously known as
+<ul>
+<li>provides a bunch of things</li>
+<li>from credit card numbers to fake addresses to ips</li>
+
+</ul></li>
+
+</ul>
+
+</aside>
+</section>
+<section id="slide-org2d50048">
+<h4 id="org2d50048">Composable strategies</h4>
 <div class="org-src-container">
 
-<pre  class="src src-python"><span style="color: #859900;">from</span> hypothesis <span style="color: #859900;">import</span> strategies <span style="color: #859900;">as</span> st
+<pre><code class="python" >from hypothesis import strategies as st
 
 st.recursive?
-st.streaming?
 st.builds?
-st.composite?
-st.shared?
-</pre>
+st.streaming?
+st.one_of?
+
+.map
+.filter
+.flatmap
+</code></pre>
 </div>
 
+<aside class="notes">
+<ul>
+<li>Provides functions to compose basic ones</li>
+<li>recursive data structure/json?</li>
+<li>st.builds? - target()</li>
+<li>st.streaming? - streaming data</li>
+<li>choose from one of the strategies</li>
+<li>generate example, convert that to strategy</li>
+
+</ul>
+
+</aside>
+</section>
+<section id="slide-org8a15892">
+<h4 id="org8a15892">Composing strategies - Example</h4>
+<div class="org-src-container">
+
+<pre><code class="markdown" >first_name|last_name |gpa
+----------|----------|---
+John      |Adams     |90
+George    |Washington|67
+Thomas    |Jefferson |50
+</code></pre>
+</div>
+
+<aside class="notes">
+<ul>
+<li>Let's try to build a table</li>
+<li>Homework: Exercise for the reader
+<ul>
+<li>Use <code>flatmap</code> to improve this</li>
+<li>Use <code>fake factory</code> to get names</li>
+
+</ul></li>
+
+</ul>
+
+</aside>
+</section>
+<section id="slide-orgdb44e7b">
+<h4 id="orgdb44e7b">Cells and Rows</h4>
+<div class="org-src-container">
+
+<pre><code class="python" >from hypothesis import strategies as st
+
+n = 3
+generate_cell = st.one_of(st.integers(), st.text(min_size=1), st.booleans())
+generate_row = st.lists(generate_cell, min_size=n, max_size=n)
+generate_data = st.lists(generate_row, min_size=1)
+
+generate_headers = st.lists(st.text(min_size=1), unique=True, min_size=n, max_size=n)
+</code></pre>
+</div>
+<aside class="notes">
+<ul>
+<li>Homework: Exercise for the reader
+<ul>
+<li>Use <code>flatmap</code> to improve this</li>
+<li>Use <code>fake factory</code> to get names</li>
+
+</ul></li>
+
+</ul>
+
+</aside>
+</section>
+<section id="slide-orgff13d04">
+<h4 id="orgff13d04">Putting it together</h4>
+<div class="org-src-container">
+
+<pre><code class="python" >def create_dataset(rows, headers):
+    return tablib.Dataset(*rows, headers=headers)
+
+st.builds(create_dataset, generate_data, headers=generate_headers)
+</code></pre>
+</div>
+<aside class="notes">
+<ul>
+<li>Homework: Exercise for the reader
+<ul>
+<li>Use <code>flatmap</code> to improve this</li>
+<li>Use <code>fake factory</code> to get names</li>
+
+</ul></li>
+
+</ul>
+
+</aside>
 </section>
 </section>
 <section>
-<section id="slide-orga960ebb">
-<h3 id="orga960ebb">Settings</h3>
+<section id="slide-org0004700">
+<h3 id="org0004700">Shrinking</h3>
+<ul>
+<li>Random data has lots of noise</li>
+<li>Try to find the simplest failing case</li>
+
+</ul>
+<p>
+To learn more, see <a href="https://github.com/HypothesisWorks/hypothesis-python/blob/7c54198d31a5035a0c2810d8c500308f507b5b11/notebooks/Designing%20a%20better%20simplifier.ipynb">Designing a better simplifier</a>
+</p>
+<aside class="notes">
+<ul>
+<li>hard to understand why it fails</li>
+<li>may not always be the smallest case</li>
+<li>important to be fast!</li>
+
+</ul>
+
+</aside>
+</section>
+<section id="slide-orgf27f114">
+<h4 id="orgf27f114"><span class="todo TODO">TODO</span> Example if time??</h4>
+</section>
+</section>
+<section>
+<section id="slide-org1feffa5">
+<h3 id="org1feffa5">Settings</h3>
 <ul>
 <li>Can configure
 <ul>
@@ -230,171 +602,85 @@ st.shared?
 </ul>
 
 </section>
-<section id="slide-org6c8931d">
-<h4 id="org6c8931d">Per-test config example</h4>
+<section id="slide-orgb03c07e">
+<h4 id="orgb03c07e">Per-test config example</h4>
 <div class="org-src-container">
 
-<pre  class="src src-python"><span style="color: #859900;">from</span> hypothesis <span style="color: #859900;">import</span> given, settings, strategies <span style="color: #859900;">as</span> st, Verbosity
+<pre><code class="python" >from hypothesis import given, settings, strategies as st, Verbosity
 
-<span style="color: #b58900;">@given</span><span style="color: #268bd2;">(</span>st.integers<span style="color: #2aa198;">()</span><span style="color: #268bd2;">)</span>
-<span style="color: #b58900;">@settings</span><span style="color: #268bd2;">(</span>max_examples=500, verbosity=Verbosity.verbose<span style="color: #268bd2;">)</span>
-<span style="color: #859900;">def</span> <span style="color: #268bd2;">test_this_thoroughly</span><span style="color: #268bd2;">(</span>x<span style="color: #268bd2;">)</span>:
-    <span style="color: #859900;">pass</span>
-</pre>
+@given(st.integers())
+@settings(max_examples=500, verbosity=Verbosity.verbose)
+def test_this_thoroughly(x):
+    pass
+</code></pre>
 </div>
-
 </section>
 </section>
 <section>
-<section id="slide-org0350595">
-<h3 id="org0350595"><span class="todo TODO">TODO</span> Shrinking?</h3>
-</section>
-</section>
-<section>
-<section id="slide-org4630302">
-<h2 id="org4630302">Strategies for writing properties</h2>
-<div class="outline-text-2" id="text-org4630302">
+<section id="slide-org5e9041f">
+<h2 id="org5e9041f">How-to write properties?</h2>
+<div class="outline-text-2" id="text-org5e9041f">
 </div></section>
 </section>
 <section>
-<section id="slide-orge9d4b10">
-<h3 id="orge9d4b10"><span class="todo TODO">TODO</span> Code doesn't explode</h3>
-
-</section>
-</section>
-<section>
-<section id="slide-org43e4b6b">
-<h3 id="org43e4b6b">Idempotence</h3>
-<p>
-Already been done!
-</p>
-
+<section id="slide-org0f7bd4f">
+<h3 id="org0f7bd4f"><span class="todo TODO">TODO</span> Incremental transition</h3>
 <ul>
-<li>Sorting a list</li>
-<li>Rounding a number</li>
-<li>PUT and DELETE should be idempotent</li>
-<li>captialize/upper/lower/strip a string</li>
+<li>Show roles lib test?</li>
 
 </ul>
 
 <div class="org-src-container">
 
-<pre  class="src src-python"><span style="color: #859900;">from</span> hypothesis <span style="color: #859900;">import</span> strategies <span style="color: #859900;">as</span> st, given
-
-<span style="color: #b58900;">@given</span><span style="color: #268bd2;">(</span>st.lists<span style="color: #2aa198;">(</span>st.integers<span style="color: #b58900;">()</span><span style="color: #2aa198;">)</span><span style="color: #268bd2;">)</span>
-<span style="color: #859900;">def</span> <span style="color: #268bd2;">test_sort_idempotence</span><span style="color: #268bd2;">(</span>xs<span style="color: #268bd2;">)</span>:
-    <span style="color: #859900;">assert</span> <span style="color: #859900;">sorted</span><span style="color: #268bd2;">(</span>xs<span style="color: #268bd2;">)</span> == <span style="color: #859900;">sorted</span><span style="color: #268bd2;">(</span><span style="color: #859900;">sorted</span><span style="color: #2aa198;">(</span>xs<span style="color: #2aa198;">)</span><span style="color: #268bd2;">)</span>
-
-<span style="color: #b58900;">@given</span><span style="color: #268bd2;">(</span>st.text<span style="color: #2aa198;">()</span><span style="color: #268bd2;">)</span>
-<span style="color: #859900;">def</span> <span style="color: #268bd2;">test_text_idempotence</span><span style="color: #268bd2;">(</span>s<span style="color: #268bd2;">)</span>:
-    <span style="color: #859900;">assert</span> s.upper<span style="color: #268bd2;">()</span> == s.upper<span style="color: #268bd2;">()</span>.upper<span style="color: #268bd2;">()</span>
-    <span style="color: #859900;">assert</span> s.lower<span style="color: #268bd2;">()</span> == s.lower<span style="color: #268bd2;">()</span>.lower<span style="color: #268bd2;">()</span>
-    <span style="color: #859900;">assert</span> s.capitalize<span style="color: #268bd2;">()</span> == s.capitalize<span style="color: #268bd2;">()</span>.capitalize<span style="color: #268bd2;">()</span>
-</pre>
+<pre><code class="python" >def test_permissions_ruleset():
+    add_perm('can_edit_book', always_true)
+    assert 'can_edit_book' in permissions
+    assert perm_exists('can_edit_book')
+    assert has_perm('can_edit_book')
+    remove_perm('can_edit_book')
+    assert not perm_exists('can_edit_book')
+</code></pre>
 </div>
+
+</section>
+</section>
+<section>
+<section id="slide-org9d6a78c">
+<h3 id="org9d6a78c"><span class="todo TODO">TODO</span> Incremental transition 2</h3>
+<div class="org-src-container">
+
+<pre><code class="python" >@given(permission=st.text())
+def test_permissions_ruleset(permission):
+    add_perm(permission, always_true)
+    assert permission in permissions
+    assert perm_exists(permission)
+    assert has_perm(permission)
+    remove_perm(permission)
+    assert not perm_exists(permission)
+</code></pre>
+</div>
+
+<p>
+Hypothesis website has an <a href="http://hypothesis.works/articles/incremental-property-based-testing/">article</a>
+</p>
 
 <aside class="notes">
 <ul>
-<li>Standard requires PUT, DELETE and safe request methods to be idempotent</li>
-<li>Anything functional is idempotent, yeah?</li>
-
-</ul>
-
-</aside>
-
-</section>
-</section>
-<section>
-<section id="slide-orgf0df2cc">
-<h3 id="orgf0df2cc">Round trip</h3>
-<p>
-There and back again
-</p>
-
+<li>Build incrementally
 <ul>
-<li>Encode-decode invariance</li>
-<li>Reversing a reversed list</li>
-
-</ul>
-
-<div class="org-src-container">
-
-<pre  class="src src-python"><span style="color: #859900;">from</span> hypothesis <span style="color: #859900;">import</span> given, strategies <span style="color: #859900;">as</span> st
-
-<span style="color: #859900;">def</span> <span style="color: #268bd2;">reverse</span><span style="color: #268bd2;">(</span>ls<span style="color: #268bd2;">)</span>:
-    <span style="color: #859900;">return</span> ls<span style="color: #268bd2;">[</span>::-1<span style="color: #268bd2;">]</span>
-
-<span style="color: #b58900;">@given</span><span style="color: #268bd2;">(</span>st.lists<span style="color: #2aa198;">(</span>st.integers<span style="color: #b58900;">()</span><span style="color: #2aa198;">)</span><span style="color: #268bd2;">)</span>
-<span style="color: #859900;">def</span> <span style="color: #268bd2;">test_reversing_reversed_list</span><span style="color: #268bd2;">(</span>ls<span style="color: #268bd2;">)</span>:
-    <span style="color: #859900;">assert</span> ls == reverse<span style="color: #268bd2;">(</span>reverse<span style="color: #2aa198;">(</span>ls<span style="color: #2aa198;">)</span><span style="color: #268bd2;">)</span>
-</pre>
-</div>
-
-</section>
-<section>
-
-<p>
-<a href="https://www.youtube.com/watch?v=jvwfDdgg93E">Matt Bacchman</a> talks about a dateutil bug in his talk
-</p>
-
-<div class="org-src-container">
-
-<pre  class="src src-python"><span style="color: #859900;">import</span> datetime
-<span style="color: #859900;">import</span> dateutil
-
-datetime<span style="color: #268bd2;">(</span>99, 1, 1, 0, 0<span style="color: #268bd2;">)</span>.isoformat<span style="color: #268bd2;">()</span>   <span style="color: #586e75; font-style: italic;"># </span><span style="color: #586e75; font-style: italic;">'0099-01-01T00:00:00'</span>
-dateutil.parse<span style="color: #268bd2;">(</span><span style="color: #2aa198;">'0099-01-01T00:00:00'</span><span style="color: #268bd2;">)</span>  <span style="color: #586e75; font-style: italic;"># </span><span style="color: #586e75; font-style: italic;">datetime.datetime(1999, 1, 1, 0, 0)</span>
-</pre>
-</div>
-
-<aside class="notes">
-<ul>
-<li>Couple of bug in Mercurial</li>
-<li><a href="http://hypothesis.works/articles/encode-decode-invariant/">http://hypothesis.works/articles/encode-decode-invariant/</a></li>
-
-</ul>
-
-</aside>
-</section>
-</section>
-<section>
-<section id="slide-org97899bd">
-<h3 id="org97899bd">Invariance</h3>
-<p>
-Some things never change.
-</p>
-
-<ul>
-<li>Sorting or reversing shouldn't change
-<ul>
-<li>length of list</li>
-<li>elements of the list</li>
+<li>Talk about more changes that could be made</li>
+<li>special permissions, etc?</li>
 
 </ul></li>
-
-</ul>
-
-<div class="org-src-container">
-
-<pre  class="src src-python"><span style="color: #859900;">from</span> hypothesis <span style="color: #859900;">import</span> given, strategies <span style="color: #859900;">as</span> st
-<span style="color: #859900;">from</span> collections <span style="color: #859900;">import</span> Counter
-
-<span style="color: #859900;">def</span> <span style="color: #268bd2;">reverse</span><span style="color: #268bd2;">(</span>ls<span style="color: #268bd2;">)</span>:
-    <span style="color: #859900;">return</span> ls<span style="color: #268bd2;">[</span>::-1<span style="color: #268bd2;">]</span>
-
-<span style="color: #b58900;">@given</span><span style="color: #268bd2;">(</span>st.lists<span style="color: #2aa198;">(</span>st.integers<span style="color: #b58900;">()</span><span style="color: #2aa198;">)</span><span style="color: #268bd2;">)</span>
-<span style="color: #859900;">def</span> <span style="color: #268bd2;">test_sorting_invariance</span><span style="color: #268bd2;">(</span>ls<span style="color: #268bd2;">)</span>:
-    <span style="color: #859900;">assert</span> Counter<span style="color: #268bd2;">(</span>ls<span style="color: #268bd2;">)</span> == Counter<span style="color: #268bd2;">(</span><span style="color: #859900;">sorted</span><span style="color: #2aa198;">(</span>ls<span style="color: #2aa198;">)</span><span style="color: #268bd2;">)</span>
-
-<span style="color: #b58900;">@given</span><span style="color: #268bd2;">(</span>st.lists<span style="color: #2aa198;">(</span>st.integers<span style="color: #b58900;">()</span><span style="color: #2aa198;">)</span><span style="color: #268bd2;">)</span>
-<span style="color: #859900;">def</span> <span style="color: #268bd2;">test_reversing_invariance</span><span style="color: #268bd2;">(</span>ls<span style="color: #268bd2;">)</span>:
-    <span style="color: #859900;">assert</span> Counter<span style="color: #268bd2;">(</span>ls<span style="color: #268bd2;">)</span> == Counter<span style="color: #268bd2;">(</span>reverse<span style="color: #2aa198;">(</span>ls<span style="color: #2aa198;">)</span><span style="color: #268bd2;">)</span>
-</pre>
-</div>
-
-<aside class="notes">
+<li>Good properties
 <ul>
-<li>What are the invariants?</li>
+<li>Fast - both data generation &amp; assertions</li>
+<li>Simple, don't duplicate code under test</li>
+
+</ul></li>
+<li>Thinking about other similar functions which will pass? and come up with
+stronger properties of the code/function/action</li>
+<li>Common design patterns?</li>
 
 </ul>
 
@@ -403,69 +689,8 @@ Some things never change.
 </section>
 </section>
 <section>
-<section id="slide-orgdbc6f0d">
-<h3 id="orgdbc6f0d">Transformation</h3>
-<p>
-Different paths, same destination
-</p>
-
-</section>
-<section id="slide-org9b4425c">
-<h4 id="org9b4425c">List reversing</h4>
-<div class="org-src-container">
-
-<pre  class="src src-python"><span style="color: #859900;">from</span> hypothesis <span style="color: #859900;">import</span> given, strategies <span style="color: #859900;">as</span> st
-<span style="color: #859900;">def</span> <span style="color: #268bd2;">reverse</span><span style="color: #268bd2;">(</span>ls<span style="color: #268bd2;">)</span>:
-    <span style="color: #859900;">return</span> ls<span style="color: #268bd2;">[</span>::-1<span style="color: #268bd2;">]</span>
-
-<span style="color: #b58900;">@given</span><span style="color: #268bd2;">(</span>st.lists<span style="color: #2aa198;">(</span>st.integers<span style="color: #b58900;">()</span><span style="color: #2aa198;">)</span>, st.integers<span style="color: #2aa198;">()</span><span style="color: #268bd2;">)</span>
-<span style="color: #859900;">def</span> <span style="color: #268bd2;">test_list_reverse_transformation</span><span style="color: #268bd2;">(</span>xs, x<span style="color: #268bd2;">)</span>:
-    <span style="color: #859900;">assert</span> reverse<span style="color: #268bd2;">(</span>xs + <span style="color: #2aa198;">[</span>x<span style="color: #2aa198;">]</span><span style="color: #268bd2;">)</span> == <span style="color: #268bd2;">[</span>x<span style="color: #268bd2;">]</span> + reverse<span style="color: #268bd2;">(</span>xs<span style="color: #268bd2;">)</span>
-</pre>
-</div>
-
-</section>
-<section id="slide-orga89248d">
-<h4 id="orga89248d">Change text to uppercase</h4>
-<div class="org-src-container">
-
-<pre  class="src src-python"><span style="color: #859900;">from</span> string <span style="color: #859900;">import</span> ascii_uppercase
-<span style="color: #859900;">from</span> hypothesis <span style="color: #859900;">import</span> given, strategies <span style="color: #859900;">as</span> st
-
-
-<span style="color: #b58900;">@given</span><span style="color: #268bd2;">(</span>st.text<span style="color: #2aa198;">()</span>, st.text<span style="color: #2aa198;">(</span>alphabet=ascii_uppercase<span style="color: #2aa198;">)</span><span style="color: #268bd2;">)</span>
-<span style="color: #859900;">def</span> <span style="color: #268bd2;">test_uppercase_transformation</span><span style="color: #268bd2;">(</span>text, upper_suffix<span style="color: #268bd2;">)</span>:
-    <span style="color: #859900;">assert</span> text.upper<span style="color: #268bd2;">()</span> + upper_suffix == <span style="color: #268bd2;">(</span>text + upper_suffix<span style="color: #268bd2;">)</span>.upper<span style="color: #268bd2;">()</span>
-</pre>
-</div>
-
-</section>
-</section>
-<section>
-<section id="slide-org4c50dd5">
-<h3 id="org4c50dd5">Induction</h3>
-<p>
-Solve a smaller problem first
-</p>
-
-<div class="org-src-container">
-
-<pre  class="src src-python"><span style="color: #859900;">from</span> hypothesis <span style="color: #859900;">import</span> given, strategies <span style="color: #859900;">as</span> st
-
-<span style="color: #859900;">def</span> <span style="color: #268bd2;">is_sorted</span><span style="color: #268bd2;">(</span>ls<span style="color: #268bd2;">)</span>:
-    <span style="color: #859900;">return</span> <span style="color: #2aa198;">True</span> <span style="color: #859900;">if</span> <span style="color: #859900;">len</span><span style="color: #268bd2;">(</span>ls<span style="color: #268bd2;">)</span> &lt;= 1 <span style="color: #859900;">else</span> ls<span style="color: #268bd2;">[</span>0<span style="color: #268bd2;">]</span> &lt;= ls<span style="color: #268bd2;">[</span>1<span style="color: #268bd2;">]</span> <span style="color: #859900;">and</span> is_sorted<span style="color: #268bd2;">(</span>ls<span style="color: #2aa198;">[</span>1:<span style="color: #2aa198;">]</span><span style="color: #268bd2;">)</span>
-
-<span style="color: #b58900;">@given</span><span style="color: #268bd2;">(</span>st.lists<span style="color: #2aa198;">(</span>st.integers<span style="color: #b58900;">()</span><span style="color: #2aa198;">)</span><span style="color: #268bd2;">)</span>
-<span style="color: #859900;">def</span> <span style="color: #268bd2;">test_list_sorting</span><span style="color: #268bd2;">(</span>xs<span style="color: #268bd2;">)</span>:
-    <span style="color: #859900;">assert</span> is_sorted<span style="color: #268bd2;">(</span><span style="color: #859900;">sorted</span><span style="color: #2aa198;">(</span>xs<span style="color: #2aa198;">)</span><span style="color: #268bd2;">)</span>
-</pre>
-</div>
-
-</section>
-</section>
-<section>
-<section id="slide-org585643c">
-<h3 id="org585643c">Verification</h3>
+<section id="slide-orgf7daae4">
+<h3 id="orgf7daae4">Verification</h3>
 <p>
 Assert that a property holds true
 </p>
@@ -488,16 +713,16 @@ Assert that a property holds true
 </aside>
 
 </section>
-<section id="slide-org5777b17">
-<h4 id="org5777b17">Computing the mean</h4>
+<section id="slide-org96b9b0d">
+<h4 id="org96b9b0d">Computing the mean</h4>
 <div class="org-src-container">
 
-<pre  class="src src-python"><span style="color: #859900;">from</span> hypothesis <span style="color: #859900;">import</span> given, strategies <span style="color: #859900;">as</span> st
+<pre><code class="python" >from hypothesis import given, strategies as st
 
-<span style="color: #b58900;">@given</span><span style="color: #268bd2;">(</span>st.lists<span style="color: #2aa198;">(</span>st.floats<span style="color: #b58900;">(</span>allow_nan=<span style="color: #2aa198;">False</span>, allow_infinity=<span style="color: #2aa198;">False</span><span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>, min_size=1<span style="color: #268bd2;">)</span>
-<span style="color: #859900;">def</span> <span style="color: #268bd2;">test_mean_is_within_reasonable_bounds</span><span style="color: #268bd2;">(</span>ls<span style="color: #268bd2;">)</span>:
-    <span style="color: #859900;">assert</span> <span style="color: #859900;">min</span><span style="color: #268bd2;">(</span>ls<span style="color: #268bd2;">)</span> &lt;= mean<span style="color: #268bd2;">(</span>ls<span style="color: #268bd2;">)</span> &lt;= <span style="color: #859900;">max</span><span style="color: #268bd2;">(</span>ls<span style="color: #268bd2;">)</span>
-</pre>
+@given(st.lists(st.floats(allow_nan=False, allow_infinity=False)), min_size=1)
+def test_mean_is_within_reasonable_bounds(ls):
+    assert min(ls) <= mean(ls) <= max(ls)
+</code></pre>
 </div>
 
 <aside class="notes">
@@ -515,9 +740,9 @@ Going by definition &#x2026;
 </p>
 <div class="org-src-container">
 
-<pre  class="src src-python"><span style="color: #859900;">def</span> <span style="color: #268bd2;">mean</span><span style="color: #268bd2;">(</span>xs<span style="color: #268bd2;">)</span>:
-    <span style="color: #859900;">return</span> <span style="color: #859900;">sum</span><span style="color: #268bd2;">(</span>xs<span style="color: #268bd2;">)</span> / <span style="color: #859900;">len</span><span style="color: #268bd2;">(</span>xs<span style="color: #268bd2;">)</span>
-</pre>
+<pre><code class="python" >def mean(xs):
+    return sum(xs) / len(xs)
+</code></pre>
 </div>
 
 <pre class="example">
@@ -546,10 +771,10 @@ Avoiding overflow
 </p>
 <div class="org-src-container">
 
-<pre  class="src src-python"><span style="color: #859900;">def</span> <span style="color: #268bd2;">mean</span><span style="color: #268bd2;">(</span>xs<span style="color: #268bd2;">)</span>:
-    <span style="color: #268bd2;">n</span> = <span style="color: #859900;">len</span><span style="color: #268bd2;">(</span>xs<span style="color: #268bd2;">)</span>
-    <span style="color: #859900;">return</span> <span style="color: #859900;">sum</span><span style="color: #268bd2;">(</span>x / n  <span style="color: #859900;">for</span> x <span style="color: #859900;">in</span> xs<span style="color: #268bd2;">)</span>
-</pre>
+<pre><code class="python" >def mean(xs):
+    n = len(xs)
+    return sum(x / n  for x in xs)
+</code></pre>
 </div>
 
 <pre class="example">
@@ -578,10 +803,10 @@ For instance, <code>numpy</code>
 </p>
 <div class="org-src-container">
 
-<pre  class="src src-python"><span style="color: #859900;">import</span> numpy <span style="color: #859900;">as</span> np
-<span style="color: #859900;">def</span> <span style="color: #268bd2;">mean</span><span style="color: #268bd2;">(</span>xs<span style="color: #268bd2;">)</span>:
-    <span style="color: #859900;">return</span> np.array<span style="color: #268bd2;">(</span>xs<span style="color: #268bd2;">)</span>.mean<span style="color: #268bd2;">()</span>
-</pre>
+<pre><code class="python" >import numpy as np
+def mean(xs):
+    return np.array(xs).mean()
+</code></pre>
 </div>
 
 <pre class="example">
@@ -609,12 +834,212 @@ Read this <a href="https://hal.archives-ouvertes.fr/file/index/docid/576641/file
 </ul>
 
 </aside>
+</section>
+</section>
+<section>
+<section id="slide-orge7f14a0">
+<h3 id="orge7f14a0">Round trip</h3>
+<p>
+There and back again
+</p>
+
+<ul>
+<li>Encode-decode invariance</li>
+<li>Reversing a reversed list</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="python" >from hypothesis import given, strategies as st
+
+def reverse(ls):
+    return ls[::-1]
+
+@given(st.lists(st.integers()))
+def test_reversing_reversed_list(ls):
+    assert ls == reverse(reverse(ls))
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+<a href="https://www.youtube.com/watch?v=jvwfDdgg93E">Matt Bacchman</a> talks about a dateutil bug in his talk
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="python" >import datetime
+import dateutil
+
+datetime(99, 1, 1, 0, 0).isoformat()   # '0099-01-01T00:00:00'
+dateutil.parse('0099-01-01T00:00:00')  # datetime.datetime(1999, 1, 1, 0, 0)
+</code></pre>
+</div>
+
+<aside class="notes">
+<ul>
+<li>Couple of bug in Mercurial</li>
+<li><a href="http://hypothesis.works/articles/encode-decode-invariant/">http://hypothesis.works/articles/encode-decode-invariant/</a></li>
+
+</ul>
+
+</aside>
 
 </section>
 </section>
 <section>
-<section id="slide-orgadc0c4e">
-<h3 id="orgadc0c4e">Test Oracle</h3>
+<section id="slide-org5326863">
+<h3 id="org5326863">Idempotence</h3>
+<p>
+Already been done!
+</p>
+
+<ul>
+<li>Sorting a list</li>
+<li>Rounding a number</li>
+<li>PUT and DELETE should be idempotent</li>
+<li>captialize/upper/lower/strip a string</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="python" >from hypothesis import strategies as st, given
+
+@given(st.lists(st.integers()))
+def test_sort_idempotence(xs):
+    assert sorted(xs) == sorted(sorted(xs))
+
+@given(st.text())
+def test_text_idempotence(s):
+    assert s.upper() == s.upper().upper()
+    assert s.lower() == s.lower().lower()
+    assert s.capitalize() == s.capitalize().capitalize()
+</code></pre>
+</div>
+
+<aside class="notes">
+<ul>
+<li>Standard requires PUT, DELETE and safe request methods to be idempotent</li>
+<li>Anything functional is idempotent, yeah?</li>
+
+</ul>
+
+</aside>
+</section>
+</section>
+<section>
+<section id="slide-org7d2e5a9">
+<h3 id="org7d2e5a9">Invariance</h3>
+<p>
+Some things never change.
+</p>
+
+<ul>
+<li>Sorting or reversing shouldn't change
+<ul>
+<li>length of list</li>
+<li>elements of the list</li>
+
+</ul></li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="python" >from hypothesis import given, strategies as st
+from collections import Counter
+
+def reverse(ls):
+    return ls[::-1]
+
+@given(st.lists(st.integers()))
+def test_sorting_invariance(ls):
+    assert Counter(ls) == Counter(sorted(ls))
+
+@given(st.lists(st.integers()))
+def test_reversing_invariance(ls):
+    assert Counter(ls) == Counter(reverse(ls))
+</code></pre>
+</div>
+
+<aside class="notes">
+<ul>
+<li>What are the invariants?</li>
+
+</ul>
+
+</aside>
+
+</section>
+</section>
+<section>
+<section id="slide-org888d000">
+<h3 id="org888d000">Transformation</h3>
+<p>
+Different paths, same destination
+</p>
+
+</section>
+<section id="slide-orgd6cb598">
+<h4 id="orgd6cb598">List reversing</h4>
+<div class="org-src-container">
+
+<pre><code class="python" >from hypothesis import given, strategies as st
+def reverse(ls):
+    return ls[::-1]
+
+@given(st.lists(st.integers()), st.integers())
+def test_list_reverse_transformation(xs, x):
+    assert reverse(xs + [x]) == [x] + reverse(xs)
+</code></pre>
+</div>
+
+</section>
+<section id="slide-orga18d4a5">
+<h4 id="orga18d4a5">Change text to uppercase</h4>
+<div class="org-src-container">
+
+<pre><code class="python" >from string import ascii_uppercase
+from hypothesis import given, strategies as st
+
+
+@given(st.text(), st.text(alphabet=ascii_uppercase))
+def test_uppercase_transformation(text, upper_suffix):
+    assert text.upper() + upper_suffix == (text + upper_suffix).upper()
+</code></pre>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-org812bf37">
+<h3 id="org812bf37">Induction</h3>
+<p>
+Solve a smaller problem first
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="python" >from hypothesis import given, strategies as st
+
+def is_sorted(ls):
+    return True if len(ls) <= 1 else ls[0] <= ls[1] and is_sorted(ls[1:])
+
+@given(st.lists(st.integers()))
+def test_list_sorting(xs):
+    assert is_sorted(sorted(xs))
+</code></pre>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-org819ada2">
+<h3 id="org819ada2">Test Oracle</h3>
 <p>
 Use existing code to test new code
 </p>
@@ -627,13 +1052,13 @@ Use existing code to test new code
 
 <div class="org-src-container">
 
-<pre  class="src src-python"><span style="color: #859900;">from</span> hypothesis <span style="color: #859900;">import</span> strategies <span style="color: #859900;">as</span> st, given
-<span style="color: #859900;">from</span> my_lib <span style="color: #859900;">import</span> my_sort
+<pre><code class="python" >from hypothesis import strategies as st, given
+from my_lib import my_sort
 
-<span style="color: #b58900;">@given</span><span style="color: #268bd2;">(</span>st.lists<span style="color: #2aa198;">(</span>st.integers<span style="color: #b58900;">()</span><span style="color: #2aa198;">)</span><span style="color: #268bd2;">)</span>
-<span style="color: #859900;">def</span> <span style="color: #268bd2;">test_my_sort</span><span style="color: #268bd2;">(</span>xs<span style="color: #268bd2;">)</span>:
-    <span style="color: #859900;">assert</span> <span style="color: #859900;">sorted</span><span style="color: #268bd2;">(</span>xs<span style="color: #268bd2;">)</span> == my_sort<span style="color: #268bd2;">(</span>xs<span style="color: #268bd2;">)</span>
-</pre>
+@given(st.lists(st.integers()))
+def test_my_sort(xs):
+    assert sorted(xs) == my_sort(xs)
+</code></pre>
 </div>
 
 <aside class="notes">
@@ -649,23 +1074,133 @@ Use existing code to test new code
 </section>
 </section>
 <section>
-<section id="slide-orgfad17e1">
-<h3 id="orgfad17e1">Stateful testing??</h3>
+<section id="slide-org8e6ac6e">
+<h3 id="org8e6ac6e"><span class="todo TODO">TODO</span> Think about re-usability of properties</h3>
+<div class="outline-text-3" id="text-org8e6ac6e">
+</div></section>
+<section id="slide-org012e405">
+<h4 id="org012e405">And simplicity of properties</h4>
+<ul>
+<li>Caution against power of property even if the look trivial</li>
+<li>Re-usable properties!</li>
+<li>keep them simple or you might have to test your properties code!</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-org250da45">
+<h2 id="org250da45"><span class="todo TODO">TODO</span> Stateful testing??</h2>
 <ul>
 <li>Testing against a model</li>
+<li>State diagram is mind blowing</li>
+<li>Reproduce user reports</li>
+<li>Tricky concurrent bugs</li>
 
 </ul>
 </section>
 </section>
 <section>
-<section id="slide-orgaadbafb">
-<h2 id="orgaadbafb">Conclusion</h2>
-<div class="outline-text-2" id="text-orgaadbafb">
+<section id="slide-orgcb24da5">
+<h3 id="orgcb24da5"><span class="todo TODO">TODO</span> Example - 1</h3>
+<p>
+Rules test
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-org0659c02">
+<h3 id="org0659c02"><span class="todo TODO">TODO</span> Example - 2</h3>
+<p>
+tablib test, more - add row, remove row, sort, &#x2026;
+</p>
+</section>
+</section>
+<section>
+<section id="slide-orgc021a84">
+<h2 id="orgc021a84"><span class="todo TODO">TODO</span> Common pitfalls</h2>
+<div class="outline-text-2" id="text-orgc021a84">
 </div></section>
 </section>
 <section>
-<section id="slide-org523f263">
-<h3 id="org523f263">Summary of property based tests</h3>
+<section id="slide-orgcd047cc">
+<h3 id="orgcd047cc">State is not reset</h3>
+<div class="org-src-container">
+
+<pre><code class="python" >def setUp(self):
+    # Gets called only once!
+    pass
+
+# Look at global state.
+
+# Make sure it is reset, between tests
+</code></pre>
+</div>
+
+<ul>
+<li>Make sure your actions are independent</li>
+<li>Make sure that everything you do can be described by your actions. &#x2013; no
+magic</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-org0b15ea3">
+<h3 id="org0b15ea3">Performance</h3>
+<p>
+You can have data being generated too slowly, etc.
+</p>
+
+<p>
+<a href="https://hypothesis.readthedocs.io/en/latest/healthchecks.html">https://hypothesis.readthedocs.io/en/latest/healthchecks.html</a>
+</p>
+</section>
+<section id="slide-org7d3bfe3">
+<h4 id="org7d3bfe3">Run fewer locally</h4>
+</section>
+<section id="slide-org82b3218">
+<h4 id="org82b3218">Run as side job</h4>
+</section>
+</section>
+<section>
+<section id="slide-org57499e8">
+<h3 id="org57499e8">Debugging CI failures</h3>
+<ul>
+<li>@example, copy example DB</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-orgd6aaf07">
+<h3 id="orgd6aaf07">Exact values failures</h3>
+<p>
+== 42, alternatives
+</p>
+
+</section>
+<section id="slide-org1ae3fb4">
+<h4 id="org1ae3fb4">coverage based random testing</h4>
+<p>
+danluu.com/testing
+Sean Grove - Generating and running 1M tests
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-org63b1d8f">
+<h2 id="org63b1d8f">Conclusion</h2>
+<div class="outline-text-2" id="text-org63b1d8f">
+</div></section>
+</section>
+<section>
+<section id="slide-org74edba8">
+<h3 id="org74edba8">Summary of property based tests</h3>
 <ul>
 <li>Hypothesis &#x2013; Python library for Property-based testing</li>
 <li>Provides the following
@@ -680,8 +1215,8 @@ Use existing code to test new code
 </section>
 </section>
 <section>
-<section id="slide-org4ac09e8">
-<h3 id="org4ac09e8">No silver bullet</h3>
+<section id="slide-org0a08d55">
+<h3 id="org0a08d55">No silver bullet</h3>
 <ul>
 <li>Property-based tests are more general</li>
 <li>More concise than a bunch of examples</li>
@@ -694,27 +1229,57 @@ Use existing code to test new code
 </section>
 </section>
 <section>
-<section id="slide-org09dff09">
-<h3 id="org09dff09">Some interesting case studies</h3>
+<section id="slide-org9cb3ef9">
+<h3 id="org9cb3ef9">Some interesting case studies</h3>
 <ul>
-<li>Bug in using <a href="https://www.youtube.com/watch?v=JMhNINPo__g">transients in Clojure-1.5</a></li>
 <li>Bugs in <a href="https://vimeo.com/68383317">Riak</a> DB</li>
 <li><a href="http://basho.com/posts/technical/quickchecking-poolboy-for-fun-and-profit/">Bugs in poolboy</a> &#x2013; Erlang worker pool lib used by Riak</li>
+<li><a href="https://www.youtube.com/watch?v=HXGpBrmR70U">Generative Integration Testing</a> - Ashton Kemarling</li>
+<li>Bug in using <a href="https://www.youtube.com/watch?v=JMhNINPo__g">transients in Clojure-1.5</a></li>
 
 </ul>
+<aside class="notes">
+<ul>
+<li>John Hughes gives war stories about Riak and Mnesia + DETS</li>
+<li>Pivotal tracker integration tests</li>
+<li>Just google for generative/property-based testing</li>
+<li>Bug in clojure, by author of test.check</li>
+
+</ul>
+
+</aside>
+</section>
+</section>
+<section>
+<section id="slide-org2446805">
+<h3 id="org2446805">Pairing anyone?</h3>
+<aside class="notes">
+<ul>
+<li>Haven't really worked on hard bugs/concurrency issues</li>
+<li>Anyone has a tricky bug, pair on it?</li>
+<li>Open source code that is hard to test</li>
+
+</ul>
+
+</aside>
+</section>
+</section>
+<section>
+<section id="slide-orgd988d89">
+<h3 id="orgd988d89">Thank you</h3>
 </section>
 </section>
 </div>
 </div>
-<script src="https://cdn.jsdelivr.net/reveal.js/3.0.0/lib/js/head.min.js"></script>
-<script src="https://cdn.jsdelivr.net/reveal.js/3.0.0/js/reveal.js"></script>
+<script src="reveal.js/lib/js/head.min.js"></script>
+<script src="reveal.js/js/reveal.js"></script>
 
 <script>
 // Full list of configuration options available here:
 // https://github.com/hakimel/reveal.js#configuration
 Reveal.initialize({
 
-controls: true,
+controls: false,
 progress: true,
 history: false,
 center: true,
@@ -724,9 +1289,9 @@ keyboard: true,
 overview: true,
 width: 1200,
 height: 800,
-margin: 0.10,
+margin: 0.00,
 minScale: 0.50,
-maxScale: 2.50,
+maxScale: 5.00,
 
 theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
 transition: Reveal.getQueryHash().transition || 'cube', // default/cube/page/concave/zoom/linear/fade/none
@@ -739,11 +1304,10 @@ multiplex: {
 
 // Optional libraries used to extend on reveal.js
 dependencies: [
- { src: 'https://cdn.jsdelivr.net/reveal.js/3.0.0/lib/js/classList.js', condition: function() { return !document.body.classList; } },
- { src: 'https://cdn.jsdelivr.net/reveal.js/3.0.0/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
- { src: 'https://cdn.jsdelivr.net/reveal.js/3.0.0/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
- { src: 'https://cdn.jsdelivr.net/reveal.js/3.0.0/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
- { src: 'https://cdn.jsdelivr.net/reveal.js/3.0.0/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }]
+ { src: 'reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+ { src: 'reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+ { src: '', async: true },
+ { src: 'reveal.js/plugin/multiplex/master.js', async: true }]
 });
 </script>
 </body>
