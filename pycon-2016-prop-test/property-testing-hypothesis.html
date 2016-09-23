@@ -26,33 +26,33 @@
 <body>
 <div class="reveal">
 <div class="slides">
-<section id="sec-title-slide"><h1 class="title">Don't write tests, Generate them!</h1><h2 class="author">Puneeth Chaganti</h2><p class="date">Created: 2016-09-23 Fri 03:07</p>
+<section id="sec-title-slide"><h1 class="title">Don't write tests, Generate them!</h1><h2 class="author">Puneeth Chaganti</h2><p class="date">Created: 2016-09-23 Fri 09:07</p>
 </section>
 <section id="table-of-contents">
 <div id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#/slide-orgfa4177d">Introduction</a></li>
-<li><a href="#/slide-orge48a917">Hypothesis - Property based testing for Python</a></li>
-<li><a href="#/slide-org5e9041f">How-to write properties?</a></li>
-<li><a href="#/slide-org250da45"><span class="todo TODO">TODO</span> Stateful testing??</a></li>
-<li><a href="#/slide-orgc021a84"><span class="todo TODO">TODO</span> Common pitfalls</a></li>
-<li><a href="#/slide-org63b1d8f">Conclusion</a></li>
+<li><a href="#/slide-org6c6be71">Introduction</a></li>
+<li><a href="#/slide-org9dccde1">Hypothesis - Property based testing for Python</a></li>
+<li><a href="#/slide-org050d456"><span class="todo TODO">TODO</span> How-to write properties?</a></li>
+<li><a href="#/slide-org7012178"><span class="todo TODO">TODO</span> Stateful testing</a></li>
+<li><a href="#/slide-orge86502e"><span class="todo TODO">TODO</span> Common pitfalls</a></li>
+<li><a href="#/slide-org09e0837">Conclusion</a></li>
 </ul>
 </div>
 </div>
 </section>
 
 <section>
-<section id="slide-orgfa4177d">
-<h2 id="orgfa4177d">Introduction</h2>
-<div class="outline-text-2" id="text-orgfa4177d">
+<section id="slide-org6c6be71">
+<h2 id="org6c6be71">Introduction</h2>
+<div class="outline-text-2" id="text-org6c6be71">
 </div></section>
 </section>
 <section>
-<section id="slide-org8bcde54">
-<h3 id="org8bcde54"><span class="todo TODO">TODO</span> Have things working with no internet</h3>
+<section id="slide-org93fc4ac">
+<h3 id="org93fc4ac"><span class="todo TODO">TODO</span> Have things working with no internet</h3>
 <ul>
 <li class="off"><code>[&#xa0;]</code> Have a backup local copy of slides</li>
 <li class="on"><code>[X]</code> Slides should work with local copy of reveal.js
@@ -67,8 +67,8 @@
 </section>
 </section>
 <section>
-<section id="slide-org5895074">
-<h3 id="org5895074">Testing, anyone?</h3>
+<section id="slide-org6f73304">
+<h3 id="org6f73304">Testing, anyone?</h3>
 <aside class="notes">
 <ul>
 <li>Do you TDD?</li>
@@ -83,8 +83,8 @@
 </section>
 </section>
 <section>
-<section id="slide-org243050f">
-<h3 id="org243050f">Property-based testing, anyone?</h3>
+<section id="slide-org5855781">
+<h3 id="org5855781">Property-based testing, anyone?</h3>
 <aside class="notes">
 <ul>
 <li>QuickCheck?</li>
@@ -105,8 +105,8 @@
 </section>
 </section>
 <section>
-<section id="slide-org4f01f43">
-<h3 id="org4f01f43">Example based tests</h3>
+<section id="slide-org82149d4">
+<h3 id="org82149d4">Example based tests</h3>
 <dl>
 <dt>Given</dt><dd>Setup some <b>example</b> data</dd>
 <dt>When</dt><dd>Perform actions</dd>
@@ -150,8 +150,8 @@
 </section>
 </section>
 <section>
-<section id="slide-org1176212">
-<h3 id="org1176212">Problems?</h3>
+<section id="slide-org035207d">
+<h3 id="org035207d">Problems?</h3>
 <div class="org-src-container">
 
 <pre><code class="python" >my_strip = lambda x, y: x.strip(y)
@@ -203,8 +203,8 @@ def test_strip():
 </section>
 </section>
 <section>
-<section id="slide-org744afbc">
-<h3 id="org744afbc">How to fix them?</h3>
+<section id="slide-org7484043">
+<h3 id="org7484043">How to fix them?</h3>
 <p>
 Property-based testing
 </p>
@@ -229,8 +229,8 @@ Property-based testing
 </aside>
 
 </section>
-<section id="slide-orgb6237b4">
-<h4 id="orgb6237b4">Make it a property based test!</h4>
+<section id="slide-org956789d">
+<h4 id="org956789d">Make it a property based test!</h4>
 <div class="org-src-container">
 
 <pre><code class="python" >import string, random
@@ -273,8 +273,8 @@ def test_strip_hyp():
 </aside>
 
 </section>
-<section id="slide-orgd2e915c">
-<h4 id="orgd2e915c">Property based tests</h4>
+<section id="slide-org4134563">
+<h4 id="org4134563">Property based tests</h4>
 <dl>
 <dt>Given</dt><dd>For <b>random</b> data matching a spec</dd>
 <dt>When</dt><dd>Perform actions</dd>
@@ -299,14 +299,14 @@ def test_strip_hyp():
 </section>
 </section>
 <section>
-<section id="slide-orge48a917">
-<h2 id="orge48a917">Hypothesis - Property based testing for Python</h2>
-<div class="outline-text-2" id="text-orge48a917">
+<section id="slide-org9dccde1">
+<h2 id="org9dccde1">Hypothesis - Property based testing for Python</h2>
+<div class="outline-text-2" id="text-org9dccde1">
 </div></section>
 </section>
 <section>
-<section id="slide-org7f25868">
-<h3 id="org7f25868">Hypothesized test</h3>
+<section id="slide-org32ac863">
+<h3 id="org32ac863">Hypothesized test</h3>
 <div class="org-src-container">
 
 <pre><code class="python" >from hypothesis import given, strategies as st
@@ -333,8 +333,8 @@ def test_strip_hypothesis(s, strip_chars):
 
 </aside>
 </section>
-<section id="slide-org7118854">
-<h4 id="org7118854">Failing output</h4>
+<section id="slide-org269742e">
+<h4 id="org269742e">Failing output</h4>
 <div class="org-src-container">
 
 <pre><code class="text" >s = '01', strip_chars = '1'
@@ -360,8 +360,8 @@ Falsifying example: test_strip_hyp(s='01', strip_chars='1')
 </section>
 </section>
 <section>
-<section id="slide-orgf34c31d">
-<h3 id="orgf34c31d">What is Hypothesis?</h3>
+<section id="slide-org56e1b38">
+<h3 id="org56e1b38">What is Hypothesis?</h3>
 <ul>
 <li>a modern implementation of property based testing</li>
 <li>Plans for Java/C/C++ version</li>
@@ -371,19 +371,17 @@ Falsifying example: test_strip_hyp(s='01', strip_chars='1')
 <aside class="notes">
 <ul>
 <li>David MacIver</li>
-<li>Training</li>
-<li>Funding</li>
 
 </ul>
 
 </aside>
 </section>
-<section id="slide-org2b829e4">
-<h4 id="org2b829e4">What does it provide?</h4>
+<section id="slide-orgefed11d">
+<h4 id="orgefed11d">What does it provide?</h4>
 <ul>
 <li>Data generation</li>
+<li>Simplifying failing cases</li>
 <li>Test properties &amp; record failures</li>
-<li>Shrinking</li>
 <li>Configurable</li>
 
 </ul>
@@ -392,7 +390,7 @@ Falsifying example: test_strip_hyp(s='01', strip_chars='1')
 <li>a bunch of strategies to generate different kinds of data!</li>
 <li>Hook up to testing frameworks for asserting properties</li>
 <li>recording inputs for failed tests</li>
-<li>shrinking them</li>
+<li>simplifying failing random cases</li>
 
 </ul>
 
@@ -401,12 +399,12 @@ Falsifying example: test_strip_hyp(s='01', strip_chars='1')
 </section>
 </section>
 <section>
-<section id="slide-org520f664">
-<h3 id="org520f664">Data generation</h3>
-<div class="outline-text-3" id="text-org520f664">
+<section id="slide-org67abd0f">
+<h3 id="org67abd0f">Data generation</h3>
+<div class="outline-text-3" id="text-org67abd0f">
 </div></section>
-<section id="slide-org39932c8">
-<h4 id="org39932c8">Generators for builtins</h4>
+<section id="slide-org7531b19">
+<h4 id="org7531b19">Generators for builtins</h4>
 <div class="org-src-container">
 
 <pre><code class="python" >from hypothesis import strategies as st
@@ -430,8 +428,8 @@ print(sample(st.lists(st.integers())))
 [[52647858669059, -31758544979, 71365626], [0], []]
 </pre>
 </section>
-<section id="slide-orgbcf6c0f">
-<h4 id="orgbcf6c0f">Extra generators</h4>
+<section id="slide-org430c381">
+<h4 id="org430c381">Extra generators</h4>
 <ul>
 <li>Django models</li>
 <li>Numpy arrays</li>
@@ -452,8 +450,8 @@ print(sample(st.lists(st.integers())))
 
 </aside>
 </section>
-<section id="slide-org2d50048">
-<h4 id="org2d50048">Composable strategies</h4>
+<section id="slide-orgea45c2c">
+<h4 id="orgea45c2c">Composable strategies</h4>
 <div class="org-src-container">
 
 <pre><code class="python" >from hypothesis import strategies as st
@@ -482,8 +480,8 @@ st.one_of?
 
 </aside>
 </section>
-<section id="slide-org8a15892">
-<h4 id="org8a15892">Composing strategies - Example</h4>
+<section id="slide-org87e8727">
+<h4 id="org87e8727">Composing strategies - Example</h4>
 <div class="org-src-container">
 
 <pre><code class="markdown" >first_name|last_name |gpa
@@ -508,8 +506,8 @@ Thomas    |Jefferson |50
 
 </aside>
 </section>
-<section id="slide-orgdb44e7b">
-<h4 id="orgdb44e7b">Cells and Rows</h4>
+<section id="slide-org965f7d4">
+<h4 id="org965f7d4">Cells and Rows</h4>
 <div class="org-src-container">
 
 <pre><code class="python" >from hypothesis import strategies as st
@@ -535,8 +533,8 @@ generate_headers = st.lists(st.text(min_size=1), unique=True, min_size=n, max_si
 
 </aside>
 </section>
-<section id="slide-orgff13d04">
-<h4 id="orgff13d04">Putting it together</h4>
+<section id="slide-org3b32aaa">
+<h4 id="org3b32aaa">Putting it together</h4>
 <div class="org-src-container">
 
 <pre><code class="python" >def create_dataset(rows, headers):
@@ -557,11 +555,16 @@ st.builds(create_dataset, generate_data, headers=generate_headers)
 </ul>
 
 </aside>
+
+<p>
+<a href="#/slide-org5a8f0de">Jump ahead</a>
+</p>
+
 </section>
 </section>
 <section>
-<section id="slide-org0004700">
-<h3 id="org0004700">Shrinking</h3>
+<section id="slide-orge1292ab">
+<h3 id="orge1292ab">Shrinking</h3>
 <ul>
 <li>Random data has lots of noise</li>
 <li>Try to find the simplest failing case</li>
@@ -580,56 +583,16 @@ To learn more, see <a href="https://github.com/HypothesisWorks/hypothesis-python
 
 </aside>
 </section>
-<section id="slide-orgf27f114">
-<h4 id="orgf27f114"><span class="todo TODO">TODO</span> Example if time??</h4>
-</section>
 </section>
 <section>
-<section id="slide-org1feffa5">
-<h3 id="org1feffa5">Settings</h3>
-<ul>
-<li>Can configure
-<ul>
-<li>max_examples</li>
-<li>max_iterations</li>
-<li>max_shrinks</li>
-<li>verbosity</li>
-
-</ul></li>
-<li>Can be configured globally or per-test</li>
-<li>settings profiles &#x2013; use different settings for CI/development</li>
-
-</ul>
-
-</section>
-<section id="slide-orgb03c07e">
-<h4 id="orgb03c07e">Per-test config example</h4>
-<div class="org-src-container">
-
-<pre><code class="python" >from hypothesis import given, settings, strategies as st, Verbosity
-
-@given(st.integers())
-@settings(max_examples=500, verbosity=Verbosity.verbose)
-def test_this_thoroughly(x):
-    pass
-</code></pre>
-</div>
-</section>
-</section>
-<section>
-<section id="slide-org5e9041f">
-<h2 id="org5e9041f">How-to write properties?</h2>
-<div class="outline-text-2" id="text-org5e9041f">
+<section id="slide-org050d456">
+<h2 id="org050d456"><span class="todo TODO">TODO</span> How-to write properties?</h2>
+<div class="outline-text-2" id="text-org050d456">
 </div></section>
 </section>
 <section>
-<section id="slide-org0f7bd4f">
-<h3 id="org0f7bd4f"><span class="todo TODO">TODO</span> Incremental transition</h3>
-<ul>
-<li>Show roles lib test?</li>
-
-</ul>
-
+<section id="slide-orgd23b037">
+<h3 id="orgd23b037"><span class="todo TODO">TODO</span> Incremental transition</h3>
 <div class="org-src-container">
 
 <pre><code class="python" >def test_permissions_ruleset():
@@ -642,11 +605,19 @@ def test_this_thoroughly(x):
 </code></pre>
 </div>
 
+<aside class="notes">
+<ul>
+<li>a real test from django-rules package</li>
+<li>very simple</li>
+<li>assertions are sort of verifying properties</li>
+
+</ul>
+
+</aside>
+
 </section>
-</section>
-<section>
-<section id="slide-org9d6a78c">
-<h3 id="org9d6a78c"><span class="todo TODO">TODO</span> Incremental transition 2</h3>
+<section id="slide-org5be3c8e">
+<h4 id="org5be3c8e">to a property based test</h4>
 <div class="org-src-container">
 
 <pre><code class="python" >@given(permission=st.text())
@@ -689,22 +660,18 @@ stronger properties of the code/function/action</li>
 </section>
 </section>
 <section>
-<section id="slide-orgf7daae4">
-<h3 id="orgf7daae4">Verification</h3>
-<p>
-Assert that a property holds true
-</p>
-
+<section id="slide-org03e4fa1">
+<h3 id="org03e4fa1">Verification</h3>
 <ul>
 <li>Sorting actually returns a sorted list</li>
-<li>Stripping white space leaves no leading/trailing white space</li>
-<li>Check whether a string split is working</li>
-<li>Computing the mean of a list of numbers</li>
 
 </ul>
 
 <aside class="notes">
 <ul>
+<li>Assert that a property holds true</li>
+<li>Strip example from before</li>
+<li>permissions example</li>
 <li>Proving result is right is hard without duplicating Code Under Test</li>
 <li>But, checking result is not wrong is easy</li>
 
@@ -713,8 +680,8 @@ Assert that a property holds true
 </aside>
 
 </section>
-<section id="slide-org96b9b0d">
-<h4 id="org96b9b0d">Computing the mean</h4>
+<section id="slide-org8f8de32">
+<h4 id="org8f8de32">Computing the mean</h4>
 <div class="org-src-container">
 
 <pre><code class="python" >from hypothesis import given, strategies as st
@@ -733,11 +700,8 @@ Looks like a very dumb test, but isn't really&#x2026;
 </aside>
 
 </section>
-<section>
-
-<p>
-Going by definition &#x2026;
-</p>
+<section id="slide-org80984f7">
+<h4 id="org80984f7">Going by definition &#x2026;</h4>
 <div class="org-src-container">
 
 <pre><code class="python" >def mean(xs):
@@ -764,11 +728,8 @@ Overflow!
 </aside>
 
 </section>
-<section>
-
-<p>
-Avoiding overflow
-</p>
+<section id="slide-orgb5fbae7">
+<h4 id="orgb5fbae7">Avoiding overflow</h4>
 <div class="org-src-container">
 
 <pre><code class="python" >def mean(xs):
@@ -796,11 +757,8 @@ Inaccurate!
 </aside>
 
 </section>
-<section>
-
-<p>
-For instance, <code>numpy</code>
-</p>
+<section id="slide-org9b57300">
+<h4 id="org9b57300">For instance, <code>numpy</code></h4>
 <div class="org-src-container">
 
 <pre><code class="python" >import numpy as np
@@ -837,34 +795,46 @@ Read this <a href="https://hal.archives-ouvertes.fr/file/index/docid/576641/file
 </section>
 </section>
 <section>
-<section id="slide-orge7f14a0">
-<h3 id="orge7f14a0">Round trip</h3>
-<p>
-There and back again
-</p>
-
+<section id="slide-org5a8f0de">
+<h3 id="org5a8f0de">Round trip</h3>
 <ul>
 <li>Encode-decode invariance</li>
-<li>Reversing a reversed list</li>
 
 </ul>
 
 <div class="org-src-container">
 
-<pre><code class="python" >from hypothesis import given, strategies as st
+<pre><code class="python" >import tablib
 
-def reverse(ls):
-    return ls[::-1]
+@given(generate_dataset())
+def test_json_export_import_works(self, dataset):
+    data = dataset
 
-@given(st.lists(st.integers()))
-def test_reversing_reversed_list(ls):
-    assert ls == reverse(reverse(ls))
+    json_ = data.json
+    data_ = tablib.import_set(json_)
+
+    self.assertEqual(data.width, data_.width)
+    self.assertEqual(data.height, data_.height)
+    self.assertEqual(data[0], sort_columns(data_, data.headers)[0])
 </code></pre>
 </div>
 
-</section>
-<section>
+<p>
+Previous <a href="#/slide-org965f7d4">generate_dataset</a> function
+</p>
 
+<aside class="notes">
+<ul>
+<li>There and back again</li>
+<li>Reversing a list?</li>
+
+</ul>
+
+</aside>
+
+</section>
+<section id="slide-org2483b80">
+<h4 id="org2483b80">dateutil bug</h4>
 <p>
 <a href="https://www.youtube.com/watch?v=jvwfDdgg93E">Matt Bacchman</a> talks about a dateutil bug in his talk
 </p>
@@ -891,20 +861,8 @@ dateutil.parse('0099-01-01T00:00:00')  # datetime.datetime(1999, 1, 1, 0, 0)
 </section>
 </section>
 <section>
-<section id="slide-org5326863">
-<h3 id="org5326863">Idempotence</h3>
-<p>
-Already been done!
-</p>
-
-<ul>
-<li>Sorting a list</li>
-<li>Rounding a number</li>
-<li>PUT and DELETE should be idempotent</li>
-<li>captialize/upper/lower/strip a string</li>
-
-</ul>
-
+<section id="slide-orgacf9ab4">
+<h3 id="orgacf9ab4">Idempotence</h3>
 <div class="org-src-container">
 
 <pre><code class="python" >from hypothesis import strategies as st, given
@@ -923,8 +881,16 @@ def test_text_idempotence(s):
 
 <aside class="notes">
 <ul>
+<li>Already been done!</li>
+<li>Examples
+<ul>
+<li>Sorting a list</li>
+<li>Rounding a number</li>
+<li>PUT and DELETE should be idempotent</li>
+<li>captialize/upper/lower/strip a string</li>
 <li>Standard requires PUT, DELETE and safe request methods to be idempotent</li>
-<li>Anything functional is idempotent, yeah?</li>
+
+</ul></li>
 
 </ul>
 
@@ -932,8 +898,8 @@ def test_text_idempotence(s):
 </section>
 </section>
 <section>
-<section id="slide-org7d2e5a9">
-<h3 id="org7d2e5a9">Invariance</h3>
+<section id="slide-org1c12f79">
+<h3 id="org1c12f79">Invariance</h3>
 <p>
 Some things never change.
 </p>
@@ -977,15 +943,15 @@ def test_reversing_invariance(ls):
 </section>
 </section>
 <section>
-<section id="slide-org888d000">
-<h3 id="org888d000">Transformation</h3>
+<section id="slide-org69e6845">
+<h3 id="org69e6845">Transformation</h3>
 <p>
 Different paths, same destination
 </p>
 
 </section>
-<section id="slide-orgd6cb598">
-<h4 id="orgd6cb598">List reversing</h4>
+<section id="slide-orgf8a15a3">
+<h4 id="orgf8a15a3">List reversing</h4>
 <div class="org-src-container">
 
 <pre><code class="python" >from hypothesis import given, strategies as st
@@ -999,8 +965,8 @@ def test_list_reverse_transformation(xs, x):
 </div>
 
 </section>
-<section id="slide-orga18d4a5">
-<h4 id="orga18d4a5">Change text to uppercase</h4>
+<section id="slide-orge1a6860">
+<h4 id="orge1a6860">Change text to uppercase</h4>
 <div class="org-src-container">
 
 <pre><code class="python" >from string import ascii_uppercase
@@ -1016,8 +982,8 @@ def test_uppercase_transformation(text, upper_suffix):
 </section>
 </section>
 <section>
-<section id="slide-org812bf37">
-<h3 id="org812bf37">Induction</h3>
+<section id="slide-orgf2de778">
+<h3 id="orgf2de778">Induction</h3>
 <p>
 Solve a smaller problem first
 </p>
@@ -1038,8 +1004,8 @@ def test_list_sorting(xs):
 </section>
 </section>
 <section>
-<section id="slide-org819ada2">
-<h3 id="org819ada2">Test Oracle</h3>
+<section id="slide-org54742d3">
+<h3 id="org54742d3">Test Oracle</h3>
 <p>
 Use existing code to test new code
 </p>
@@ -1074,24 +1040,35 @@ def test_my_sort(xs):
 </section>
 </section>
 <section>
-<section id="slide-org8e6ac6e">
-<h3 id="org8e6ac6e"><span class="todo TODO">TODO</span> Think about re-usability of properties</h3>
-<div class="outline-text-3" id="text-org8e6ac6e">
-</div></section>
-<section id="slide-org012e405">
-<h4 id="org012e405">And simplicity of properties</h4>
+<section id="slide-org723f4c1">
+<h3 id="org723f4c1">Some notes on properties</h3>
 <ul>
-<li>Caution against power of property even if the look trivial</li>
-<li>Re-usable properties!</li>
+<li>Simple looking, yet powerful</li>
+<li>Re-use?</li>
+
+</ul>
+
+<aside class="notes">
+<ul>
+<li>even if properties "look" simple, they can be super powerful</li>
 <li>keep them simple or you might have to test your properties code!</li>
 
 </ul>
 
+</aside>
+
 </section>
 </section>
 <section>
-<section id="slide-org250da45">
-<h2 id="org250da45"><span class="todo TODO">TODO</span> Stateful testing??</h2>
+<section id="slide-org7012178">
+<h2 id="org7012178"><span class="todo TODO">TODO</span> Stateful testing</h2>
+
+<div class="figure">
+<p><img src="https://coj.uci.cu/downloads/images/800px-Cbt_almost.png" alt="800px-Cbt_almost.png" />
+</p>
+</div>
+
+<aside class="notes">
 <ul>
 <li>Testing against a model</li>
 <li>State diagram is mind blowing</li>
@@ -1099,34 +1076,89 @@ def test_my_sort(xs):
 <li>Tricky concurrent bugs</li>
 
 </ul>
-</section>
-</section>
-<section>
-<section id="slide-orgcb24da5">
-<h3 id="orgcb24da5"><span class="todo TODO">TODO</span> Example - 1</h3>
-<p>
-Rules test
-</p>
+
+</aside>
 
 </section>
 </section>
 <section>
-<section id="slide-org0659c02">
-<h3 id="org0659c02"><span class="todo TODO">TODO</span> Example - 2</h3>
-<p>
-tablib test, more - add row, remove row, sort, &#x2026;
-</p>
+<section id="slide-orgf112828">
+<h3 id="orgf112828"><span class="todo TODO">TODO</span> Simple example</h3>
+<div class="org-src-container">
+
+<pre><code class="python" >class PermissionsStateMachine(RuleBasedStateMachine):
+
+    def __init__(self):
+        super(PermissionsStateMachine, self).__init__()
+        self._reset_permissions()
+
+    @rule(permission=st.text())
+    def add_permission(self, permission):
+        ...
+
+    @rule(permission=st.text())
+    def remove_permission(self, permission):
+        ...
+
+PermissionsTestCase = PermissionsStateMachine.TestCase
+</code></pre>
+</div>
+
+<aside class="notes">
+<ul>
+<li>tablib test, more - add row, remove row, sort, &#x2026;</li>
+
+</ul>
+
+</aside>
+
+</section>
+<section id="slide-org15c4568">
+<h4 id="org15c4568">Rules</h4>
+<div class="org-src-container">
+
+<pre><code class="python" >@rule(permission=st.text())
+def add_permission(self, permission):
+    if permission not in self.data:
+        self.data.add(permission)
+        add_perm(permission, always_true)
+        assert permission in permissions
+        assert perm_exists(permission)
+        assert has_perm(permission)
+
+    else:
+        assert_raises(KeyError, add_perm, permission, always_true)
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org8c91d4b">
+<h4 id="org8c91d4b">Rules - remove</h4>
+<div class="org-src-container">
+
+<pre><code class="python" >@rule(permission=st.text())
+def remove_permission(self, permission):
+    if permission in self.data:
+        self.data.remove(permission)
+        remove_perm(permission)
+        assert not perm_exists(permission)
+
+    else:
+        assert_raises(KeyError, remove_perm, permission)
+</code></pre>
+</div>
+
 </section>
 </section>
 <section>
-<section id="slide-orgc021a84">
-<h2 id="orgc021a84"><span class="todo TODO">TODO</span> Common pitfalls</h2>
-<div class="outline-text-2" id="text-orgc021a84">
+<section id="slide-orge86502e">
+<h2 id="orge86502e"><span class="todo TODO">TODO</span> Common pitfalls</h2>
+<div class="outline-text-2" id="text-orge86502e">
 </div></section>
 </section>
 <section>
-<section id="slide-orgcd047cc">
-<h3 id="orgcd047cc">State is not reset</h3>
+<section id="slide-orgb279788">
+<h3 id="orgb279788">State is not reset</h3>
 <div class="org-src-container">
 
 <pre><code class="python" >def setUp(self):
@@ -1149,8 +1181,8 @@ magic</li>
 </section>
 </section>
 <section>
-<section id="slide-org0b15ea3">
-<h3 id="org0b15ea3">Performance</h3>
+<section id="slide-org883293e">
+<h3 id="org883293e">Performance</h3>
 <p>
 You can have data being generated too slowly, etc.
 </p>
@@ -1159,16 +1191,16 @@ You can have data being generated too slowly, etc.
 <a href="https://hypothesis.readthedocs.io/en/latest/healthchecks.html">https://hypothesis.readthedocs.io/en/latest/healthchecks.html</a>
 </p>
 </section>
-<section id="slide-org7d3bfe3">
-<h4 id="org7d3bfe3">Run fewer locally</h4>
+<section id="slide-org0d4b97e">
+<h4 id="org0d4b97e">Run fewer locally</h4>
 </section>
-<section id="slide-org82b3218">
-<h4 id="org82b3218">Run as side job</h4>
+<section id="slide-orgfd924c7">
+<h4 id="orgfd924c7">Run as side job</h4>
 </section>
 </section>
 <section>
-<section id="slide-org57499e8">
-<h3 id="org57499e8">Debugging CI failures</h3>
+<section id="slide-org985d222">
+<h3 id="org985d222">Debugging CI failures</h3>
 <ul>
 <li>@example, copy example DB</li>
 
@@ -1176,15 +1208,15 @@ You can have data being generated too slowly, etc.
 </section>
 </section>
 <section>
-<section id="slide-orgd6aaf07">
-<h3 id="orgd6aaf07">Exact values failures</h3>
+<section id="slide-orge901d39">
+<h3 id="orge901d39">Exact values failures</h3>
 <p>
 == 42, alternatives
 </p>
 
 </section>
-<section id="slide-org1ae3fb4">
-<h4 id="org1ae3fb4">coverage based random testing</h4>
+<section id="slide-org74f65a8">
+<h4 id="org74f65a8">coverage based random testing</h4>
 <p>
 danluu.com/testing
 Sean Grove - Generating and running 1M tests
@@ -1193,44 +1225,58 @@ Sean Grove - Generating and running 1M tests
 </section>
 </section>
 <section>
-<section id="slide-org63b1d8f">
-<h2 id="org63b1d8f">Conclusion</h2>
-<div class="outline-text-2" id="text-org63b1d8f">
+<section id="slide-org09e0837">
+<h2 id="org09e0837">Conclusion</h2>
+<div class="outline-text-2" id="text-org09e0837">
 </div></section>
 </section>
 <section>
-<section id="slide-org74edba8">
-<h3 id="org74edba8">Summary of property based tests</h3>
+<section id="slide-org8c7c4c9">
+<h3 id="org8c7c4c9">Property based tests</h3>
 <ul>
-<li>Hypothesis &#x2013; Python library for Property-based testing</li>
-<li>Provides the following
+<li>Concise</li>
+<li>Overcome developer biases</li>
+<li>Assert general things</li>
+
+</ul>
+<aside class="notes">
+<ul>
+<li>more concise than a bunch of examples</li>
+<li>easier to maintain</li>
+<li>Reveal issues overlooked by developer &#x2013; like having others test your code</li>
+<li>Property-based tests are more general, and powerful</li>
+<li>Harder to write, and force you to think</li>
+<li>Floating point arithmetic is hard</li>
+
+</ul>
+
+</aside>
+</section>
+</section>
+<section>
+<section id="slide-orgacdc6c0">
+<h3 id="orgacdc6c0">Hypothesis</h3>
 <ul>
 <li>Generate data, given a requirement</li>
 <li>Check that a <b>property</b> holds true</li>
 <li>Shrink failed cases to simplest case</li>
 
-</ul></li>
-
 </ul>
-</section>
-</section>
-<section>
-<section id="slide-org0a08d55">
-<h3 id="org0a08d55">No silver bullet</h3>
+<aside class="notes">
 <ul>
-<li>Property-based tests are more general</li>
-<li>More concise than a bunch of examples</li>
-<li>Reveal issues overlooked by developer &#x2013; like having others test your code</li>
-<li>Harder to write, and force you to think</li>
-<li>Useful design for better tests</li>
-<li>Talk title stolen from John Huges &#x2013; author of quickcheck</li>
+<li>Python library for Property-based testing</li>
+<li>data generation via strategies</li>
+<li>hook up to testing frameworks</li>
+<li>record failed examples, and shrink</li>
 
 </ul>
+
+</aside>
 </section>
 </section>
 <section>
-<section id="slide-org9cb3ef9">
-<h3 id="org9cb3ef9">Some interesting case studies</h3>
+<section id="slide-org4be0c68">
+<h3 id="org4be0c68"><span class="todo TODO">TODO</span> Some interesting case studies</h3>
 <ul>
 <li>Bugs in <a href="https://vimeo.com/68383317">Riak</a> DB</li>
 <li><a href="http://basho.com/posts/technical/quickchecking-poolboy-for-fun-and-profit/">Bugs in poolboy</a> &#x2013; Erlang worker pool lib used by Riak</li>
@@ -1251,8 +1297,8 @@ Sean Grove - Generating and running 1M tests
 </section>
 </section>
 <section>
-<section id="slide-org2446805">
-<h3 id="org2446805">Pairing anyone?</h3>
+<section id="slide-orgb8d35d7">
+<h3 id="orgb8d35d7">Pairing anyone?</h3>
 <aside class="notes">
 <ul>
 <li>Haven't really worked on hard bugs/concurrency issues</li>
@@ -1265,8 +1311,8 @@ Sean Grove - Generating and running 1M tests
 </section>
 </section>
 <section>
-<section id="slide-orgd988d89">
-<h3 id="orgd988d89">Thank you</h3>
+<section id="slide-orgb8277c3">
+<h3 id="orgb8277c3">Thank you</h3>
 </section>
 </section>
 </div>

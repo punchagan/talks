@@ -201,19 +201,17 @@ Property-based testing
 - ~pip install hypothesis~
 #+BEGIN_NOTES
 - David MacIver
-- Training
-- Funding
 #+END_NOTES
 *** What does it provide?
 - Data generation
+- Simplifying failing cases
 - Test properties & record failures
-- Shrinking
 - Configurable
 #+BEGIN_NOTES
 - a bunch of strategies to generate different kinds of data!
 - Hook up to testing frameworks for asserting properties
 - recording inputs for failed tests
-- shrinking them
+- simplifying failing random cases
 #+END_NOTES
 
 ** Data generation
@@ -315,6 +313,9 @@ Property-based testing
   - Use ~flatmap~ to improve this
   - Use ~fake factory~ to get names
 #+END_NOTES
+
+[[*Round trip][Jump ahead]]
+
 ** Shrinking
 - Random data has lots of noise
 - Try to find the simplest failing case
@@ -324,30 +325,8 @@ To learn more, see [[https://github.com/HypothesisWorks/hypothesis-python/blob/7
 - may not always be the smallest case
 - important to be fast!
 #+END_NOTES
-*** TODO Example if time??
-** Settings
-- Can configure
-  - max_examples
-  - max_iterations
-  - max_shrinks
-  - verbosity
-- Can be configured globally or per-test
-- settings profiles -- use different settings for CI/development
-
-*** Per-test config example
-
-#+BEGIN_SRC python
-  from hypothesis import given, settings, strategies as st, Verbosity
-
-  @given(st.integers())
-  @settings(max_examples=500, verbosity=Verbosity.verbose)
-  def test_this_thoroughly(x):
-      pass
-#+END_SRC
-* How-to write properties?
+* TODO How-to write properties?
 ** TODO Incremental transition
-- Show roles lib test?
-
 #+BEGIN_SRC python
   def test_permissions_ruleset():
       add_perm('can_edit_book', always_true)
@@ -358,7 +337,13 @@ To learn more, see [[https://github.com/HypothesisWorks/hypothesis-python/blob/7
       assert not perm_exists('can_edit_book')
 #+END_SRC
 
-** TODO Incremental transition 2
+#+BEGIN_NOTES
+- a real test from django-rules package
+- very simple
+- assertions are sort of verifying properties
+#+END_NOTES
+
+*** to a property based test
 
 #+BEGIN_SRC python
   @given(permission=st.text())
@@ -387,14 +372,12 @@ Hypothesis website has an [[http://hypothesis.works/articles/incremental-propert
 
 ** Verification
 
-Assert that a property holds true
-
 - Sorting actually returns a sorted list
-- Stripping white space leaves no leading/trailing white space
-- Check whether a string split is working
-- Computing the mean of a list of numbers
 
 #+BEGIN_NOTES
+- Assert that a property holds true
+- Strip example from before
+- permissions example
 - Proving result is right is hard without duplicating Code Under Test
 - But, checking result is not wrong is easy
 #+END_NOTES
@@ -412,9 +395,8 @@ Assert that a property holds true
 Looks like a very dumb test, but isn't really...
 #+END_NOTES
 
-#+REVEAL: split
+*** Going by definition ...
 
-Going by definition ...
 #+BEGIN_SRC python
   def mean(xs):
       return sum(xs) / len(xs)
@@ -436,9 +418,7 @@ Going by definition ...
 Overflow!
 #+END_NOTES
 
-#+REVEAL: split
-
-Avoiding overflow
+*** Avoiding overflow
 #+BEGIN_SRC python
   def mean(xs):
       n = len(xs)
@@ -460,9 +440,7 @@ Avoiding overflow
 Inaccurate!
 #+END_NOTES
 
-#+REVEAL: split
-
-For instance, ~numpy~
+*** For instance, ~numpy~
 #+BEGIN_SRC python
   import numpy as np
   def mean(xs):
@@ -489,23 +467,32 @@ Read this [[https://hal.archives-ouvertes.fr/file/index/docid/576641/filename/co
 - Courtesy: Hypothesis [[http://hypothesis.works/articles/calculating-the-mean/][blog post]]
 #+END_NOTES
 ** Round trip
-There and back again
 
 - Encode-decode invariance
-- Reversing a reversed list
 
 #+BEGIN_SRC python
-  from hypothesis import given, strategies as st
+  import tablib
 
-  def reverse(ls):
-      return ls[::-1]
+  @given(generate_dataset())
+  def test_json_export_import_works(self, dataset):
+      data = dataset
 
-  @given(st.lists(st.integers()))
-  def test_reversing_reversed_list(ls):
-      assert ls == reverse(reverse(ls))
+      json_ = data.json
+      data_ = tablib.import_set(json_)
+
+      self.assertEqual(data.width, data_.width)
+      self.assertEqual(data.height, data_.height)
+      self.assertEqual(data[0], sort_columns(data_, data.headers)[0])
 #+END_SRC
 
-#+REVEAL: split
+Previous [[*Cells and Rows][generate_dataset]] function
+
+#+BEGIN_NOTES
+- There and back again
+- Reversing a list?
+#+END_NOTES
+
+*** dateutil bug
 
 [[https://www.youtube.com/watch?v=jvwfDdgg93E][Matt Bacchman]] talks about a dateutil bug in his talk
 
@@ -524,13 +511,6 @@ There and back again
 
 ** Idempotence
 
-Already been done!
-
-- Sorting a list
-- Rounding a number
-- PUT and DELETE should be idempotent
-- captialize/upper/lower/strip a string
-
 #+BEGIN_SRC python
   from hypothesis import strategies as st, given
 
@@ -546,8 +526,13 @@ Already been done!
 #+END_SRC
 
 #+BEGIN_NOTES
-- Standard requires PUT, DELETE and safe request methods to be idempotent
-- Anything functional is idempotent, yeah?
+- Already been done!
+- Examples
+  - Sorting a list
+  - Rounding a number
+  - PUT and DELETE should be idempotent
+  - captialize/upper/lower/strip a string
+  - Standard requires PUT, DELETE and safe request methods to be idempotent
 #+END_NOTES
 ** Invariance
 
@@ -642,22 +627,78 @@ Use existing code to test new code
 - Whatever other reason for refactoring
 #+END_NOTES
 
-** TODO Think about re-usability of properties
-*** And simplicity of properties
-- Caution against power of property even if the look trivial
-- Re-usable properties!
-- keep them simple or you might have to test your properties code!
+** Some notes on properties
+- Simple looking, yet powerful
+- Re-use?
 
-* TODO Stateful testing??
+#+BEGIN_NOTES
+- even if properties "look" simple, they can be super powerful
+- keep them simple or you might have to test your properties code!
+#+END_NOTES
+
+* TODO Stateful testing
+[[https://coj.uci.cu/downloads/images/800px-Cbt_almost.png]]
+
+#+BEGIN_NOTES
 - Testing against a model
 - State diagram is mind blowing
 - Reproduce user reports
 - Tricky concurrent bugs
-** TODO Example - 1
-Rules test
+#+END_NOTES
 
-** TODO Example - 2
-tablib test, more - add row, remove row, sort, ...
+** TODO Simple example
+#+BEGIN_SRC python
+  class PermissionsStateMachine(RuleBasedStateMachine):
+
+      def __init__(self):
+          super(PermissionsStateMachine, self).__init__()
+          self._reset_permissions()
+
+      @rule(permission=st.text())
+      def add_permission(self, permission):
+          ...
+
+      @rule(permission=st.text())
+      def remove_permission(self, permission):
+          ...
+
+  PermissionsTestCase = PermissionsStateMachine.TestCase
+#+END_SRC
+
+#+BEGIN_NOTES
+- tablib test, more - add row, remove row, sort, ...
+#+END_NOTES
+
+*** Rules
+
+#+BEGIN_SRC python
+  @rule(permission=st.text())
+  def add_permission(self, permission):
+      if permission not in self.data:
+          self.data.add(permission)
+          add_perm(permission, always_true)
+          assert permission in permissions
+          assert perm_exists(permission)
+          assert has_perm(permission)
+
+      else:
+          assert_raises(KeyError, add_perm, permission, always_true)
+#+END_SRC
+
+*** Rules - remove
+
+#+BEGIN_SRC python
+  @rule(permission=st.text())
+  def remove_permission(self, permission):
+      if permission in self.data:
+          self.data.remove(permission)
+          remove_perm(permission)
+          assert not perm_exists(permission)
+
+      else:
+          assert_raises(KeyError, remove_perm, permission)
+#+END_SRC
+
 * TODO Common pitfalls
 ** State is not reset
 #+BEGIN_SRC python
@@ -690,20 +731,29 @@ danluu.com/testing
 Sean Grove - Generating and running 1M tests
 
 * Conclusion
-** Summary of property based tests
-- Hypothesis -- Python library for Property-based testing
-- Provides the following
-  - Generate data, given a requirement
-  - Check that a *property* holds true
-  - Shrink failed cases to simplest case
-** No silver bullet
-- Property-based tests are more general
-- More concise than a bunch of examples
+** Property based tests
+- Concise
+- Overcome developer biases
+- Assert general things
+#+BEGIN_NOTES
+- more concise than a bunch of examples
+- easier to maintain
 - Reveal issues overlooked by developer -- like having others test your code
+- Property-based tests are more general, and powerful
 - Harder to write, and force you to think
-- Useful design for better tests
-- Talk title stolen from John Huges -- author of quickcheck
-** Some interesting case studies
+- Floating point arithmetic is hard
+#+END_NOTES
+** Hypothesis
+- Generate data, given a requirement
+- Check that a *property* holds true
+- Shrink failed cases to simplest case
+#+BEGIN_NOTES
+- Python library for Property-based testing
+- data generation via strategies
+- hook up to testing frameworks
+- record failed examples, and shrink
+#+END_NOTES
+** TODO Some interesting case studies
 - Bugs in [[https://vimeo.com/68383317][Riak]] DB
 - [[http://basho.com/posts/technical/quickchecking-poolboy-for-fun-and-profit/][Bugs in poolboy]] -- Erlang worker pool lib used by Riak
 - [[https://www.youtube.com/watch?v=HXGpBrmR70U][Generative Integration Testing]] - Ashton Kemarling
@@ -746,3 +796,14 @@ Sean Grove - Generating and running 1M tests
 - [X] http://goo.gl/g0mGgU
 - [X] [[https://vimeo.com/68383317][John Hughes: Race Conditions, Distribution, Interactions--Testing the Hard Stuff and Staying Sane]]
 - [X] [[https://www.youtube.com/watch?v=shngiiBfD80][Jessica Kerr: Property-based Testing for Better Code]]
+
+* COMMENT Notes
+- monotonous
+- intro to recommendations
+- ask more questions
+- content
+- speak slowly
+- canvas size
+- fix screen projection
+- be slower with examples
+- make interactive
