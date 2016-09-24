@@ -5,26 +5,21 @@
 
 #+OPTIONS: reveal_center:t reveal_progress:t reveal_history:nil reveal_control:nil ^:{}
 #+OPTIONS: reveal_mathjax:t reveal_rolling_links:t reveal_keyboard:t reveal_overview:t num:nil
-#+OPTIONS: reveal_width:1200 reveal_height:800
-#+OPTIONS: toc:1
-#+REVEAL_MARGIN: 0
-#+REVEAL_MIN_SCALE: 0.5
-#+REVEAL_MAX_SCALE: 5
-#+REVEAL_TRANS: cube
-#+REVEAL_THEME: solarized
+#+OPTIONS: reveal_width:800 reveal_height:600
+#+OPTIONS: toc:nil timestamp:nil
+#+REVEAL_MARGIN: 0.1
+#+REVEAL_MIN_SCALE: 0.2
+#+REVEAL_MAX_SCALE: 300
+#+REVEAL_TRANS: none
+#+REVEAL_THEME: white
 #+REVEAL_HLEVEL: 2
-#+REVEAL_PLUGINS: (highlight notes multiplex)
+#+REVEAL_PLUGINS: (highlight notes multiplex zoom)
 
-# #+REVEAL_ROOT: https://cdn.jsdelivr.net/reveal.js/3.0.0/
-#+REVEAL_ROOT: reveal.js/
+#+REVEAL_ROOT: https://cdn.jsdelivr.net/reveal.js/3.0.0/
+# #+REVEAL_ROOT: reveal.js/
+
 
 * Introduction
-** TODO Have things working with no internet
-- [ ] Have a backup local copy of slides
-- [X] Slides should work with local copy of reveal.js
-  - [X] Figure out install, running, etc.
-  - [X] Fix broken fonts!
-- [X] Speaker notes should work
 ** Testing, anyone?
 #+BEGIN_NOTES
 - Do you TDD?
@@ -41,9 +36,22 @@
 - This talk will:
   - give an overview of PBT
   - Hypothesis overview
-  - Use extremely simple examples
-  - hopefully excite you to learn more and try it out!
+  - Hopefully get you excited about PBT!
+  - Extremely simple examples
 #+END_NOTES
+** A typical test-suite
+#+BEGIN_SRC python
+  def test_strip_whitespace_with_no_argument():
+      assert strip('  foo ') == 'foo'
+
+  def test_should_strip_whitespace_with_argument():
+      assert strip('  foo ', ' ') == 'foo'
+
+  def test_should_strip_non_whitespace():
+      assert strip('foo', 'fo') == ''
+
+  ...
+#+END_SRC
 ** Example based tests
 - Given :: Setup some *example* data
 - When :: Perform actions
@@ -54,86 +62,59 @@
   - Start off with example inputs
     - clever examples, edge cases
   - Think about example outputs
-  - Write and run tests
+  - Write tests
   - Easy to think in terms of examples
-
-- Good to
+- Good
   - Catch regressions
-  - no test -> tests, give confidence
-  - A loose specification of the code
-    - we can interpolate
-
-- BDD Keywords, but unit-tests do the same thing
+  - For some confidence
 #+END_NOTES
-
 ** Problems?
-#+BEGIN_SRC python
-  my_strip = lambda x, y: x.strip(y)
-
-  def test_whitespace_strip():
-      s = ' foo  '
-      assert my_strip(s, ' ') == 'foo'
-
-
-  def test_strip_empty():
-      s = ''
-      assert my_strip(s, ' ') == ''
-
-
-  def test_strip():
-      s = 'foo'
-      assert my_strip(s, 'fo') == ''
-#+END_SRC
-#+BEGIN_NOTES
-- Combinatorial explosion!
-  - Humans aren't good at enumerating everything
-- Developer biases
-  - How often have you missed bugs because test code = dev code?
-  - Why do we have other people writing tests?
+- Combinatorial explosion
+- Biases carry-over to tests
 - Tedious
-  - How often have you removed/not updated tests?
-  - Hard to write and *maintain*!!
-    - one change you've to go and fix all the tests
-    - say you decide to remove one arg
-#+END_NOTES
-
-** How to fix them?
-
-Property-based testing
-
-(Generative testing)
-
 #+BEGIN_NOTES
-- Randomly generated inputs
-  - Less tedious
-  - Address combinatorial explosion
-  - Biases
-- Automate everything, even generation of tests!
+ - Why do we have other people writing tests?
+ - How often have you removed/not updated tests?
+ - Hard to write and *maintain*!!
+   - change function to be just whitespace strip
 #+END_NOTES
-
-*** Make it a property based test!
+*** State in a website
+[[./state-website.jpg]]
+** Enter Generative testing
+(Property-based testing)
+*** Property-based test, the hard way
 #+BEGIN_SRC python
-  import string, random
-
-  def random_string():
-      n = random.randint(0, 10)
-      return ''.join(random.choice(string.printable) for _ in range(n))
-
-  def test_strip_hyp():
+  def test_strip_random():
       for _ in range(200):
           s = random_string()
           strip_chars = random_string()
+          S = strip(s, strip_chars)
+          assert is_stripped(S, s, strip_chars)
 
-          S = my_strip(s)
+  def is_stripped(S, s, strip_chars):
+      assert len(S) <= len(s)
+      if len(S) > 0:
+          assert S[0] not in set(strip_chars)
+          assert S[-1] not in set(strip_chars)
+      return True
 
-          assert len(S) <= len(s)
-          if len(S) > 0:
-              assert S[0] not in set(strip_chars)
-              assert S[-1] not in set(strip_chars)
+  random_string = [
+      random.choice(string.ascii_letters)
+      for _ in range(10)
+  ]
+
 #+END_SRC
 
 #+BEGIN_NOTES
 - You don't really need a library
+
+- Randomly generated inputs
+  - Less tedious
+  - Address combinatorial explosion
+  - Biases
+
+- Automate everything, even generation of tests!
+
 - But, a library can make life easy!
   - Randomness can be hard
     - minimal example
@@ -148,9 +129,8 @@ Property-based testing
 
 #+BEGIN_NOTES
 - Why properties?
-  - Don't know the exact output, so can't check actual vs. expected
-  - Loose assertions, but better spec
-  - Force us to think harder
+  - Looser or more general assertions
+  - Don't know the exact input and output
 #+END_NOTES
 
 * Hypothesis - Property based testing for Python
@@ -160,62 +140,43 @@ Property-based testing
 
   @given(st.text(), st.text())
   def test_strip_hypothesis(s, strip_chars):
-      S = my_strip(s, strip_chars)
-      assert len(S) <= len(s)
-      if len(S) > 0:
-          assert S[0] not in set(strip_chars)
-          assert S[-1] not in set(strip_chars)
-
+      S = strip(s, strip_chars)
+      assert is_stripped(S, s, strip_chars)
   # Ran 1 test in 0.159s
 #+END_SRC
 
-#+BEGIN_NOTES
-- Parametrized tests similar to py.test
-- Random inputs for parameters
-- Overflow
-#+END_NOTES
 *** Failing output
-#+BEGIN_SRC text
-  s = '01', strip_chars = '1'
+#+BEGIN_SRC python
+  strip = lambda x, y: x.lstrip(y)
+  _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-      @given(st.text(), st.text())
-      def test_strip_hyp(s, strip_chars):
-          my_strip = lambda x, y: x.lstrip(y)
-          # print('s: {}, strip_chars: {}'.format(repr(s), repr(strip_chars)))
-          S = my_strip(s, strip_chars)
-          assert len(S) <= len(s)
-          if len(S) > 0:
-              assert S[0] not in set(strip_chars)
-  >           assert S[-1] not in set(strip_chars)
+  output = '01', input_ = '01', strip_chars = '1'
+
+      def is_stripped(output, input_, strip_chars):
+          assert len(output) <= len(input_)
+          if len(output) > 0:
+              assert output[0] not in set(strip_chars)
+  >           assert output[-1] not in set(strip_chars)
   E           assert '1' not in {'1'}
   E            +  where {'1'} = set('1')
 
-  test_code.py:118: AssertionError
+  test_code.py:113: AssertionError
   ----------------------------------------------------- Hypothesis ------------------------------------------------------
-  Falsifying example: test_strip_hyp(s='01', strip_chars='1')
+  Falsifying example: test_strip(s='01', strip_chars='1')
 #+END_SRC
 
-** What is Hypothesis?
-- a modern implementation of property based testing
-- Plans for Java/C/C++ version
-- ~pip install hypothesis~
+** Shrinking
+- Random data has lots of noise
+- Try to find the "simplest" failing case
+To learn more, see [[https://github.com/HypothesisWorks/hypothesis-python/blob/7c54198d31a5035a0c2810d8c500308f507b5b11/notebooks/Designing%2520a%2520better%2520simplifier.ipynb][Designing a better simplifier]]
 #+BEGIN_NOTES
-- David MacIver
-#+END_NOTES
-*** What does it provide?
-- Data generation
-- Simplifying failing cases
-- Test properties & record failures
-- Configurable
-#+BEGIN_NOTES
-- a bunch of strategies to generate different kinds of data!
-- Hook up to testing frameworks for asserting properties
-- recording inputs for failed tests
-- simplifying failing random cases
+- hard to understand why it fails
+- may not always be the smallest case
+- important to be fast!
 #+END_NOTES
 
 ** Data generation
-*** Generators for builtins
+*** Generators for built-ins
 
 #+BEGIN_SRC python
   from hypothesis import strategies as st
@@ -248,17 +209,15 @@ Property-based testing
   - from credit card numbers to fake addresses to ips
 #+END_NOTES
 *** Composable strategies
-#+BEGIN_SRC python
+#+BEGIN_SRC x
   from hypothesis import strategies as st
 
   st.recursive?
+  st.one_of?
   st.builds?
   st.streaming?
-  st.one_of?
 
-  .map
-  .filter
-  .flatmap
+  .map, .filter, .flatmap
 #+END_SRC
 
 #+BEGIN_NOTES
@@ -270,6 +229,11 @@ Property-based testing
 - generate example, convert that to strategy
 #+END_NOTES
 *** Composing strategies - Example
+#+BEGIN_SRC python
+  rows = [('John', 'Adams', 90), (...), (...)]
+  headers = ['first_name', 'last_name', 'gpa']
+  print(tablib.Dataset(*rows, headers=headers))
+#+END_SRC
 
 #+BEGIN_SRC markdown
   first_name|last_name |gpa
@@ -285,16 +249,24 @@ Property-based testing
   - Use ~flatmap~ to improve this
   - Use ~fake factory~ to get names
 #+END_NOTES
-*** Cells and Rows
+*** Generate Rows & Header
 #+BEGIN_SRC python
-  from hypothesis import strategies as st
+  from hypothesis import strategies as st; import string
 
   n = 3
-  generate_cell = st.one_of(st.integers(), st.text(min_size=1), st.booleans())
-  generate_row = st.lists(generate_cell, min_size=n, max_size=n)
-  generate_data = st.lists(generate_row, min_size=1)
-
-  generate_headers = st.lists(st.text(min_size=1), unique=True, min_size=n, max_size=n)
+  alphabet = string.ascii_letters
+  generate_row = st.tuples(
+      st.text(alphabet, min_size=1),
+      st.text(alphabet, min_size=1),
+      st.integers(min_value=0, max_value=100)
+  )
+  generate_table = st.lists(generate_row, min_size=3, max_size=3)
+  generate_headers = st.lists(
+      st.text(alphabet, min_size=1),
+      unique=True,
+      min_size=n,
+      max_size=n
+  )
 #+END_SRC
 #+BEGIN_NOTES
 - Homework: Exercise for the reader
@@ -306,73 +278,116 @@ Property-based testing
   def create_dataset(rows, headers):
       return tablib.Dataset(*rows, headers=headers)
 
-  st.builds(create_dataset, generate_data, headers=generate_headers)
+  def generate_dataset():
+      return st.builds(create_dataset, generate_data, headers=generate_headers)
+
+  print(generate_dataset().example())
 #+END_SRC
+
+#+BEGIN_SRC x
+  znefubbdv     |wpclcf|ouc
+  --------------|------|---
+  aecpjxzwfqosmu|krlmfh|55
+  htq           |jid   |87
+  lwbfboxyifre  |oqdha |83
+#+END_SRC
+
 #+BEGIN_NOTES
 - Homework: Exercise for the reader
   - Use ~flatmap~ to improve this
   - Use ~fake factory~ to get names
 #+END_NOTES
 
-[[*Round trip][Jump ahead]]
-
-** Shrinking
-- Random data has lots of noise
-- Try to find the simplest failing case
-To learn more, see [[https://github.com/HypothesisWorks/hypothesis-python/blob/7c54198d31a5035a0c2810d8c500308f507b5b11/notebooks/Designing%2520a%2520better%2520simplifier.ipynb][Designing a better simplifier]]
-#+BEGIN_NOTES
-- hard to understand why it fails
-- may not always be the smallest case
-- important to be fast!
-#+END_NOTES
-* TODO How-to write properties?
-** TODO Incremental transition
+** Simple ~tablib~ test
 #+BEGIN_SRC python
-  def test_permissions_ruleset():
-      add_perm('can_edit_book', always_true)
-      assert 'can_edit_book' in permissions
-      assert perm_exists('can_edit_book')
-      assert has_perm('can_edit_book')
-      remove_perm('can_edit_book')
-      assert not perm_exists('can_edit_book')
+  def test_add_column():
+      rows = [['kenneth'], ['bessie']]
+      data = tablib.Dataset(*rows, headers=['fname'])
+      new_col = ['reitz', 'monke']
+      data.append_col(new_col, header='lname')
+
+      assert data[0] == ('kenneth', 'reitz'))
+      assert data.width == 2
 #+END_SRC
-
-#+BEGIN_NOTES
-- a real test from django-rules package
-- very simple
-- assertions are sort of verifying properties
-#+END_NOTES
-
 *** to a property based test
-
 #+BEGIN_SRC python
-  @given(permission=st.text())
-  def test_permissions_ruleset(permission):
-      add_perm(permission, always_true)
-      assert permission in permissions
-      assert perm_exists(permission)
-      assert has_perm(permission)
-      remove_perm(permission)
-      assert not perm_exists(permission)
+  @given(data=generate_dataset(),
+         new_col=st.lists(st.text(min_size=1), min_size=3, max_size=3),
+         header=st.text(min_size=3))
+  def test_hyp_add_column(data, new_col, header):
+      first_row = data[0]
+      data.append_col(new_col, header=header)
+
+      assert data[0] == first_row + (new_col[0],)
+      assert data.width == 4
+#+END_SRC
+*** Test transpose
+#+BEGIN_SRC python
+  @given(generate_dataset())
+  def test_transpose(self, data):
+      data_ = data.transpose()
+
+      self.assertEqual(data.width, data_.height+1)
+      self.assertEqual(data.height, data_.width-1)
+#+END_SRC
+*** Round trip transpose
+#+BEGIN_SRC python
+  @given(generate_dataset())
+  def test_two_transposes(self, data):
+      data_ = data.transpose().transpose()
+
+      self.assertEqual(data.width, data_.width)
+      self.assertEqual(data.height, data_.height)
 #+END_SRC
 
-Hypothesis website has an [[http://hypothesis.works/articles/incremental-property-based-testing/][article]]
+#+BEGIN_SRC traceback
+    self.assertEqual(data.width, data_.height)
+E   AssertionError: 3 != 2
+------------------------------------------------ Captured stdout call -------------------------------------------------
+Falsifying example:
+a|b|c
+-|-|-
+a|a|0
+a|a|0
+a|a|0
+#+END_SRC
+*** Round trip to json
+#+BEGIN_SRC python
+  @given(generate_dataset())
+  def test_json_export_import_works(data):
+      json_ = data.json
+      data_ = tablib.import_set(json_)
+
+      self.assertEqual(data.width, data_.width)
+      self.assertEqual(data.height, data_.height)
+      self.assertEqual(data[0], data_[0]))
+#+END_SRC
+
+#+BEGIN_SRC traceback
+      self.assertEqual(data[0], data_[0])
+  E   AssertionError: Tuples differ: ('a', 'a', 0) != ('a', 0, 'a')
+#+END_SRC
+**** COMMENT dateutil bug
+
+[[https://www.youtube.com/watch?v=jvwfDdgg93E][Matt Bacchman]] talks about a dateutil bug in his talk
+
+#+BEGIN_SRC python
+  import datetime
+  import dateutil
+
+  datetime(99, 1, 1, 0, 0).isoformat()   # '0099-01-01T00:00:00'
+  dateutil.parse('0099-01-01T00:00:00')  # datetime.datetime(1999, 1, 1, 0, 0)
+#+END_SRC
 
 #+BEGIN_NOTES
-- Build incrementally
-  - Talk about more changes that could be made
-  - special permissions, etc?
-- Good properties
-  - Fast - both data generation & assertions
-  - Simple, don't duplicate code under test
-- Thinking about other similar functions which will pass? and come up with
-  stronger properties of the code/function/action
-- Common design patterns?
+- Couple of bug in Mercurial
+- http://hypothesis.works/articles/encode-decode-invariant/
 #+END_NOTES
 
 ** Verification
+~strip~ tests from before
 
-- Sorting actually returns a sorted list
+Sorting actually returns a sorted list
 
 #+BEGIN_NOTES
 - Assert that a property holds true
@@ -466,152 +481,7 @@ Read this [[https://hal.archives-ouvertes.fr/file/index/docid/576641/filename/co
 - Layer more tests on this
 - Courtesy: Hypothesis [[http://hypothesis.works/articles/calculating-the-mean/][blog post]]
 #+END_NOTES
-** Round trip
-
-- Encode-decode invariance
-
-#+BEGIN_SRC python
-  import tablib
-
-  @given(generate_dataset())
-  def test_json_export_import_works(self, dataset):
-      data = dataset
-
-      json_ = data.json
-      data_ = tablib.import_set(json_)
-
-      self.assertEqual(data.width, data_.width)
-      self.assertEqual(data.height, data_.height)
-      self.assertEqual(data[0], sort_columns(data_, data.headers)[0])
-#+END_SRC
-
-Previous [[*Cells and Rows][generate_dataset]] function
-
-#+BEGIN_NOTES
-- There and back again
-- Reversing a list?
-#+END_NOTES
-
-*** dateutil bug
-
-[[https://www.youtube.com/watch?v=jvwfDdgg93E][Matt Bacchman]] talks about a dateutil bug in his talk
-
-#+BEGIN_SRC python
-  import datetime
-  import dateutil
-
-  datetime(99, 1, 1, 0, 0).isoformat()   # '0099-01-01T00:00:00'
-  dateutil.parse('0099-01-01T00:00:00')  # datetime.datetime(1999, 1, 1, 0, 0)
-#+END_SRC
-
-#+BEGIN_NOTES
-- Couple of bug in Mercurial
-- http://hypothesis.works/articles/encode-decode-invariant/
-#+END_NOTES
-
-** Idempotence
-
-#+BEGIN_SRC python
-  from hypothesis import strategies as st, given
-
-  @given(st.lists(st.integers()))
-  def test_sort_idempotence(xs):
-      assert sorted(xs) == sorted(sorted(xs))
-
-  @given(st.text())
-  def test_text_idempotence(s):
-      assert s.upper() == s.upper().upper()
-      assert s.lower() == s.lower().lower()
-      assert s.capitalize() == s.capitalize().capitalize()
-#+END_SRC
-
-#+BEGIN_NOTES
-- Already been done!
-- Examples
-  - Sorting a list
-  - Rounding a number
-  - PUT and DELETE should be idempotent
-  - captialize/upper/lower/strip a string
-  - Standard requires PUT, DELETE and safe request methods to be idempotent
-#+END_NOTES
-** Invariance
-
-Some things never change.
-
-- Sorting or reversing shouldn't change
-  - length of list
-  - elements of the list
-
-#+BEGIN_SRC python
-  from hypothesis import given, strategies as st
-  from collections import Counter
-
-  def reverse(ls):
-      return ls[::-1]
-
-  @given(st.lists(st.integers()))
-  def test_sorting_invariance(ls):
-      assert Counter(ls) == Counter(sorted(ls))
-
-  @given(st.lists(st.integers()))
-  def test_reversing_invariance(ls):
-      assert Counter(ls) == Counter(reverse(ls))
-
-#+END_SRC
-
-#+BEGIN_NOTES
-- What are the invariants?
-#+END_NOTES
-
-** Transformation
-
-Different paths, same destination
-
-*** List reversing
-
-#+BEGIN_SRC python
-  from hypothesis import given, strategies as st
-  def reverse(ls):
-      return ls[::-1]
-
-  @given(st.lists(st.integers()), st.integers())
-  def test_list_reverse_transformation(xs, x):
-      assert reverse(xs + [x]) == [x] + reverse(xs)
-#+END_SRC
-
-*** Change text to uppercase
-#+BEGIN_SRC python
-  from string import ascii_uppercase
-  from hypothesis import given, strategies as st
-
-
-  @given(st.text(), st.text(alphabet=ascii_uppercase))
-  def test_uppercase_transformation(text, upper_suffix):
-      assert text.upper() + upper_suffix == (text + upper_suffix).upper()
-#+END_SRC
-
-** Induction
-
-Solve a smaller problem first
-
-#+BEGIN_SRC python
-  from hypothesis import given, strategies as st
-
-  def is_sorted(ls):
-      return True if len(ls) <= 1 else ls[0] <= ls[1] and is_sorted(ls[1:])
-
-  @given(st.lists(st.integers()))
-  def test_list_sorting(xs):
-      assert is_sorted(sorted(xs))
-#+END_SRC
-
 ** Test Oracle
-
-Use existing code to test new code
-
-- Optimizing
-- Refactoring
-
 #+BEGIN_SRC python
   from hypothesis import strategies as st, given
   from my_lib import my_sort
@@ -622,22 +492,40 @@ Use existing code to test new code
 #+END_SRC
 
 #+BEGIN_NOTES
-- Too slow
-- Hard to parallelize
-- Whatever other reason for refactoring
+- of course, you can find bugs in old code!
 #+END_NOTES
 
-** Some notes on properties
+** More patterns
+See talk by [[http://pyvideo.org/pycon-za-2015/property-based-testing-with-hypothesis.html][Jeremy Thurgood]]
+- Induction
+- Transformation
+- Invariance
+- Idempotence
+** Keep in mind
+- Fast data generation
+- Fast assertions
 - Simple looking, yet powerful
 - Re-use?
 
 #+BEGIN_NOTES
 - even if properties "look" simple, they can be super powerful
 - keep them simple or you might have to test your properties code!
+- Good properties
+  - Fast - both data generation & assertions
+  - Simple, don't duplicate code under test
+- Thinking about other similar functions which will pass? and come up with
+  stronger properties of the code/function/action
 #+END_NOTES
 
-* TODO Stateful testing
-[[https://coj.uci.cu/downloads/images/800px-Cbt_almost.png]]
+* Stateful testing
+
+#+BEGIN_SRC python
+  def test_website():
+      assert login(credentials)
+      assert go_to_homepage()
+      assert follow_friend()
+      assert logout()
+#+END_SRC
 
 #+BEGIN_NOTES
 - Testing against a model
@@ -646,90 +534,30 @@ Use existing code to test new code
 - Tricky concurrent bugs
 #+END_NOTES
 
-** TODO Simple example
+** Pseudocode example
 #+BEGIN_SRC python
-  class PermissionsStateMachine(RuleBasedStateMachine):
-
+  class WebSiteStateMachine(RuleBasedStateMachine):
       def __init__(self):
-          super(PermissionsStateMachine, self).__init__()
-          self._reset_permissions()
+          super(WebSiteStateMachine, self).__init__()
 
-      @rule(permission=st.text())
-      def add_permission(self, permission):
-          ...
+      def login(self):
+          """Login using credentials and assert success."""
 
-      @rule(permission=st.text())
-      def remove_permission(self, permission):
-          ...
+      @rule()
+      def logout(self):
+          """Logout and assert it worksn."""
 
-  PermissionsTestCase = PermissionsStateMachine.TestCase
+      @rule(user=st.sampled_from(USERS))
+      def follow_user(self, user):
+          """Assert that following a user works."""
+
+  WebSiteTestCase = WebSiteStateMachine.TestCase
 #+END_SRC
 
-#+BEGIN_NOTES
-- tablib test, more - add row, remove row, sort, ...
-#+END_NOTES
-
-*** Rules
-
-#+BEGIN_SRC python
-  @rule(permission=st.text())
-  def add_permission(self, permission):
-      if permission not in self.data:
-          self.data.add(permission)
-          add_perm(permission, always_true)
-          assert permission in permissions
-          assert perm_exists(permission)
-          assert has_perm(permission)
-
-      else:
-          assert_raises(KeyError, add_perm, permission, always_true)
-#+END_SRC
-
-*** Rules - remove
-
-#+BEGIN_SRC python
-  @rule(permission=st.text())
-  def remove_permission(self, permission):
-      if permission in self.data:
-          self.data.remove(permission)
-          remove_perm(permission)
-          assert not perm_exists(permission)
-
-      else:
-          assert_raises(KeyError, remove_perm, permission)
-#+END_SRC
-
-* TODO Common pitfalls
-** State is not reset
-#+BEGIN_SRC python
-  def setUp(self):
-      # Gets called only once!
-      pass
-
-  # Look at global state.
-
-  # Make sure it is reset, between tests
-#+END_SRC
-
-- Make sure your actions are independent
-- Make sure that everything you do can be described by your actions. -- no
-  magic
-
-** Performance
-You can have data being generated too slowly, etc.
-
-https://hypothesis.readthedocs.io/en/latest/healthchecks.html
-*** Run fewer locally
-*** Run as side job
-** Debugging CI failures
-- @example, copy example DB
-** Exact values failures
-== 42, alternatives
-
-*** coverage based random testing
-danluu.com/testing
-Sean Grove - Generating and running 1M tests
-
+* Problems with Generative Testing?
+- Performance
+- Debugging CI failures
+- Rare branches?
 * Conclusion
 ** Property based tests
 - Concise
@@ -753,11 +581,10 @@ Sean Grove - Generating and running 1M tests
 - hook up to testing frameworks
 - record failed examples, and shrink
 #+END_NOTES
-** TODO Some interesting case studies
-- Bugs in [[https://vimeo.com/68383317][Riak]] DB
-- [[http://basho.com/posts/technical/quickchecking-poolboy-for-fun-and-profit/][Bugs in poolboy]] -- Erlang worker pool lib used by Riak
-- [[https://www.youtube.com/watch?v=HXGpBrmR70U][Generative Integration Testing]] - Ashton Kemarling
-- Bug in using [[https://www.youtube.com/watch?v=JMhNINPo__g][transients in Clojure-1.5]]
+** Some interesting case studies
+- [[https://vimeo.com/68383317][John Hughes]]: Testing the hard stuff and staying sane
+- [[https://www.youtube.com/watch?v=HXGpBrmR70U][Ashton Kemerling]]: Generative Integration Testing
+- [[https://www.youtube.com/watch?v=Yp7MmskzF9Y][Sean Grove]]: Generating and Running 1M tests
 #+BEGIN_NOTES
 - John Hughes gives war stories about Riak and Mnesia + DETS
 - Pivotal tracker integration tests
@@ -801,7 +628,7 @@ Sean Grove - Generating and running 1M tests
 - monotonous
 - intro to recommendations
 - ask more questions
-- content
+- too much content
 - speak slowly
 - canvas size
 - fix screen projection
