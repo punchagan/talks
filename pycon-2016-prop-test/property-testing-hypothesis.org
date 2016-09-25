@@ -21,16 +21,6 @@
 
 * Introduction
 ** Property-based testing, anyone?
-#+BEGIN_NOTES
-- QuickCheck?
-- Property based testing?
-- Hypothesis?
-- This talk will:
-  - give an overview of PBT
-  - Hypothesis overview
-  - Hopefully get you excited about PBT!
-  - Extremely simple examples
-#+END_NOTES
 ** A typical test-suite
 #+BEGIN_SRC python
   def test_strip_whitespace_with_no_argument():
@@ -49,27 +39,10 @@
 - When :: Perform actions
 - Then :: ~assert output == expected~
 
-#+BEGIN_NOTES
-- How?
-  - Start off with example inputs
-    - clever examples, edge cases
-  - Think about example outputs
-  - Write tests
-  - Easy to think in terms of examples
-- Good
-  - Catch regressions
-  - For some confidence
-#+END_NOTES
 ** Problems?
 - Combinatorial explosion
 - Biases carry-over to tests
 - Tedious
-#+BEGIN_NOTES
- - Why do we have other people writing tests?
- - How often have you removed/not updated tests?
- - Hard to write and *maintain*!!
-   - change function to be just whitespace strip
-#+END_NOTES
 *** State in a website
 [[./state-website.jpg]]
 ** Enter Generative testing
@@ -97,33 +70,12 @@
 
 #+END_SRC
 
-#+BEGIN_NOTES
-- You don't really need a library
-
-- Randomly generated inputs
-  - Less tedious
-  - Address combinatorial explosion
-  - Biases
-
-- Automate everything, even generation of tests!
-
-- But, a library can make life easy!
-  - Randomness can be hard
-    - minimal example
-    - repeatability of tests
-  - You are writing your generator
-#+END_NOTES
 
 *** Property based tests
 - Given :: For *random* data matching a spec
 - When :: Perform actions
 - Then :: ~assert property(output)~
 
-#+BEGIN_NOTES
-- Why properties?
-  - Looser or more general assertions
-  - Don't know the exact input and output
-#+END_NOTES
 
 * Hypothesis - Property based testing for Python
 ** Hypothesized test
@@ -161,11 +113,6 @@
 - Random data has lots of noise
 - Try to find the "simplest" failing case
 To learn more, see [[https://github.com/HypothesisWorks/hypothesis-python/blob/7c54198d31a5035a0c2810d8c500308f507b5b11/notebooks/Designing%2520a%2520better%2520simplifier.ipynb][Designing a better simplifier]]
-#+BEGIN_NOTES
-- hard to understand why it fails
-- may not always be the smallest case
-- important to be fast!
-#+END_NOTES
 
 ** Data generation
 *** Generators for built-ins
@@ -195,11 +142,6 @@ To learn more, see [[https://github.com/HypothesisWorks/hypothesis-python/blob/7
 - Numpy arrays
 - Dates & times
 - Faker generators
-#+BEGIN_NOTES
-- fake factory previously known as
-  - provides a bunch of things
-  - from credit card numbers to fake addresses to ips
-#+END_NOTES
 *** Composable strategies
 #+BEGIN_SRC x
   from hypothesis import strategies as st
@@ -212,14 +154,6 @@ To learn more, see [[https://github.com/HypothesisWorks/hypothesis-python/blob/7
   .map, .filter, .flatmap
 #+END_SRC
 
-#+BEGIN_NOTES
-- Provides functions to compose basic ones
-- recursive data structure/json?
-- st.builds? - target()
-- st.streaming? - streaming data
-- choose from one of the strategies
-- generate example, convert that to strategy
-#+END_NOTES
 *** Composing strategies - Example
 #+BEGIN_SRC python
   rows = [('John', 'Adams', 90), (...), (...)]
@@ -235,12 +169,6 @@ To learn more, see [[https://github.com/HypothesisWorks/hypothesis-python/blob/7
   Thomas    |Jefferson |50
 #+END_SRC
 
-#+BEGIN_NOTES
-- Let's try to build a table
-- Homework: Exercise for the reader
-  - Use ~flatmap~ to improve this
-  - Use ~fake factory~ to get names
-#+END_NOTES
 *** Generate Rows & Header
 #+BEGIN_SRC python
   from hypothesis import strategies as st; import string
@@ -260,11 +188,6 @@ To learn more, see [[https://github.com/HypothesisWorks/hypothesis-python/blob/7
       max_size=n
   )
 #+END_SRC
-#+BEGIN_NOTES
-- Homework: Exercise for the reader
-  - Use ~flatmap~ to improve this
-  - Use ~fake factory~ to get names
-#+END_NOTES
 *** Putting it together
 #+BEGIN_SRC python
   def create_dataset(rows, headers):
@@ -284,11 +207,6 @@ To learn more, see [[https://github.com/HypothesisWorks/hypothesis-python/blob/7
   lwbfboxyifre  |oqdha |83
 #+END_SRC
 
-#+BEGIN_NOTES
-- Homework: Exercise for the reader
-  - Use ~flatmap~ to improve this
-  - Use ~fake factory~ to get names
-#+END_NOTES
 
 ** Simple ~tablib~ test
 #+BEGIN_SRC python
@@ -371,23 +289,12 @@ a|a|0
   dateutil.parse('0099-01-01T00:00:00')  # datetime.datetime(1999, 1, 1, 0, 0)
 #+END_SRC
 
-#+BEGIN_NOTES
-- Couple of bug in Mercurial
-- http://hypothesis.works/articles/encode-decode-invariant/
-#+END_NOTES
 
 ** Verification
 ~strip~ tests from before
 
 Sorting actually returns a sorted list
 
-#+BEGIN_NOTES
-- Assert that a property holds true
-- Strip example from before
-- permissions example
-- Proving result is right is hard without duplicating Code Under Test
-- But, checking result is not wrong is easy
-#+END_NOTES
 
 *** Computing the mean
 #+BEGIN_SRC python
@@ -398,9 +305,6 @@ Sorting actually returns a sorted list
       assert min(ls) <= mean(ls) <= max(ls)
 #+END_SRC
 
-#+BEGIN_NOTES
-Looks like a very dumb test, but isn't really...
-#+END_NOTES
 
 *** Going by definition ...
 
@@ -421,9 +325,6 @@ Looks like a very dumb test, but isn't really...
 
 #+END_EXAMPLE
 
-#+BEGIN_NOTES
-Overflow!
-#+END_NOTES
 
 *** Avoiding overflow
 #+BEGIN_SRC python
@@ -443,9 +344,6 @@ Overflow!
   E        +  and   1.390671161566996e-309 = mean([1.390671161567e-309, 1.390671161567e-309, 1.390671161567e-309])
 #+END_EXAMPLE
 
-#+BEGIN_NOTES
-Inaccurate!
-#+END_NOTES
 
 *** For instance, ~numpy~
 #+BEGIN_SRC python
@@ -467,12 +365,6 @@ Inaccurate!
 
 Read this [[https://hal.archives-ouvertes.fr/file/index/docid/576641/filename/computing-midpoint.pdf][30 page paper]], to see how to do it right!
 
-#+BEGIN_NOTES
-- Floating points are hard!
-- Even a lax constraint catches bugs
-- Layer more tests on this
-- Courtesy: Hypothesis [[http://hypothesis.works/articles/calculating-the-mean/][blog post]]
-#+END_NOTES
 ** Test Oracle
 #+BEGIN_SRC python
   from hypothesis import strategies as st, given
@@ -483,9 +375,6 @@ Read this [[https://hal.archives-ouvertes.fr/file/index/docid/576641/filename/co
       assert sorted(xs) == my_sort(xs)
 #+END_SRC
 
-#+BEGIN_NOTES
-- of course, you can find bugs in old code!
-#+END_NOTES
 
 ** More patterns
 See talk by [[http://pyvideo.org/pycon-za-2015/property-based-testing-with-hypothesis.html][Jeremy Thurgood]]
@@ -499,15 +388,6 @@ See talk by [[http://pyvideo.org/pycon-za-2015/property-based-testing-with-hypot
 - Simple looking, yet powerful
 - Re-use?
 
-#+BEGIN_NOTES
-- even if properties "look" simple, they can be super powerful
-- keep them simple or you might have to test your properties code!
-- Good properties
-  - Fast - both data generation & assertions
-  - Simple, don't duplicate code under test
-- Thinking about other similar functions which will pass? and come up with
-  stronger properties of the code/function/action
-#+END_NOTES
 
 * Stateful testing
 
@@ -519,12 +399,6 @@ See talk by [[http://pyvideo.org/pycon-za-2015/property-based-testing-with-hypot
       assert logout()
 #+END_SRC
 
-#+BEGIN_NOTES
-- Testing against a model
-- State diagram is mind blowing
-- Reproduce user reports
-- Tricky concurrent bugs
-#+END_NOTES
 
 ** Pseudocode example
 #+BEGIN_SRC python
@@ -555,40 +429,15 @@ See talk by [[http://pyvideo.org/pycon-za-2015/property-based-testing-with-hypot
 - Concise
 - Overcome developer biases
 - Assert general things
-#+BEGIN_NOTES
-- more concise than a bunch of examples
-- easier to maintain
-- Reveal issues overlooked by developer -- like having others test your code
-- Property-based tests are more general, and powerful
-- Harder to write, and force you to think
-- Floating point arithmetic is hard
-#+END_NOTES
 ** Hypothesis
 - Generate data, given a requirement
 - Check that a *property* holds true
 - Shrink failed cases to simplest case
-#+BEGIN_NOTES
-- Python library for Property-based testing
-- data generation via strategies
-- hook up to testing frameworks
-- record failed examples, and shrink
-#+END_NOTES
 ** Some interesting case studies
 - [[https://vimeo.com/68383317][John Hughes]]: Testing the hard stuff and staying sane
 - [[https://www.youtube.com/watch?v=HXGpBrmR70U][Ashton Kemerling]]: Generative Integration Testing
 - [[https://www.youtube.com/watch?v=Yp7MmskzF9Y][Sean Grove]]: Generating and Running 1M tests
-#+BEGIN_NOTES
-- John Hughes gives war stories about Riak and Mnesia + DETS
-- Pivotal tracker integration tests
-- Just google for generative/property-based testing
-- Bug in clojure, by author of test.check
-#+END_NOTES
 ** Pairing anyone?
-#+BEGIN_NOTES
-- Haven't really worked on hard bugs/concurrency issues
-- Anyone has a tricky bug, pair on it?
-- Open source code that is hard to test
-#+END_NOTES
 ** Thank you
 
 @punchagan
