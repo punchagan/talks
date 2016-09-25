@@ -20,14 +20,6 @@
 
 
 * Introduction
-** Testing, anyone?
-#+BEGIN_NOTES
-- Do you TDD?
-- Do you have a large test-suite?
-- Testing excites you?
-- Testing is tedious and painful?
-- Testing is a waste!
-#+END_NOTES
 ** Property-based testing, anyone?
 #+BEGIN_NOTES
 - QuickCheck?
