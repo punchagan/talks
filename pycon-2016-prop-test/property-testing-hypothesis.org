@@ -590,6 +590,11 @@ See talk by [[http://pyvideo.org/pycon-za-2015/property-based-testing-with-hypot
 - Open source code that is hard to test
 #+END_NOTES
 ** Thank you
+
+@punchagan
+
+http://tinyurl.com/pygentest
+
 * COMMENT References
 
 - http://basho.com/posts/technical/quickchecking-poolboy-for-fun-and-profit/

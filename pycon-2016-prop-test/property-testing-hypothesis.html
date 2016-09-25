@@ -30,30 +30,14 @@
 </section>
 
 <section>
-<section id="slide-org0a1dea1">
-<h2 id="org0a1dea1">Introduction</h2>
-<div class="outline-text-2" id="text-org0a1dea1">
+<section id="slide-orgb4e3080">
+<h2 id="orgb4e3080">Introduction</h2>
+<div class="outline-text-2" id="text-orgb4e3080">
 </div></section>
 </section>
 <section>
-<section id="slide-orgb2dd399">
-<h3 id="orgb2dd399">Testing, anyone?</h3>
-<aside class="notes">
-<ul>
-<li>Do you TDD?</li>
-<li>Do you have a large test-suite?</li>
-<li>Testing excites you?</li>
-<li>Testing is tedious and painful?</li>
-<li>Testing is a waste!</li>
-
-</ul>
-
-</aside>
-</section>
-</section>
-<section>
-<section id="slide-orgf84187c">
-<h3 id="orgf84187c">Property-based testing, anyone?</h3>
+<section id="slide-org67d697f">
+<h3 id="org67d697f">Property-based testing, anyone?</h3>
 <aside class="notes">
 <ul>
 <li>QuickCheck?</li>
@@ -74,8 +58,8 @@
 </section>
 </section>
 <section>
-<section id="slide-org8f5034e">
-<h3 id="org8f5034e">A typical test-suite</h3>
+<section id="slide-org91d29c5">
+<h3 id="org91d29c5">A typical test-suite</h3>
 <div class="org-src-container">
 
 <pre><code class="python" >def test_strip_whitespace_with_no_argument():
@@ -93,8 +77,8 @@ def test_should_strip_non_whitespace():
 </section>
 </section>
 <section>
-<section id="slide-org917694f">
-<h3 id="org917694f">Example based tests</h3>
+<section id="slide-org0df9f2d">
+<h3 id="org0df9f2d">Example based tests</h3>
 <dl>
 <dt>Given</dt><dd>Setup some <b>example</b> data</dd>
 <dt>When</dt><dd>Perform actions</dd>
@@ -129,8 +113,8 @@ def test_should_strip_non_whitespace():
 </section>
 </section>
 <section>
-<section id="slide-org4671c46">
-<h3 id="org4671c46">Problems?</h3>
+<section id="slide-org612ecb4">
+<h3 id="org612ecb4">Problems?</h3>
 <ul>
 <li>Combinatorial explosion</li>
 <li>Biases carry-over to tests</li>
@@ -151,8 +135,8 @@ def test_should_strip_non_whitespace():
 
 </aside>
 </section>
-<section id="slide-orgdfbb788">
-<h4 id="orgdfbb788">State in a website</h4>
+<section id="slide-orgbacbfdc">
+<h4 id="orgbacbfdc">State in a website</h4>
 
 <div class="figure">
 <p><img src="./state-website.jpg" alt="state-website.jpg" />
@@ -161,14 +145,14 @@ def test_should_strip_non_whitespace():
 </section>
 </section>
 <section>
-<section id="slide-org0d79861">
-<h3 id="org0d79861">Enter Generative testing</h3>
+<section id="slide-org1ad6476">
+<h3 id="org1ad6476">Enter Generative testing</h3>
 <p>
 (Property-based testing)
 </p>
 </section>
-<section id="slide-org2e89231">
-<h4 id="org2e89231">Property-based test, the hard way</h4>
+<section id="slide-org63d1621">
+<h4 id="org63d1621">Property-based test, the hard way</h4>
 <div class="org-src-container">
 
 <pre><code class="python" >def test_strip_random():
@@ -223,8 +207,8 @@ random_string = [
 </aside>
 
 </section>
-<section id="slide-org1c31932">
-<h4 id="org1c31932">Property based tests</h4>
+<section id="slide-org495e903">
+<h4 id="org495e903">Property based tests</h4>
 <dl>
 <dt>Given</dt><dd>For <b>random</b> data matching a spec</dd>
 <dt>When</dt><dd>Perform actions</dd>
@@ -248,14 +232,14 @@ random_string = [
 </section>
 </section>
 <section>
-<section id="slide-org07328e7">
-<h2 id="org07328e7">Hypothesis - Property based testing for Python</h2>
-<div class="outline-text-2" id="text-org07328e7">
+<section id="slide-org697d02b">
+<h2 id="org697d02b">Hypothesis - Property based testing for Python</h2>
+<div class="outline-text-2" id="text-org697d02b">
 </div></section>
 </section>
 <section>
-<section id="slide-org7917bc8">
-<h3 id="org7917bc8">Hypothesized test</h3>
+<section id="slide-orgf39b460">
+<h3 id="orgf39b460">Hypothesized test</h3>
 <div class="org-src-container">
 
 <pre><code class="python" >from hypothesis import given, strategies as st
@@ -269,8 +253,8 @@ def test_strip_hypothesis(s, strip_chars):
 </div>
 
 </section>
-<section id="slide-orgbd42db8">
-<h4 id="orgbd42db8">Failing output</h4>
+<section id="slide-org707272a">
+<h4 id="org707272a">Failing output</h4>
 <div class="org-src-container">
 
 <pre><code class="python" >strip = lambda x, y: x.lstrip(y)
@@ -295,8 +279,8 @@ Falsifying example: test_strip(s='01', strip_chars='1')
 </section>
 </section>
 <section>
-<section id="slide-org42e65ce">
-<h3 id="org42e65ce">Shrinking</h3>
+<section id="slide-orgf18b2b3">
+<h3 id="orgf18b2b3">Shrinking</h3>
 <ul>
 <li>Random data has lots of noise</li>
 <li>Try to find the "simplest" failing case</li>
@@ -318,12 +302,12 @@ To learn more, see <a href="https://github.com/HypothesisWorks/hypothesis-python
 </section>
 </section>
 <section>
-<section id="slide-org81081e4">
-<h3 id="org81081e4">Data generation</h3>
-<div class="outline-text-3" id="text-org81081e4">
+<section id="slide-orgf0afe72">
+<h3 id="orgf0afe72">Data generation</h3>
+<div class="outline-text-3" id="text-orgf0afe72">
 </div></section>
-<section id="slide-org4a35102">
-<h4 id="org4a35102">Generators for built-ins</h4>
+<section id="slide-org15b4d26">
+<h4 id="org15b4d26">Generators for built-ins</h4>
 <div class="org-src-container">
 
 <pre><code class="python" >from hypothesis import strategies as st
@@ -347,8 +331,8 @@ print(sample(st.lists(st.integers())))
 [[52647858669059, -31758544979, 71365626], [0], []]
 </pre>
 </section>
-<section id="slide-org3377530">
-<h4 id="org3377530">Extra generators</h4>
+<section id="slide-org5885dfc">
+<h4 id="org5885dfc">Extra generators</h4>
 <ul>
 <li>Django models</li>
 <li>Numpy arrays</li>
@@ -369,8 +353,8 @@ print(sample(st.lists(st.integers())))
 
 </aside>
 </section>
-<section id="slide-org0d8bdbb">
-<h4 id="org0d8bdbb">Composable strategies</h4>
+<section id="slide-org654c69a">
+<h4 id="org654c69a">Composable strategies</h4>
 <div class="org-src-container">
 
 <pre><code class="x" >from hypothesis import strategies as st
@@ -397,8 +381,8 @@ st.streaming?
 
 </aside>
 </section>
-<section id="slide-orgd170c01">
-<h4 id="orgd170c01">Composing strategies - Example</h4>
+<section id="slide-org0a0bc3f">
+<h4 id="org0a0bc3f">Composing strategies - Example</h4>
 <div class="org-src-container">
 
 <pre><code class="python" >rows = [('John', 'Adams', 90), (...), (...)]
@@ -431,8 +415,8 @@ Thomas    |Jefferson |50
 
 </aside>
 </section>
-<section id="slide-org7884bc9">
-<h4 id="org7884bc9">Generate Rows &amp; Header</h4>
+<section id="slide-orgaa5cadb">
+<h4 id="orgaa5cadb">Generate Rows &amp; Header</h4>
 <div class="org-src-container">
 
 <pre><code class="python" >from hypothesis import strategies as st; import string
@@ -466,8 +450,8 @@ generate_headers = st.lists(
 
 </aside>
 </section>
-<section id="slide-org383569f">
-<h4 id="org383569f">Putting it together</h4>
+<section id="slide-orgd888ae4">
+<h4 id="orgd888ae4">Putting it together</h4>
 <div class="org-src-container">
 
 <pre><code class="python" >def create_dataset(rows, headers):
@@ -506,8 +490,8 @@ lwbfboxyifre  |oqdha |83
 </section>
 </section>
 <section>
-<section id="slide-orga4c3a41">
-<h3 id="orga4c3a41">Simple <code>tablib</code> test</h3>
+<section id="slide-org7313b20">
+<h3 id="org7313b20">Simple <code>tablib</code> test</h3>
 <div class="org-src-container">
 
 <pre><code class="python" >def test_add_column():
@@ -521,8 +505,8 @@ lwbfboxyifre  |oqdha |83
 </code></pre>
 </div>
 </section>
-<section id="slide-org2f289f7">
-<h4 id="org2f289f7">to a property based test</h4>
+<section id="slide-org77dfa3b">
+<h4 id="org77dfa3b">to a property based test</h4>
 <div class="org-src-container">
 
 <pre><code class="python" >@given(data=generate_dataset(),
@@ -537,8 +521,8 @@ def test_hyp_add_column(data, new_col, header):
 </code></pre>
 </div>
 </section>
-<section id="slide-org360a1e1">
-<h4 id="org360a1e1">Test transpose</h4>
+<section id="slide-orga06a679">
+<h4 id="orga06a679">Test transpose</h4>
 <div class="org-src-container">
 
 <pre><code class="python" >@given(generate_dataset())
@@ -550,8 +534,8 @@ def test_transpose(self, data):
 </code></pre>
 </div>
 </section>
-<section id="slide-org788c556">
-<h4 id="org788c556">Round trip transpose</h4>
+<section id="slide-org8974e56">
+<h4 id="org8974e56">Round trip transpose</h4>
 <div class="org-src-container">
 
 <pre><code class="python" >@given(generate_dataset())
@@ -577,8 +561,8 @@ a|a|0
 </code></pre>
 </div>
 </section>
-<section id="slide-org6e9f602">
-<h4 id="org6e9f602">Round trip to json</h4>
+<section id="slide-org2ae20eb">
+<h4 id="org2ae20eb">Round trip to json</h4>
 <div class="org-src-container">
 
 <pre><code class="python" >@given(generate_dataset())
@@ -601,8 +585,8 @@ E   AssertionError: Tuples differ: ('a', 'a', 0) != ('a', 0, 'a')
 </section>
 </section>
 <section>
-<section id="slide-orge8a2b45">
-<h3 id="orge8a2b45">Verification</h3>
+<section id="slide-org84df90c">
+<h3 id="org84df90c">Verification</h3>
 <p>
 <code>strip</code> tests from before
 </p>
@@ -624,8 +608,8 @@ Sorting actually returns a sorted list
 </aside>
 
 </section>
-<section id="slide-org4d31154">
-<h4 id="org4d31154">Computing the mean</h4>
+<section id="slide-org2efed29">
+<h4 id="org2efed29">Computing the mean</h4>
 <div class="org-src-container">
 
 <pre><code class="python" >from hypothesis import given, strategies as st
@@ -644,8 +628,8 @@ Looks like a very dumb test, but isn't really&#x2026;
 </aside>
 
 </section>
-<section id="slide-org91d5a6b">
-<h4 id="org91d5a6b">Going by definition &#x2026;</h4>
+<section id="slide-orgbd8062a">
+<h4 id="orgbd8062a">Going by definition &#x2026;</h4>
 <div class="org-src-container">
 
 <pre><code class="python" >def mean(xs):
@@ -672,8 +656,8 @@ Overflow!
 </aside>
 
 </section>
-<section id="slide-org71c48d1">
-<h4 id="org71c48d1">Avoiding overflow</h4>
+<section id="slide-org09bd241">
+<h4 id="org09bd241">Avoiding overflow</h4>
 <div class="org-src-container">
 
 <pre><code class="python" >def mean(xs):
@@ -701,8 +685,8 @@ Inaccurate!
 </aside>
 
 </section>
-<section id="slide-org209ca3f">
-<h4 id="org209ca3f">For instance, <code>numpy</code></h4>
+<section id="slide-org96a17ac">
+<h4 id="org96a17ac">For instance, <code>numpy</code></h4>
 <div class="org-src-container">
 
 <pre><code class="python" >import numpy as np
@@ -739,8 +723,8 @@ Read this <a href="https://hal.archives-ouvertes.fr/file/index/docid/576641/file
 </section>
 </section>
 <section>
-<section id="slide-orgb4a1c33">
-<h3 id="orgb4a1c33">Test Oracle</h3>
+<section id="slide-orgc191a2b">
+<h3 id="orgc191a2b">Test Oracle</h3>
 <div class="org-src-container">
 
 <pre><code class="python" >from hypothesis import strategies as st, given
@@ -763,8 +747,8 @@ def test_my_sort(xs):
 </section>
 </section>
 <section>
-<section id="slide-org9817e40">
-<h3 id="org9817e40">More patterns</h3>
+<section id="slide-org896ceca">
+<h3 id="org896ceca">More patterns</h3>
 <p>
 See talk by <a href="http://pyvideo.org/pycon-za-2015/property-based-testing-with-hypothesis.html">Jeremy Thurgood</a>
 </p>
@@ -778,8 +762,8 @@ See talk by <a href="http://pyvideo.org/pycon-za-2015/property-based-testing-wit
 </section>
 </section>
 <section>
-<section id="slide-orgc9f88f4">
-<h3 id="orgc9f88f4">Keep in mind</h3>
+<section id="slide-orgc09b4cb">
+<h3 id="orgc09b4cb">Keep in mind</h3>
 <ul>
 <li>Fast data generation</li>
 <li>Fast assertions</li>
@@ -808,8 +792,8 @@ stronger properties of the code/function/action</li>
 </section>
 </section>
 <section>
-<section id="slide-org8e5c64b">
-<h2 id="org8e5c64b">Stateful testing</h2>
+<section id="slide-org29ffea8">
+<h2 id="org29ffea8">Stateful testing</h2>
 <div class="org-src-container">
 
 <pre><code class="python" >def test_website():
@@ -834,8 +818,8 @@ stronger properties of the code/function/action</li>
 </section>
 </section>
 <section>
-<section id="slide-orgd9e2654">
-<h3 id="orgd9e2654">Pseudocode example</h3>
+<section id="slide-orgd5bc335">
+<h3 id="orgd5bc335">Pseudocode example</h3>
 <div class="org-src-container">
 
 <pre><code class="python" >class WebSiteStateMachine(RuleBasedStateMachine):
@@ -860,8 +844,8 @@ WebSiteTestCase = WebSiteStateMachine.TestCase
 </section>
 </section>
 <section>
-<section id="slide-org1170b40">
-<h2 id="org1170b40">Problems with Generative Testing?</h2>
+<section id="slide-orgf07f98d">
+<h2 id="orgf07f98d">Problems with Generative Testing?</h2>
 <ul>
 <li>Performance</li>
 <li>Debugging CI failures</li>
@@ -871,14 +855,14 @@ WebSiteTestCase = WebSiteStateMachine.TestCase
 </section>
 </section>
 <section>
-<section id="slide-orgb773d90">
-<h2 id="orgb773d90">Conclusion</h2>
-<div class="outline-text-2" id="text-orgb773d90">
+<section id="slide-orga151e33">
+<h2 id="orga151e33">Conclusion</h2>
+<div class="outline-text-2" id="text-orga151e33">
 </div></section>
 </section>
 <section>
-<section id="slide-orgb49427f">
-<h3 id="orgb49427f">Property based tests</h3>
+<section id="slide-org1c0ef20">
+<h3 id="org1c0ef20">Property based tests</h3>
 <ul>
 <li>Concise</li>
 <li>Overcome developer biases</li>
@@ -900,8 +884,8 @@ WebSiteTestCase = WebSiteStateMachine.TestCase
 </section>
 </section>
 <section>
-<section id="slide-org55bd439">
-<h3 id="org55bd439">Hypothesis</h3>
+<section id="slide-org64e107e">
+<h3 id="org64e107e">Hypothesis</h3>
 <ul>
 <li>Generate data, given a requirement</li>
 <li>Check that a <b>property</b> holds true</li>
@@ -921,8 +905,8 @@ WebSiteTestCase = WebSiteStateMachine.TestCase
 </section>
 </section>
 <section>
-<section id="slide-orgc0dc2c4">
-<h3 id="orgc0dc2c4">Some interesting case studies</h3>
+<section id="slide-orgabb65af">
+<h3 id="orgabb65af">Some interesting case studies</h3>
 <ul>
 <li><a href="https://vimeo.com/68383317">John Hughes</a>: Testing the hard stuff and staying sane</li>
 <li><a href="https://www.youtube.com/watch?v=HXGpBrmR70U">Ashton Kemerling</a>: Generative Integration Testing</li>
@@ -942,8 +926,8 @@ WebSiteTestCase = WebSiteStateMachine.TestCase
 </section>
 </section>
 <section>
-<section id="slide-org130b8f1">
-<h3 id="org130b8f1">Pairing anyone?</h3>
+<section id="slide-org133f912">
+<h3 id="org133f912">Pairing anyone?</h3>
 <aside class="notes">
 <ul>
 <li>Haven't really worked on hard bugs/concurrency issues</li>
@@ -956,8 +940,15 @@ WebSiteTestCase = WebSiteStateMachine.TestCase
 </section>
 </section>
 <section>
-<section id="slide-org6a441d4">
-<h3 id="org6a441d4">Thank you</h3>
+<section id="slide-org9a9dd13">
+<h3 id="org9a9dd13">Thank you</h3>
+<p>
+@punchagan
+</p>
+
+<p>
+<a href="http://tinyurl.com/pygentest">http://tinyurl.com/pygentest</a>
+</p>
 </section>
 </section>
 </div>
