@@ -76,7 +76,6 @@
 - When :: Perform actions
 - Then :: ~assert property(output)~
 
-
 * Hypothesis - Property based testing for Python
 ** Hypothesized test
 #+BEGIN_SRC python
@@ -387,7 +386,6 @@ See talk by [[http://pyvideo.org/pycon-za-2015/property-based-testing-with-hypot
 - Fast assertions
 - Simple looking, yet powerful
 - Re-use?
-
 
 * Stateful testing
 
