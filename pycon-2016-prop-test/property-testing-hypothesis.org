@@ -3,14 +3,14 @@
 #+Author: Puneeth Chaganti
 #+Email: punchagan@muse-amuse.in
 
-#+OPTIONS: reveal_center:t reveal_progress:t reveal_history:nil reveal_control:nil ^:{}
+#+OPTIONS: reveal_center:t reveal_progress:t reveal_history:t reveal_control:t ^:{}
 #+OPTIONS: reveal_mathjax:t reveal_rolling_links:t reveal_keyboard:t reveal_overview:t num:nil
 #+OPTIONS: reveal_width:800 reveal_height:600
 #+OPTIONS: toc:nil timestamp:nil
 #+REVEAL_MARGIN: 0.1
 #+REVEAL_MIN_SCALE: 0.2
 #+REVEAL_MAX_SCALE: 300
-#+REVEAL_TRANS: none
+#+REVEAL_TRANS: cube
 #+REVEAL_THEME: white
 #+REVEAL_HLEVEL: 2
 #+REVEAL_PLUGINS: (highlight notes multiplex zoom)
