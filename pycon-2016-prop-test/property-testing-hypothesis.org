@@ -20,6 +20,12 @@
 
 
 * Introduction
+#+BEGIN_QUOTE
+- n or SPC -- next slide
+- p -- previous slide
+- arrow keys skip slides
+- ? -- key-binding help
+#+END_QUOTE
 ** Property-based testing, anyone?
 ** A typical test-suite
 #+BEGIN_SRC python
