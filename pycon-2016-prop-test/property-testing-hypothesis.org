@@ -18,14 +18,53 @@
 #+REVEAL_ROOT: https://cdn.jsdelivr.net/reveal.js/3.0.0/
 # #+REVEAL_ROOT: reveal.js/
 
+#+BEGIN_EXPORT html
+<script>
+function fireKey(el, key, event_type, shiftKey)
+{
+    if(document.createEventObject)
+    {
+        var eventObj = document.createEventObject();
+        eventObj.keyCode = key;
+        el.fireEvent("on" + event_type, eventObj);
+        eventObj.keyCode = key;
+        eventObj.charCode = key;
+        eventObj.shiftKey = shiftKey;
+    }else if(document.createEvent)
+    {
+        var eventObj = document.createEvent("Events");
+        eventObj.initEvent(event_type, true, true);
+        eventObj.which = key;
+        eventObj.keyCode = key;
+        eventObj.charCode = key;
+        eventObj.shiftKey = shiftKey;
+        el.dispatchEvent(eventObj);
+    }
+}
+
+function hit_qmark_remove_self (event) {
+    if (document.documentElement.classList.contains("keyhelp")) {return;}
+    fireKey(document, 63, "keypress", true);
+    Reveal.removeEventListener('slidechanged', hit_qmark_remove_self);
+}
+
+document.onreadystatechange = function(evt) {
+    if (window.Reveal === undefined) { return; }
+    if (document.readyState !== "interactive") { return; }
+    Reveal.addEventListener( 'keyhelp', function(event) {
+        console.log('Keyhelp event');
+        fireKey(document, 63, "keypress", true);
+        Reveal.addEventListener( 'slidechanged', hit_qmark_remove_self);
+    });
+}
+</script>
+#+END_EXPORT
 
 * Introduction
-#+BEGIN_QUOTE
-- n or SPC -- next slide
-- p -- previous slide
-- arrow keys skip slides
-- ? -- key-binding help
-#+END_QUOTE
+:PROPERTIES:
+:reveal_data_state: keyhelp
+:END:
+
 ** Property-based testing, anyone?
 ** A typical test-suite
 #+BEGIN_SRC python
