@@ -11,9 +11,9 @@
 #+REVEAL_MIN_SCALE: 0.2
 #+REVEAL_MAX_SCALE: 300
 #+REVEAL_TRANS: cube
-#+REVEAL_THEME: white
+#+REVEAL_THEME: solarized
 #+REVEAL_HLEVEL: 2
-#+REVEAL_PLUGINS: (highlight notes multiplex zoom)
+#+REVEAL_PLUGINS: (highlight notes)
 
 #+REVEAL_ROOT: https://cdn.jsdelivr.net/reveal.js/3.0.0/
 # #+REVEAL_ROOT: reveal.js/
@@ -483,7 +483,9 @@ See talk by [[http://pyvideo.org/pycon-za-2015/property-based-testing-with-hypot
 ** Pairing anyone?
 ** Thank you
 
-@punchagan
+[[https://twitter.com/punchagan][@punchagan]]
+
+[[https://creativecommons.org/licenses/by-sa/4.0/][CC-BY-SA 4.0]]
 
 http://tinyurl.com/pygentest
 
