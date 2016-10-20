@@ -89,6 +89,7 @@ document.onreadystatechange = function(evt) {
 - Biases carry-over to tests
 - Tedious
 *** State in a website
+#+ATTR_HTML: :alt website-states :width 300
 [[./state-website.jpg]]
 ** Enter Generative testing
 (Property-based testing)
