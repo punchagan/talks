@@ -1,0 +1,284 @@
+#+OPTIONS: toc:1 num:nil reveal_title_slide:"<h1>%t</h1>" author:nil timestamp:nil
+#+TITLE: Write Prose, not just Programs
+#+EXPORT_FILE_NAME: /ssh:muse-amuse.in:~/public_html/writing-for-devs.html
+#+REVEAL_THEME: beige
+
+** About me
+  :PROPERTIES:
+  :NOTOC:    t
+  :END:
+- Puneeth Chaganti (@punchagan)
+- Blog at punchagan.muse-amuse.in
+- Running an informal "writing club" for 2 years
+- Remotely working for 4+ years
+
+#+begin_notes
+- Blog has been alive for over a decade
+- Been trying to post regularly on my blog
+- Or just make time to write regularly and see how it helps me out
+- There are days when I find it hard to sit down to write
+- This talk is an attempt to understand better why I write also... apart from
+  sharing my experiences
+- Before COVID made it cool
+#+end_notes
+
+* Why write?
+#+begin_notes
+- Let's talk generally about writing
+- Internally at your workplace, emails, personal notes, etc.
+#+end_notes
+** Clarify your thinking
+
+#+BEGIN_QUOTE
+Beginning to ask a question actually helps me debug my problem myself,
+especially while trying to formulate a coherent and detailed enough question
+body in order to get decent answers. Has this happened to anybody else before?
+#+END_QUOTE
+
+#+begin_notes
+- Rubber ducking
+- Stack overflow questions
+- Asking questions to colleagues - you send a message, that you answer
+  yourself...
+- So, writing forces you think more carefully, and helps you clarify your thinking
+#+end_notes
+
+*** Writing improves thinking improves writing
+
+#+BEGIN_QUOTE
+Writing is thinking on paper -- On Writing Well, William Zinsser
+#+END_QUOTE
+
+- Reduce mental load and free yourself up to make connections
+
+- Slow yourself down, and consider thoughts fully
+
+#+begin_notes
+- You can hold only so many things in your head... your brain can focus on other
+  things, than trying to hold onto things - like make connections
+- Stops you from going around in circles
+- Writing and thinking go hand in hand. As your write, you think more clearly,
+  and as you think more, your writing is clarified.
+#+end_notes
+
+** Better thinking & communication ⇨ better programmers
+
+#+BEGIN_QUOTE
+“Programs must be written for people to read, and only incidentally for machines to execute.” -- Harold Abelson in SICP
+#+END_QUOTE
+
+#+begin_notes
+- We spend a lot of our time communicating, and thinking.
+
+- Writing helps you practice communicating
+
+- Improving our thinking and communication skills, I'd argue makes us better programmers
+#+end_notes
+
+** Bedrock of remote work
+... and we are all remote workers, right now!
+
+- Writing helps those not in the "room"
+- Asynchronous
+- Searchable
+
+#+begin_notes
+- including your future self, and future colleagues
+- facilitates an asynchronous working style
+- zoom call fatigue
+- vital component of remote work
+#+end_notes
+
+* Why blog?
+#+begin_notes
+- So far we looked at how writing in general is useful
+- Let's see how having a public blog helped me, and why you should have one
+  too...
+#+end_notes
+** Record of problems you solved
+- One place to see a nice list of problems you've struggled with, and overcome
+- You may encounter them again
+- You won't remember all of them
+
+#+begin_notes
+- Nice to have a list of the problems you struggled with and over came
+- It provides a record of your thinking and work for your future self.
+- If you don't want it to, it never has to be anything more than that.
+- I've at least a couple of times gone back to my blog to refer to something, I
+  did long way ago.
+#+end_notes
+
+** A Body of Work
+#+attr_html: :width 150px
+[[https://pbs.twimg.com/profile_images/846106819391115264/iZAxk4qr.jpg]]
+
+#+attr_html: :width 150px
+https://blog.codinghorror.com/assets/images/codinghorror-app-icon.png?v=3c9f28013a
+
+#+begin_notes
+- Can be a nice portfolio of the work you've done, if most software you write is
+  closed source
+- It gives prospective employers insight into the way you think, how you
+  approach problems, and how you communicate
+- Culture fit -- can complement interviews
+#+end_notes
+
+** Joy of helping people
+
+#+BEGIN_EXPORT html
+<div style="margin: auto; width: 50%;">
+<blockquote class="twitter-tweet" data-dnt="true"><p lang="en" dir="ltr"><a href="https://twitter.com/punchagan?ref_src=twsrc%5Etfw">@punchagan</a> Excellent tutorial. I managed to fully secure my custom-domain web app on Heroku despite the use of free dynos. Thank you so much!</p>&mdash; Bob Olog (@BobOlog38) <a href="https://twitter.com/BobOlog38/status/1192327883831812096?ref_src=twsrc%5Etfw">November 7, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</div>
+#+END_EXPORT
+
+#+begin_notes
+- It's nice to see that other people are benefitting from something you wrote
+  down.
+- It's nice to see appreciative comments/tweets
+- the joy to help others is quite something
+#+end_notes
+
+** Learn by teaching
+- Putting yourself out there pushes you to be meticulous
+- To explain, you gotta understand
+
+#+begin_notes
+- You slow yourself down, and spend enough time with things that you are
+  learning...
+- Forces you to think about things, that you may have just got working by
+  trial-and-error.
+- You have to present the idea coherently, and communicate it in a way that the
+  readers can understand...
+#+end_notes
+
+** Learn from conversations
+
+#+BEGIN_EXPORT html
+<div style="margin: auto; width: 50%;">
+<blockquote class="twitter-tweet" data-dnt="true"><p lang="en" dir="ltr">Have you looked at the new _build options: <a href="https://t.co/Nj8Uefis6Q">https://t.co/Nj8Uefis6Q</a>. I haven&#39;t used them yet, but looks like they fit your use case.</p>&mdash; Kaushal (@kaushalmodi) <a href="https://twitter.com/kaushalmodi/status/1266761525286653952?ref_src=twsrc%5Etfw">May 30, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</div>
+#+END_EXPORT
+
+#+begin_notes
+- meet interesting people
+- people tell me about other ways of doing things, alternative solutions
+- stumble into conversations that I wouldn't have otherwise had
+#+end_notes
+
+* Some tips to make it easier
+#+begin_notes
+- all of this can feel like a lot of work
+- look at the dead blogs on the internet to get a sense of the hardness...
+#+end_notes
+** Reduce friction to write
+
+#+BEGIN_QUOTE
+“Writing is thinking. To write well is to think clearly. That's why it's so
+hard." -- David McCullough.
+#+END_QUOTE
+
+#+begin_notes
+- Well actually, thinking is hard
+- Writing is already hard, you don't have to make it harder for yourself
+- Additional friction to get started with the process, is not helpful!
+- If it takes you 10 steps to start writing a new post, you are going to avoid
+  writing that blog post!
+- Use simple tools - I use hugo for my blog and I like it.
+- Automate creating a new post, publishing workflow, etc, if you can
+- I have found that it has helped me on a few occasions
+#+end_notes
+
+** Make sharing a part of the process
+- You already write a lot
+- Poor communication creates more work
+
+#+begin_notes
+- If you think it will benefit more than one person, put it in an internal blog,
+  instead of an email
+- If you think people outside the company can benefit, put it on a blog
+- Rehash what you've written at work, into blog posts
+- Keep notes while you work, inputs/commands/outputs/etc.
+#+end_notes
+
+** You don't have to be an expert
+- Write about what you are learning
+- Write about what you don't know!
+- Write to test your knowledge...
+
+#+begin_notes
+- Document the work you did
+- Write about potential ideas you explored
+- Write about what could be done, if we had more time
+- Your post doesn't have to be the canonical answer to a question -- sharing
+  your experience helps you solidify your learning
+#+end_notes
+
+** Set aside time to write
+
+- I've written blog posts, I'd never come up with, otherwise.
+- Slowing down helps you toy with some ideas, more carefully
+
+#+begin_notes
+- time to explore ideas, that would otherwise just die
+- force yourself to think!
+- you can write talk proposals, talk content, etc.
+- Last few weeks of my writing club went into working on this talk...
+#+end_notes
+
+** Write for 1 person
+
+#+attr_html: :width 400px
+[[https://pbs.twimg.com/media/EYT_7fUWsAE5b3z.jpg]]
+
+#+begin_notes
+- just write as if you're talking to that one person.
+- nobody reads it? you've your 1 audience
+- People will read it, when they need it!
+- I'm not ready to hear what you have to say yet. When I am ready, it'll be in
+  your blog.
+- Report server essay
+#+end_notes
+
+** Editing is where the magic happens
+
+- First drafts are rarely good
+- Rewrites and revisions bring in the clarity in thinking
+- Get people to review your drafts
+  - 30% feedback vs 90% feedback
+
+#+begin_notes
+- it took me a while for this idea to crystallize
+- stream of consciousness
+- think movies - not stream of consciousness, carefully edited
+- rewriting improves thinking
+- If you are really serious, get an editor!
+#+end_notes
+
+** Read!
+- Content to "respond" to
+- Read not just for the content, but to learn to write
+
+Couple of blogs I like
+- jvns.ca
+- danluu.com
+
+#+begin_notes
+- pay attention to writing style, structure, etc.
+- think about what you like about something that you read and emulate!
+#+end_notes
+
+* References
+- [[https://basecamp.com/guides/how-we-communicate][Basecamp's Guide to Internal Communication]]
+- [[https://blog.codinghorror.com/rubber-duck-problem-solving/][Jeff Atwood: Rubber Duck Problem Solving]]
+- [[https://sites.google.com/site/steveyegge2/you-should-write-blogs][Steve Yegge: You should write blogs]]
+- [[https://sachachua.com/blog/no-excuses-blogging][Sacha Chua: No Excuses Guide to Blogging]]
+- [[https://sasha.wtf/writing-club/][Writing Club ✏]]
+- [[https://www.julian.com/guide/write/intro][Julian Shapiro: Writing Well]]
+
+#+begin_notes
+- How to get better at writing...
+- The last reference is what inspired us to start our writing club. You can
+  start your own too!
+- If you take away one thing from this talk - writing, I think makes us better
+  programmers. Set aside time to write regularly!
+#+end_notes
