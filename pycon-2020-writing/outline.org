@@ -1,7 +1,8 @@
 #+OPTIONS: toc:1 num:nil reveal_title_slide:"<h1>%t</h1>" author:nil timestamp:nil
 #+TITLE: Write Prose, not just Programs
-#+EXPORT_FILE_NAME: /ssh:muse-amuse.in:~/public_html/writing-for-devs.html
+#+EXPORT_FILE_NAME: writing-for-devs.html
 #+REVEAL_THEME: beige
+#+REVEAL_ROOT: https://cdn.jsdelivr.net/npm/reveal.js
 
 ** About me
   :PROPERTIES:
